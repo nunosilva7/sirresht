@@ -1,0 +1,20 @@
+#appName {}
+
+#logo {
+    margin: auto;
+  display: block;
+}
+
+#coiso {
+    position:absolute;
+    display: block;
+   
+    
+}
+
+#navbar-toggle-collapse{
+    text-align: center;
+}
+#nav{
+    background-color: white;
+}

@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <TopNavbar>
-
-    </TopNavbar>
+    <TopNavbar> </TopNavbar>
     <router-view />
   </div>
 </template>
@@ -12,8 +10,11 @@ import TopNavbar from "./components/TopNavBar";
 
 export default {
   name: "App",
-  components:{
-    TopNavbar
-  }
-}
+  components: {
+    TopNavbar,
+  },
+};
 </script>
+<style src="./assets/customStyle.css">
+
+</style>
