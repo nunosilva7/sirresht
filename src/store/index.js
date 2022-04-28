@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 import { AuthService } from "@/services/auth.service";
 import { UserService } from "@/services/user.service";
+import { MenuService } from "@/services/menu.service";
 
 Vue.use(Vuex);
 
@@ -11,6 +12,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     users: [],
+    nextMenu: {},
     loggedUserInformation: null,
 
     loggedUser: localStorage.getItem("loggedUser")
@@ -24,7 +26,9 @@ export default new Vuex.Store({
 
     getLoggedUserInformation: state => state.loggedUserInformation,
 
-   
+    getNextMenu: state => state.nextMenu
+    
+
 
   },
 
@@ -66,6 +70,12 @@ export default new Vuex.Store({
     async register(context, payload) {
       await AuthService.register(payload);
     },
+    async getNextMenu(context) {
+      let data = await MenuService.fetchNextMenu();
+      console.log("data aa " + JSON.stringify(data));
+      context.commit("GET_NEXT_MENU", data)
+
+    }
   },
   mutations: {
     LOGIN(state, data) {
@@ -78,6 +88,9 @@ export default new Vuex.Store({
     LOGGED_USER_INFORMATION(state, data) {
       state.loggedUserInformation = data;
     },
+    GET_NEXT_MENU(state, data) {
+      state.nextMenu = data
+    }
   },
   modules: {},
 });

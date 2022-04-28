@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <TopNavbar> 
-      :isLoggedUser ="isLoggedUser"
-    </TopNavbar>
+    <TopNavbar> :isLoggedUser ="isLoggedUser" </TopNavbar>
     <router-view />
   </div>
 </template>
@@ -16,14 +14,20 @@ export default {
   components: {
     TopNavbar,
   },
-   computed: {
+  created() {
+    this.nextMenu();
+  },
+  methods: {
+    async nextMenu(){
+       await this.$store.dispatch("getNextMenu");
+    }
+  },
+  computed: {
     ...mapGetters({
       isLoggedUser: "isLoggedUser",
-     
-    })
+    }),
   },
 };
 </script>
 <style src="./assets/customStyle.css">
-
 </style>
