@@ -25,10 +25,15 @@
           <b-nav-item href="#" disabled>Disabled</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
-      <template>
+      <template v-if="isLoggedUser === false">
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#" v-b-modal.registerModal>Registo</b-nav-item>
           <b-nav-item href="#" v-b-modal.loginModal>Entrar</b-nav-item>
+        </b-navbar-nav>
+      </template>
+      <template v-else>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item href="#" @click="logout()">Sair</b-nav-item>
         </b-navbar-nav>
       </template>
     </b-navbar>
@@ -53,24 +58,23 @@
               required
             ></b-form-input>
           </b-col>
-          
         </b-row>
         <b-row>
-        <b-col cols="12">
-          <b-form-group
-            label="É docente/aluno do IPP?"
-            v-slot="{ ariaDescribedby }"
-          >
-            <b-form-radio-group
-              id="radio-slots"
-              v-model="selected"
-              :options="options"
-              :aria-describedby="ariaDescribedby"
-              name="radio-options-slots"
+          <b-col cols="12">
+            <b-form-group
+              label="É docente/aluno do IPP?"
+              v-slot="{ ariaDescribedby }"
             >
-            </b-form-radio-group>
-          </b-form-group>
-        </b-col>
+              <b-form-radio-group
+                id="radio-slots"
+                v-model="selected"
+                :options="options"
+                :aria-describedby="ariaDescribedby"
+                name="radio-options-slots"
+              >
+              </b-form-radio-group>
+            </b-form-group>
+          </b-col>
         </b-row>
 
         <b-row>
@@ -84,8 +88,6 @@
           <br />
           <br />
           <br />
-          
-          
         </b-row>
 
         <b-row>
@@ -99,8 +101,6 @@
           <br />
           <br />
           <br />
-          
-          
         </b-row>
 
         <b-row>
@@ -114,8 +114,6 @@
           <br />
           <br />
           <br />
-          
-          
         </b-row>
 
         <br />
@@ -126,14 +124,12 @@
       </b-form>
     </b-modal>
 
-
     <b-modal id="loginModal" hide-footer>
-      <b-form @submit.prevent="">
-        
-          
+      <b-form @submit.prevent="login()">
         <b-row>
           <b-col cols="12">
             <b-form-input
+              v-model="loginData.email"
               type="email"
               placeholder="Email"
               required
@@ -142,13 +138,12 @@
           <br />
           <br />
           <br />
-          
-          
         </b-row>
 
         <b-row>
           <b-col cols="12">
             <b-form-input
+              v-model="loginData.password"
               type="password"
               placeholder="Password"
               required
@@ -157,26 +152,34 @@
           <br />
           <br />
           <br />
-          
-          
         </b-row>
-
-        
+        <b-row>
+          <div class="row px-5">
+            <label>{{ formError }}</label>
+          </div>
+        </b-row>
 
         <b-row class="justify-content-md-center">
           <b-button type="submit" variant="danger">Entrar</b-button>
-          
         </b-row>
-        <br>
+        <br />
         <b-row class="justify-content-md-center">
-            <p href="" >Não tem conta? Registe aqui.</p>
+          <p href="">Não tem conta? Registe aqui.</p>
         </b-row>
       </b-form>
     </b-modal>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
+  name: "TopNavBar",
+
+  watch: {
+    isLoggedUser: function (newVal, oldVal) {
+      console.log("Prop mudou isLoggedUser: ", newVal, " | era: ", oldVal);
+    },
+  },
   data() {
     return {
       selected: "",
@@ -184,7 +187,53 @@ export default {
         { text: "Sim", value: "1" },
         { text: "Não", value: null },
       ],
+
+      loginData: {
+        email: "",
+        password: "",
+      },
+      formError: "",
+      errorMsg: "",
     };
+  },
+  methods: {
+    async login() {
+      try {
+        console.log("coiso");
+        this.formError = "";
+
+        const credentials = {
+          email: this.loginData.email,
+          password: this.loginData.password,
+        };
+        const loginData = {
+          credentials: credentials,
+        };
+        console.log(loginData.credentials);
+
+        await this.$store.dispatch("login", loginData);
+        this.$bvModal.hide("loginModal");
+
+        /* Se o login falhar por alguma razão um trow vai ser lançado e o redirect
+           da route para o home não vai ser executado */
+        this.$router.push({ name: "Profile" });
+      } catch (error) {
+        console.log(error);
+        this.formError = error;
+      }
+    },
+    logout(){
+      this.$store.dispatch("logout",this.$data)
+
+      if(this.$route.name != "Home"){
+        this.$router.push({name:"Home"});
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedUser: "isLoggedUser",
+    }),
   },
 };
 </script>

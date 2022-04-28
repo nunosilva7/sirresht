@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="profile">
   <div>
-    <h1>HOME</h1>
+    <h1>PROFILE</h1>
           
   </div>
 
@@ -13,7 +13,7 @@
 // @ is an alias to /src
 
 export default {
-  name: "Home",
+  name: "Profile",
 };
 </script>
 
