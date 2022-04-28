@@ -39,10 +39,11 @@
     </b-navbar>
 
     <b-modal id="registerModal" hide-footer>
-      <b-form @submit.prevent="">
+      <b-form @submit.prevent="register()">
         <b-row>
           <b-col cols="6">
             <b-form-input
+              v-model="registerData.firstName"
               type="text"
               placeholder="Nome"
               required
@@ -53,6 +54,7 @@
           <br />
           <b-col cols="6">
             <b-form-input
+              v-model="registerData.lastName"
               type="text"
               placeholder="Apelido"
               required
@@ -80,6 +82,7 @@
         <b-row>
           <b-col cols="12">
             <b-form-input
+              v-model="registerData.email"
               type="email"
               placeholder="Email"
               required
@@ -93,6 +96,7 @@
         <b-row>
           <b-col cols="12">
             <b-form-input
+              v-model="registerData.password"
               type="password"
               placeholder="Password"
               required
@@ -106,6 +110,7 @@
         <b-row>
           <b-col cols="12">
             <b-form-input
+              v-model="registerData.passwordVerify"
               type="password"
               placeholder="Repita password"
               required
@@ -192,6 +197,13 @@ export default {
         email: "",
         password: "",
       },
+      registerData: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        passwordVerify: "",
+      },
       formError: "",
       errorMsg: "",
     };
@@ -222,13 +234,38 @@ export default {
         this.formError = error;
       }
     },
-    logout(){
-      this.$store.dispatch("logout",this.$data)
+    logout() {
+      this.$store.dispatch("logout", this.$data);
 
-      if(this.$route.name != "Home"){
-        this.$router.push({name:"Home"});
+      if (this.$route.name != "Home") {
+        this.$router.push({ name: "Home" });
       }
+    },
+
+    async register(){
+      try {
+        this.$data.formError ="";
+
+      if(this.$data.registerData.password !=this.$data.registerData.passwordVerify){
+        throw "As passwords tem que ser iguais.";
+      }
+
+      const user ={
+        firstName:this.registerData.firstName,
+        lastName: this.registerData.lastName,
+        email: this.registerData.email,
+        password :this.registerData.password
+      }
+      await this.$store.dispatch("register", user);
+      this.$bvModal.hide("registerModal");
+      this.$bvModal.show("loginModal");
+        
+      } catch (error) {
+          this.$data.formErros = error;
+      }
+      
     }
+    
   },
   computed: {
     ...mapGetters({
