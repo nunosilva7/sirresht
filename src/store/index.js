@@ -5,6 +5,7 @@ import { AuthService } from "@/services/auth.service";
 import { UserService } from "@/services/user.service";
 import { MenuService } from "@/services/menu.service";
 
+
 Vue.use(Vuex);
 
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     users: [],
     nextMenu: {},
     loggedUserInformation: null,
+    participantEmail: null,
 
     loggedUser: localStorage.getItem("loggedUser")
       ? JSON.parse(localStorage.getItem("loggedUser"))
@@ -26,8 +28,27 @@ export default new Vuex.Store({
 
     getLoggedUserInformation: state => state.loggedUserInformation,
 
-    getNextMenu: state => state.nextMenu
-    
+    getNextMenu: state => state.nextMenu,
+
+    getNextMenuMain: state => {
+      const menuMain = state.nextMenu.dishes.filter(
+        menu => menu.course.id === 2
+      );
+      return menuMain
+    },
+    getNextMenuDate: state => {
+      const date = state.nextMenu.startDate.slice(0, 10)
+      return date
+    },
+    getNextMenuTime: state => {
+      const time = state.nextMenu.startDate.slice(11, 16)
+      return time
+    },
+    getParticipantByEmail: state => state.participantEmail
+
+
+
+
 
 
   },
@@ -75,7 +96,15 @@ export default new Vuex.Store({
       console.log("data aa " + JSON.stringify(data));
       context.commit("GET_NEXT_MENU", data)
 
+    },
+    async getParticipant(context, userEmail) {
+      if (context.state.loggedUser !== null) {
+        let data = await UserService.fetchUserByEmail(context.state.loggedUser, userEmail);
+        context.commit("GET_PARTICIPANT", data)
+
+      }
     }
+
   },
   mutations: {
     LOGIN(state, data) {
@@ -90,6 +119,9 @@ export default new Vuex.Store({
     },
     GET_NEXT_MENU(state, data) {
       state.nextMenu = data
+    },
+    GET_PARTICIPANT(state, data) {
+      state.participantEmail = data
     }
   },
   modules: {},

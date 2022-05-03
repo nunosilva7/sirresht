@@ -2,6 +2,7 @@ import API_URL from "./config.js";
 
 import { authHeader } from "./auth.service.js";
 
+
 export const UserService = {
   async fetchAllUsers(user) {
     if (user !== null) {
@@ -51,6 +52,25 @@ export const UserService = {
       return null;
     }
   },
+  async fetchUserByEmail(user,userEmail){
+    if (user !== null) {
+      const response = await fetch(`${API_URL}/users/email/${userEmail}`, {
+        method: "GET",
+        headers: authHeader(user)
+      });
+      if(response.ok){
+        let data= await response.json();
+        console.log(data);
+        return data
+      }
+      else{
+        return null
+      }
+      
+    }else{
+      return null
+    }
+  }
 }
   
 

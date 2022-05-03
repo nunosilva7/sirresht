@@ -15,7 +15,7 @@ export const MenuService = {
         }
         else{
             console.log("erro")
-            return null
+            throw Error(response.Error)
         }
     }
 

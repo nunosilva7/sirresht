@@ -5,12 +5,15 @@
       <b-container>
         <h1>Menu Destaque</h1>
         <b-row>
+          
           <b-card-group>
             <NextMenuCard :key="getNextMenu.id" :nextMenu="getNextMenu" />
           </b-card-group>
         </b-row>
+        
       </b-container>
     </div>
+    
   </div>
 </template>
 
@@ -29,7 +32,7 @@ export default {
     };
   },
   computed: {
-     getNextMenu() {
+    getNextMenu() {
       return this.$store.getters.getNextMenu;
     },
   },
