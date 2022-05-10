@@ -13,8 +13,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     users: [],
+    menus:[],
     nextMenu: {},
-    loggedUserInformation: null,
+    loggedUserInformation: localStorage.getItem("loggedUserInformation")
+    ? JSON.parse(localStorage.getItem("loggedUserInformation"))
+    : null,
     participantEmail: null,
 
     loggedUser: localStorage.getItem("loggedUser")
@@ -44,8 +47,23 @@ export default new Vuex.Store({
       const time = state.nextMenu.startDate.slice(11, 16)
       return time
     },
-    getParticipantByEmail: state => state.participantEmail
+    getParticipantByEmail: state => state.participantEmail,
 
+    getAllMenus: state => state.menus,
+
+    getMenuMain: state => (id) => {
+      const menu = state.menus.filter(
+        menu => menu.id === id
+      );
+     //console.log(menu)
+    
+      const menuMain = menu[0].dishes.filter(
+        menu => menu.course.id ===2
+      )
+      console.log(menuMain)
+      return menuMain
+    },
+    
 
 
 
@@ -62,8 +80,13 @@ export default new Vuex.Store({
           context.state.loggedUser,
           context.state.loggedUser.userId
         );
+        console.log("maravilha " + data)
 
         context.commit("LOGGED_USER_INFORMATION", data);
+        localStorage.setItem(
+          "loggedUserInformation",
+          JSON.stringify(context.state.loggedUserInformation)
+        );
       }
     },
 
@@ -103,6 +126,12 @@ export default new Vuex.Store({
         context.commit("GET_PARTICIPANT", data)
 
       }
+    },
+    async getAllMenus(context){
+      let data = await MenuService.fetchAllMenus();
+      //console.log("getAllMenus " + JSON.stringify(data));
+      console.log("getAllMenus " + data);
+      context.commit("GET_ALL_MENUS",data)
     }
 
   },
@@ -114,6 +143,7 @@ export default new Vuex.Store({
       state.loggedUser = null;
       state.loggedUserInformation = null;
     },
+    
     LOGGED_USER_INFORMATION(state, data) {
       state.loggedUserInformation = data;
     },
@@ -122,7 +152,10 @@ export default new Vuex.Store({
     },
     GET_PARTICIPANT(state, data) {
       state.participantEmail = data
-    }
+    },
+    GET_ALL_MENUS(state,data){
+      state.menus = data
+    },
   },
   modules: {},
 });

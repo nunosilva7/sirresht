@@ -13,12 +13,27 @@ export const MenuService = {
             console.log(data)
             return data
         }
-        else{
+        else {
+            console.log("erro")
+            throw Error(response.Error)
+        }
+    },
+    async fetchAllMenus() {
+        const response = await fetch(`${API_URL}/menus`, {
+            method: "GET"
+        });
+        if (response.ok) {
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+        else {
             console.log("erro")
             throw Error(response.Error)
         }
     }
 
 }
+
 
 export default MenuService

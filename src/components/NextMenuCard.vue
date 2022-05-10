@@ -54,6 +54,7 @@ export default {
       return this.$store.getters.isLoggedUser;
     },
     getNextMenuMain(){
+      console.log(this.$store.getters.getNextMenuMain)
       return this.$store.getters.getNextMenuMain;
 
     },

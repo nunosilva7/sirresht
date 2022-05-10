@@ -29,6 +29,8 @@ export default {
   computed: {
     ...mapGetters({
       isLoggedUser: "isLoggedUser",
+      getLoggedUserInformation: "getLoggedUserInformation",
+
     }),
   },
 };
