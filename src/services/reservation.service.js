@@ -19,6 +19,37 @@ export const ReservationService = {
             throw Error(response.Error)
         }
     },
+    async fetchNextReservation(user) {
+        const response = await fetch(`${API_URL}/reservations/nextReservation/${user.userId}`, {
+            method: "GET",
+            headers: authHeader(user),
+        });
+
+        if (response.ok) {
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+        else {
+            console.log("erro")
+            throw Error(response.Error)
+        }
+    },
+    async fetchReservationById(user,reservationId) {
+        const response = await fetch(`${API_URL}/reservations/${reservationId}`,{
+            method:"GET",
+            headers: authHeader(user),
+        });
+        if(response.ok){
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+        else{
+            console.log("erro")
+            throw Error(response.Error)
+        }
+    }
 }
 
 

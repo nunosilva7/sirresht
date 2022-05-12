@@ -19,6 +19,8 @@ export default new Vuex.Store({
     menus: [],
     nextMenu: {},
     dishes: [],
+    nextReservation: {},
+    activeReservation:{},
     loggedUserInformation: localStorage.getItem("loggedUserInformation")
       ? JSON.parse(localStorage.getItem("loggedUserInformation"))
       : null,
@@ -103,8 +105,13 @@ export default new Vuex.Store({
 
       return dish
     },
+    getNextReservation: state => state.nextReservation,
+
+    getActiveReservation: state => state.activeReservation,
 
   },
+
+
 
   actions: {
 
@@ -209,6 +216,34 @@ export default new Vuex.Store({
           reservation);
 
       }
+    },
+    async getNextReservation(context) {
+      if (context.state.loggedUserInformation !== null) {
+        if (context.state.loggedUser !== null) {
+          
+          let data = await ReservationService.fetchNextReservation(
+            context.state.loggedUser,
+           );
+            console.log("reservation " +data.id)
+
+            let data2 = await ReservationService.fetchReservationById(
+              context.state.loggedUser,
+              data.id
+            );
+
+          context.commit("GET_NEXT_RESERVATION", data2)
+        }
+      }
+    },
+    
+    async getReservationById(context,reservationId){
+      if(context.loggedUser !==null){
+        let data = await ReservationService.fetchReservationById(
+          context.state.loggedUser,
+          reservationId
+        );
+        context.commit("RESERVATION_INFO",data)
+      }
     }
 
   },
@@ -241,6 +276,12 @@ export default new Vuex.Store({
     },
     GET_ALL_DISHES(state, data) {
       state.dishes = data
+    },
+    GET_NEXT_RESERVATION(state, data) {
+      state.nextReservation = data
+    },
+    RESERVATION_INFO(state,data){
+      state.activeReservation = data
     }
 
   },

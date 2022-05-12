@@ -2,8 +2,24 @@
   <div class="profile">
     <div>
       <h1>Bem Vindo, {{ getLoggedUserInformation.firstName }}</h1>
+      <br>
+      <br>
 
-      <b-button v-b-modal.reservationModal>adicionar</b-button>
+      <b-container>
+        <b-row>
+          <b-col> <h1>Próxima Reserva</h1></b-col>
+          <b-col><b-button v-b-modal.reservationModal>adicionar</b-button></b-col>
+        </b-row>
+       
+        <b-row>
+          <b-card-group>
+            <NextReservationCard
+              :key="getNextReservation.id"
+              :nextReservation="getNextReservation"
+            />
+          </b-card-group>
+        </b-row>
+      </b-container>
 
       <b-container>
         <h1>Menu Destaque</h1>
@@ -178,100 +194,110 @@
                 :title="'Menu ' + menu.id"
                 @click="clearOptions()"
               >
-              <b-form  @submit.prevent="pickDishes(participant_id, menu.id)">
-                <b-row>
-                  <div>
-                    <h5>Menu #{{ menu.id }}</h5>
-                    <h6>Entrada</h6>
-                    <b-form-group v-slot="{ ariaDescribedby }">
-                      <ul>
-                        <b-form-radio-group id="starter" required>
-                          <li>
-                            <b-form-radio
-                              v-model="starter"
-                              :aria-describedby="ariaDescribedby"
-                              name="some-radios"
-                              value="0"
-                              >{{ menuStarter(menu.id)[0].name }}</b-form-radio
-                            >
-                          </li>
-                          <li>
-                            <b-form-radio
-                              v-model="starter"
-                              :aria-describedby="ariaDescribedby"
-                              name="some-radios"
-                              value="1"
-                              >{{ menuStarter(menu.id)[1].name }}</b-form-radio
-                            >
-                          </li>
-                        </b-form-radio-group>
-                      </ul>
-                    </b-form-group>
+                <b-form @submit.prevent="pickDishes(participant_id, menu.id)">
+                  <b-row>
+                    <div>
+                      <h5>Menu #{{ menu.id }}</h5>
+                      <h6>Entrada</h6>
+                      <b-form-group v-slot="{ ariaDescribedby }">
+                        <ul>
+                          <b-form-radio-group id="starter" required>
+                            <li>
+                              <b-form-radio
+                                v-model="starter"
+                                :aria-describedby="ariaDescribedby"
+                                name="some-radios"
+                                value="0"
+                                >{{
+                                  menuStarter(menu.id)[0].name
+                                }}</b-form-radio
+                              >
+                            </li>
+                            <li>
+                              <b-form-radio
+                                v-model="starter"
+                                :aria-describedby="ariaDescribedby"
+                                name="some-radios"
+                                value="1"
+                                >{{
+                                  menuStarter(menu.id)[1].name
+                                }}</b-form-radio
+                              >
+                            </li>
+                          </b-form-radio-group>
+                        </ul>
+                      </b-form-group>
 
-                    <h6>Prato principal</h6>
-                    <b-form-group v-slot="{ ariaDescribedby }" required>
-                      <ul>
-                        <b-form-radio-group id="main" required>
-                          <li>
-                            <b-form-radio
-                              v-model="main"
-                              :aria-describedby="ariaDescribedby"
-                              name="some-radios"
-                              value="0"
-                              required
-                            >
-                              {{ menuMain(menu.id)[0].name }}</b-form-radio
-                            >
-                          </li>
-                          <li>
-                            <b-form-radio
-                              v-model="main"
-                              :aria-describedby="ariaDescribedby"
-                              name="some-radios"
-                              value="1"
-                              required
-                              >{{ menuMain(menu.id)[1].name }}</b-form-radio
-                            >
-                          </li>
-                        </b-form-radio-group>
-                      </ul>
-                    </b-form-group>
-                    <h6>Sobremesa</h6>
-                    <b-form-group v-slot="{ ariaDescribedby }">
-                      <ul>
-                        <b-form-radio-group id="dessert">
-                          <li>
-                            <b-form-radio
-                              v-model="dessert"
-                              :aria-describedby="ariaDescribedby"
-                              name="some-radios"
-                              value="0"
-                            >
-                              {{ menuDessert(menu.id)[0].name }}</b-form-radio
-                            >
-                          </li>
-                          <li>
-                            <b-form-radio
-                              v-model="dessert"
-                              :aria-describedby="ariaDescribedby"
-                              name="some-radios"
-                              value="1"
-                              >{{ menuDessert(menu.id)[1].name }}</b-form-radio
-                            >
-                          </li>
-                        </b-form-radio-group>
-                      </ul>
-                      <b-button type="submit" 
-                        >adicionar</b-button
-                      >
-                    </b-form-group>
-                  </div>
-                </b-row>
+                      <h6>Prato principal</h6>
+                      <b-form-group v-slot="{ ariaDescribedby }" required>
+                        <ul>
+                          <b-form-radio-group id="main" required>
+                            <li>
+                              <b-form-radio
+                                v-model="main"
+                                :aria-describedby="ariaDescribedby"
+                                name="some-radios"
+                                value="0"
+                                required
+                              >
+                                {{ menuMain(menu.id)[0].name }}</b-form-radio
+                              >
+                            </li>
+                            <li>
+                              <b-form-radio
+                                v-model="main"
+                                :aria-describedby="ariaDescribedby"
+                                name="some-radios"
+                                value="1"
+                                required
+                                >{{ menuMain(menu.id)[1].name }}</b-form-radio
+                              >
+                            </li>
+                          </b-form-radio-group>
+                        </ul>
+                      </b-form-group>
+                      <h6>Sobremesa</h6>
+                      <b-form-group v-slot="{ ariaDescribedby }">
+                        <ul>
+                          <b-form-radio-group id="dessert">
+                            <li>
+                              <b-form-radio
+                                v-model="dessert"
+                                :aria-describedby="ariaDescribedby"
+                                name="some-radios"
+                                value="0"
+                              >
+                                {{ menuDessert(menu.id)[0].name }}</b-form-radio
+                              >
+                            </li>
+                            <li>
+                              <b-form-radio
+                                v-model="dessert"
+                                :aria-describedby="ariaDescribedby"
+                                name="some-radios"
+                                value="1"
+                                >{{
+                                  menuDessert(menu.id)[1].name
+                                }}</b-form-radio
+                              >
+                            </li>
+                          </b-form-radio-group>
+                        </ul>
+                        <b-button type="submit">adicionar</b-button>
+                      </b-form-group>
+                    </div>
+                  </b-row>
                 </b-form>
               </b-tab>
             </b-tabs>
           </b-card>
         </b-form>
+      </b-modal>
+
+      <!--Open nextReservationModal with all reservation information-->
+      <b-modal id="nextReservationModal" @show="getActiveReservation">
+        <div>{{getActiveReservation()}}</div>
+        
       </b-modal>
     </div>
   </div>
@@ -280,6 +306,7 @@
 <script>
 import { mapGetters } from "vuex";
 import NextMenuCard from "../components/NextMenuCard.vue";
+import NextReservationCard from "../components/NextReservationCard.vue";
 
 // @ is an alias to /src
 
@@ -287,6 +314,7 @@ export default {
   name: "Profile",
   components: {
     NextMenuCard,
+    NextReservationCard,
   },
 
   data() {
@@ -354,6 +382,8 @@ export default {
 
   methods: {
     async PrepareData() {
+      await this.$store.dispatch("getNextReservation");
+      console.log("nextReservation");
       await this.$store.dispatch("getAllMenus");
       await this.$store.dispatch("getAllDishes");
       this.participants.push(this.getLoggedUserInformation);
@@ -529,7 +559,7 @@ export default {
       for (let i = 0; i < this.participants.length; i++) {
         if (!this.participants[i].dishesIds) {
           console.log("falta pratos");
-          err=true;
+          err = true;
           break;
         }
         let obj = {
@@ -541,25 +571,24 @@ export default {
 
         arrayParticipant.push(obj);
       }
-      if (!this.date || err===true) {
+      if (!this.date || err === true) {
         console.log("falta data");
-      }
-      else{
+      } else {
         const reservation = {
-        startDate: this.date + " " + this.selectedTime,
-        endDate: this.date + " " + this.selectedTime,
-        reservationPrice: 6.4,
-        message: "mensagem",
-        isTableCommunal: false,
-        participants: arrayParticipant,
-      };
-      console.log(reservation);
-      this.$store.dispatch("createReservation", reservation);
-
+          startDate: this.date + " " + this.selectedTime,
+          endDate: this.date + " " + this.selectedTime,
+          reservationPrice: 6.4,
+          message: "mensagem",
+          isTableCommunal: false,
+          participants: arrayParticipant,
+        };
+        console.log(reservation);
+        this.$store.dispatch("createReservation", reservation);
       }
-
-      
     },
+    getActiveReservation(){
+      return this.$store.getters.getActiveReservation;
+    }
   },
   computed: {
     ...mapGetters({
@@ -583,6 +612,9 @@ export default {
     },
     getAllDishes() {
       return this.$store.getters.getAllDishes;
+    },
+    getNextReservation() {
+      return this.$store.getters.getNextReservation;
     },
   },
 };
