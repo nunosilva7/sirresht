@@ -27,7 +27,11 @@
           <b-nav-item 
            :to="{name:'Profile'}"
           :class="{active:$route.name==='Profile'}"
-          >Profile</b-nav-item>
+          >Perfil</b-nav-item>
+          <b-nav-item 
+           :to="{name:'Reservations'}"
+          :class="{active:$route.name==='Reservations'}"
+          >Reservas</b-nav-item>
           <b-nav-item href="#" disabled>Disabled</b-nav-item>
         </b-navbar-nav>
       </b-collapse>

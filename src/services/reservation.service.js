@@ -42,6 +42,23 @@ export const ReservationService = {
         });
         if(response.ok){
             let data = await response.json();
+           
+            return data
+        }
+        else{
+            console.log("erro")
+            throw Error(response.Error)
+        }
+    },
+
+
+    async fetchUserReservations(user) {
+        const response = await fetch(`${API_URL}/reservations/userReservations/${user.userId}`,{
+            method:"GET",
+            headers: authHeader(user),
+        });
+        if(response.ok){
+            let data = await response.json();
             console.log(data)
             return data
         }

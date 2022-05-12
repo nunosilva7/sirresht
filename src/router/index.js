@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import store from "../store"
 import Home from "../views/Home.vue";
 import Profile from "../views/Profile.vue"
+import Reservations from "../views/Reservations.vue"
 
 Vue.use(VueRouter);
 
@@ -31,6 +32,14 @@ const routes = [
     path: "/register",
     name: "Register",
   },
+  {
+    path:"/reservations",
+    name:"Reservations",
+    component: Reservations,
+    meta:{
+      requiresUserAuth:true,
+    }
+  }
 ];
 
 const router = new VueRouter({
