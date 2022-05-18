@@ -2,14 +2,14 @@
   <div class="home">
     <div>
       <h1>HOME</h1>
-      <b-container>
-        <h1>Menu Destaque</h1>
-        <b-row>
-          
-          <b-card-group>
+         
+      <b-container >
+        <div style="text-align: center;"><h1>Menu Destaque</h1></div>
+       
+          <b-card-group id="menuCard" class="justify-content-md-center" >
             <NextMenuCard :key="getNextMenu.id" :nextMenu="getNextMenu" />
           </b-card-group>
-        </b-row>
+      
         
       </b-container>
     </div>

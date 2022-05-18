@@ -41,6 +41,12 @@ body{
   
 }
 
+@font-face {
+  font-family: "Fredoka";
+  src: local("Fredoka"),
+   url(./assets/fonts/Fredoka/Fredoka-VariableFont.ttf) format("truetype");
+}
+
 
 @media screen and (max-width:1096px) {
   #topNavBar{

@@ -1,3 +1,30 @@
 body{
     background-color: #EBEBEB;
 }
+h1,h2,h3,h4,h5,h6{
+    font-family: "Fredoka medium"  ;
+}
+#nextMenuCard{
+    font-family: "Fredoka light" ;
+    border-radius: 15px;
+   ;
+}
+#menuCard   {
+    margin: auto;
+}
+#expandNextMenu {
+    position: relative;
+}
+#expandNextMenu img {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+@media screen and (max-width:1096px) {
+    
+    #menuImg{
+        
+    }
+    
+  }
