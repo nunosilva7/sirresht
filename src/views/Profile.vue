@@ -1,34 +1,68 @@
 <template>
   <div class="profile">
     <div>
-      <h1>Bem Vindo, {{ getLoggedUserInformation.firstName }}</h1>
-      <br>
-      <br>
+      <h1 style="text-align: center">
+        Bem Vindo, {{ getLoggedUserInformation.firstName }}
+      </h1>
+      <br />
+      <br />
 
-      <b-container>
-        <b-row>
-          <b-col> <h1>Próxima Reserva</h1></b-col>
-          <b-col><b-button v-b-modal.reservationModal>adicionar</b-button></b-col>
-        </b-row>
-       
+      <div >
+        <div id="reservationContainer" style="margin-left:5%;margin-right:10%;width:510px;float:left">
+          <b-row>
+            <b-col>
+              <h1  id="reservationTitle" style="font-family: Fredoka medium">
+                Próxima Reserva
+                <button
+                id="reservationBtn"
+                  style="
+                    border: none;
+                    background-color: #ebebeb;
+                    margin-left:10%;
+                  "
+                >
+                  <b-img
+                    style="width: 48px; height: 48px; "
+                    @click="openReservationModal"
+                    src="../assets/icons/add96.png"
+                  ></b-img>
+                </button>
+              </h1>
+            </b-col>
+          </b-row>
+
+          <div v-if="getNextReservation">
+            <b-row>
+              <b-card-group>
+                <NextReservationCard
+                  :key="getNextReservation.id"
+                  :nextReservation="getNextReservation"
+                />
+              </b-card-group>
+            </b-row>
+          </div>
+          <div
+            v-else
+            class="justify-content-md-center"
+            style="margin-left: 10%"
+          >
+            <h5>Não tem nenhuma reserva próxima</h5>
+          </div>
+        </div>
+        <div id="nextMenuContainer" style="margin-left:5%;margin-right:5%;margin-top:0.1%;width:510px;float:left;">
+          
+        <h1 >Menu em Destaque</h1>
         <b-row>
           <b-card-group>
-            <NextReservationCard
-              :key="getNextReservation.id"
-              :nextReservation="getNextReservation"
-            />
+            <NextMenuCardProfile :key="getNextMenu.id" :nextMenu="getNextMenu" />
           </b-card-group>
         </b-row>
-      </b-container>
+      
 
-      <b-container>
-        <h1>Menu Destaque</h1>
-        <b-row>
-          <b-card-group>
-            <NextMenuCard :key="getNextMenu.id" :nextMenu="getNextMenu" />
-          </b-card-group>
-        </b-row>
-      </b-container>
+        </div>
+      </div>
+
+     
 
       <b-modal id="reservationModal" hide-footer>
         <b-form @submit.prevent="Reservation()">
@@ -40,11 +74,12 @@
                   :date-disabled-fn="dateDisabled"
                   @context="onContext"
                   locale="pt-PT"
-                  width="400px"
+                  width="300px"
                   hide-header
                   required
                 ></b-calendar>
               </b-col>
+
               <b-col>
                 <p>
                   Data: <b>'{{ date }}'</b>
@@ -296,8 +331,7 @@
 
       <!--Open nextReservationModal with all reservation information-->
       <b-modal id="nextReservationModal" @show="getActiveReservation">
-        <div>{{getActiveReservation()}}</div>
-        
+        <div>{{ getActiveReservation() }}</div>
       </b-modal>
     </div>
   </div>
@@ -305,7 +339,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import NextMenuCard from "../components/NextMenuCard.vue";
+import NextMenuCardProfile from "../components/NextMenuCardProfile.vue";
 import NextReservationCard from "../components/NextReservationCard.vue";
 
 // @ is an alias to /src
@@ -313,7 +347,7 @@ import NextReservationCard from "../components/NextReservationCard.vue";
 export default {
   name: "Profile",
   components: {
-    NextMenuCard,
+    NextMenuCardProfile,
     NextReservationCard,
   },
 
@@ -384,9 +418,13 @@ export default {
     async PrepareData() {
       await this.$store.dispatch("getNextReservation");
       console.log("nextReservation");
+
       await this.$store.dispatch("getAllMenus");
       await this.$store.dispatch("getAllDishes");
       this.participants.push(this.getLoggedUserInformation);
+    },
+    openReservationModal() {
+      this.$bvModal.show("reservationModal");
     },
     clearOptions() {
       (this.starter = ""), (this.main = ""), (this.dessert = "");
@@ -586,9 +624,9 @@ export default {
         this.$store.dispatch("createReservation", reservation);
       }
     },
-    getActiveReservation(){
+    getActiveReservation() {
       return this.$store.getters.getActiveReservation;
-    }
+    },
   },
   computed: {
     ...mapGetters({
@@ -614,6 +652,7 @@ export default {
       return this.$store.getters.getAllDishes;
     },
     getNextReservation() {
+      console.log("NEXT RESERVATION");
       return this.$store.getters.getNextReservation;
     },
   },

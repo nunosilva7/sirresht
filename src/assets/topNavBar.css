@@ -1,32 +1,135 @@
-#appName {}
+
 
 #logo {
+
     margin: auto;
-  display: block;
-}
-
-#coiso {
-    position:absolute;
     display: block;
-   
-    
+
+
+
 }
 
-#navbar-toggle-collapse{
+#hamburguer {
+    position: absolute;
+    display: block;
+
+
+}
+
+#navbar-toggle-collapse {
     text-align: center;
 }
-#nav{
+
+#nav {
     background-color: white;
 }
-#botNav{
+
+#botNav {
     display: none;
 }
 
+#registerTxt {
+    font-family: "Fredoka regular";
+
+}
+
+#registerTxt:hover {
+    color: #FCA311;
+    font-family: "Fredoka medium"
+
+}
+
+#loginTxt {
+    font-family: "Fredoka regular";
+}
+
+#loginTxt:hover {
+    color: #FCA311;
+    font-family: "Fredoka medium"
+
+}
+
+#loginModal {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   
+}
+#registerBtn-loginModal{
+    color: #FCA311;
+    font-family: "Fredoka light"
+
+}
+#registerBtn-loginModal:hover{
+    font-family: "Fredoka light ";
+    cursor:pointer
+
+}
+#loginEmail{
+  
+    border-radius: 10px;
+}
+#loginPassword{
+   
+    border-radius: 10px;
+}
+
+#loginBtn{
+    font-size: 120%;
+     background-color:#FCA311;
+     border: none;
+     width: 30%;
+     border-radius: 15px;
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#registerFirstName{
+    border-radius: 10px;
+
+}
+#registerLastName{
+    border-radius: 10px;
+
+}
+#registerSelect{
+    border-radius: 10px;
+
+}
+#registerEmail{
+    border-radius: 10px;
+}
+#registerPassword{
+    border-radius: 10px;
+}
+#registerPasswordV{
+    border-radius: 10px;
+}
+
+#registerBtn{
+    font-size: 120%;
+     background-color:#FCA311;
+     border: none;
+     width: 30%;
+     border-radius: 15px;
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+     margin-bottom: 3% ;
+}
+
+
+
+
+
 
 @media screen and (max-width:1096px) {
-    
-    #botNav{
+
+    #botNav {
         display: flex;
     }
+    /*
+    #registerBtn-loginModal{
+        font-size:70%
     
-  }
+    }
+    #registerPText{
+        font-size:70%
+    }*/
+
+}

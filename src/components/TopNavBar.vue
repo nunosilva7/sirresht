@@ -1,44 +1,62 @@
 <template>
   <div>
     <b-navbar id="nav" toggleable type="light">
-      <img
-        href="#"
-        id="logo"
-        src="../assets/placeholder-image.png"
-        class="img-fluid"
-        height="100px"
-        width="100px"
-        alt="logotipo da página"
-      />
+      <div id="logo" class="ml-auto">
+        <img
+          href="#"
+          id="logo"
+          src="../assets/placeholder-image.png"
+          class="img-fluid"
+          height="100px"
+          width="100px"
+          alt="logotipo da página"
+        />
+      </div>
 
-      <b-navbar-toggle id="coiso" target="navbar-toggle-collapse">
+      <b-navbar-toggle
+        id="hamburguer"
+        target="navbar-toggle-collapse"
+        style="color: black"
+      >
         <template #default="{ expanded }">
-          <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
-          <b-icon v-else icon="chevron-bar-down"></b-icon>
+          <b-icon v-if="expanded" icon="list"></b-icon>
+          <b-icon
+            id="menuIcon"
+            v-else
+            icon="list"
+            style="color: orange; outline: none"
+          ></b-icon>
         </template>
       </b-navbar-toggle>
 
       <b-collapse id="navbar-toggle-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item
-          :to="{name:'Home'}"
-          :class="{active:$route.name==='Home'}"
-          >Home</b-nav-item>
-          <b-nav-item 
-           :to="{name:'Profile'}"
-          :class="{active:$route.name==='Profile'}"
-          >Perfil</b-nav-item>
-          <b-nav-item 
-           :to="{name:'Reservations'}"
-          :class="{active:$route.name==='Reservations'}"
-          >Reservas</b-nav-item>
+            :to="{ name: 'Home' }"
+            :class="{ active: $route.name === 'Home' }"
+            >Home</b-nav-item
+          >
+          <b-nav-item
+            :to="{ name: 'Profile' }"
+            :class="{ active: $route.name === 'Profile' }"
+            >Perfil</b-nav-item
+          >
+          <b-nav-item
+            :to="{ name: 'Reservations' }"
+            :class="{ active: $route.name === 'Reservations' }"
+            >Reservas</b-nav-item
+          >
           <b-nav-item href="#" disabled>Disabled</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
       <template v-if="isLoggedUser === false">
         <b-navbar-nav class="ml-auto">
-          <b-nav-item href="#" v-b-modal.registerModal>Registo</b-nav-item>
-          <b-nav-item href="#" v-b-modal.loginModal>Entrar</b-nav-item>
+          <b-nav-item href="#" v-b-modal.registerModal
+            ><p id="registerTxt" style="margin: 0">Registo</p></b-nav-item
+          >
+          <b-nav-item href="#" v-b-modal.loginModal
+            ><p id="loginTxt" style="margin: 0">Entrar</p></b-nav-item
+          >
         </b-navbar-nav>
       </template>
       <template v-else>
@@ -48,11 +66,17 @@
       </template>
     </b-navbar>
 
-    <b-modal id="registerModal" hide-footer>
-      <b-form @submit.prevent="register()">
+    <b-modal
+      id="registerModal"
+      hide-footer
+      centered
+      headerClass="p-2 border-bottom-0"
+    >
+      <b-form @submit.prevent="register()" style="font-family: Fredoka regular">
         <b-row>
           <b-col cols="6">
             <b-form-input
+              id="registerFirstName"
               v-model="registerData.firstName"
               type="text"
               placeholder="Nome"
@@ -61,9 +85,10 @@
           </b-col>
           <br />
           <br />
-          <br />
+          
           <b-col cols="6">
             <b-form-input
+              id="registerLastName"
               v-model="registerData.lastName"
               type="text"
               placeholder="Apelido"
@@ -74,6 +99,7 @@
         <b-row>
           <b-col cols="12">
             <b-form-group
+              id="registerSelect"
               label="É docente/aluno do IPP?"
               v-slot="{ ariaDescribedby }"
             >
@@ -92,6 +118,7 @@
         <b-row>
           <b-col cols="12">
             <b-form-input
+              id="registerEmail"
               v-model="registerData.email"
               type="email"
               placeholder="Email"
@@ -106,6 +133,7 @@
         <b-row>
           <b-col cols="12">
             <b-form-input
+              id="registerPassword"
               v-model="registerData.password"
               type="password"
               placeholder="Password"
@@ -120,6 +148,7 @@
         <b-row>
           <b-col cols="12">
             <b-form-input
+              id="registerPasswordV"
               v-model="registerData.passwordVerify"
               type="password"
               placeholder="Repita password"
@@ -131,19 +160,27 @@
           <br />
         </b-row>
 
-        <br />
+   
 
         <b-row class="justify-content-md-center">
-          <b-button type="submit" variant="danger">Registar</b-button>
+          <b-button style="margin:auto" id="registerBtn" type="submit" variant="danger" 
+            >Registar</b-button
+          >
         </b-row>
       </b-form>
     </b-modal>
 
-    <b-modal id="loginModal" hide-footer>
-      <b-form @submit.prevent="login()">
+    <b-modal
+      id="loginModal"
+      hide-footer
+      centered
+      headerClass="p-2 border-bottom-0"
+    >
+      <b-form @submit.prevent="login()" style="font-family: Fredoka regular">
         <b-row>
           <b-col cols="12">
             <b-form-input
+              id="loginEmail"
               v-model="loginData.email"
               type="email"
               placeholder="Email"
@@ -158,6 +195,7 @@
         <b-row>
           <b-col cols="12">
             <b-form-input
+              id="loginPassword"
               v-model="loginData.password"
               type="password"
               placeholder="Password"
@@ -175,11 +213,33 @@
         </b-row>
 
         <b-row class="justify-content-md-center">
-          <b-button type="submit" variant="danger">Entrar</b-button>
+          <b-button
+            id="loginBtn"
+            type="submit"
+            style="margin: auto; font-family: Fredoka medium"
+            >Entrar</b-button
+          >
         </b-row>
         <br />
         <b-row class="justify-content-md-center">
-          <p href="">Não tem conta? Registe aqui.</p>
+          <p
+            id="registerPText"
+            href=""
+            style="
+              margin-right: 0px;
+              margin-left: 22%;
+              font-family: Fredoka light;
+              
+            "
+          >
+            Não tem conta?
+          </p>
+          <span
+            id="registerBtn-loginModal"
+            style="margin-right: 20%; margin-left: 1%, "
+            @click="openRegisterModal"
+            >Registe aqui.</span
+          >
         </b-row>
       </b-form>
     </b-modal>
@@ -252,30 +312,35 @@ export default {
       }
     },
 
-    async register(){
+    async register() {
       try {
-        this.$data.formError ="";
+        this.$data.formError = "";
 
-      if(this.$data.registerData.password !=this.$data.registerData.passwordVerify){
-        throw "As passwords tem que ser iguais.";
-      }
+        if (
+          this.$data.registerData.password !=
+          this.$data.registerData.passwordVerify
+        ) {
+          throw "As passwords tem que ser iguais.";
+        }
 
-      const user ={
-        firstName:this.registerData.firstName,
-        lastName: this.registerData.lastName,
-        email: this.registerData.email,
-        password :this.registerData.password
-      }
-      await this.$store.dispatch("register", user);
-      this.$bvModal.hide("registerModal");
-      this.$bvModal.show("loginModal");
-        
+        const user = {
+          firstName: this.registerData.firstName,
+          lastName: this.registerData.lastName,
+          email: this.registerData.email,
+          password: this.registerData.password,
+        };
+        await this.$store.dispatch("register", user);
+        this.$bvModal.hide("registerModal");
+        this.$bvModal.show("loginModal");
       } catch (error) {
-          this.$data.formErros = error;
+        this.$data.formErros = error;
       }
-      
-    }
-    
+    },
+
+    openRegisterModal() {
+      this.$bvModal.hide("loginModal");
+      this.$bvModal.show("registerModal");
+    },
   },
   computed: {
     ...mapGetters({

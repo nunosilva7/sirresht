@@ -1,30 +1,156 @@
-body{
+body {
     background-color: #EBEBEB;
 }
-h1,h2,h3,h4,h5,h6{
-    font-family: "Fredoka medium"  ;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Fredoka medium";
 }
-#nextMenuCard{
-    font-family: "Fredoka light" ;
+#nextReservationCard{
+    font-family: "Fredoka light";
     border-radius: 15px;
-   ;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
-#menuCard   {
+
+#nextMenuCard {
+    font-family: "Fredoka light";
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#menuCard {
     margin: auto;
 }
+
 #expandNextMenu {
     position: relative;
 }
+
 #expandNextMenu img {
     position: absolute;
     bottom: 0px;
     right: 0px;
 }
 
-@media screen and (max-width:1096px) {
+#expandNextMenuImg:hover {
+    width: 50px;
+    height: 50px;
+
+}
+
+#homeMenu {
+    font-family: "Fredoka medium";
+    margin-bottom: 3%;
+
+}
+
+#expandNextReservation {
+    position: relative;
+   
     
-    #menuImg{
-        
+}
+
+#expandNextReservation img {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+#expandNextReservationImg:hover {
+    width: 50px;
+    height: 50px;
+
+}
+
+
+@media screen and (max-width:1096px) {
+
+    #nextReservationCard {
+        width: 400px !important;
+        margin-left: 1.5%;
+
+    }
+
+    #homeMenu {
+        font-family: "Fredoka medium";
+        font-size: 25px;
+    }
+
+    #menuDate {
+        font-size: 90%;
+    }
+
+    #menuTime {
+        font-size: 90%;
+    }
+
+    #menuPrice {
+        font-size: 90%;
+    }
+
+    #menuDateImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuTimeImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuPriceImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuImg {
+        width: 100px;
+    }
+
+    #expandNextMenuImg {
+        width: 34px;
+        height: 34px;
+
+    }
+
+    #expandNextMenuImg:hover {
+        width: 40px;
+        height: 40px;
+
+    }
+
+    #carousel {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    #nextReservationCard{
+        width:380px !important;
+    }
+    #nextMenuCard{
+        width:380px !important;
+    }
+    #reservationBtn{
+        margin-left:2% !important;
+    }
+    #nextMenuContainer{
+        width:380px !important;
+    }
+    #nextReservationContainer{
+        width:380px !important;
+    }
+    #nextMenuContainer{
+        width:380px !important;
+    }
+    #nextReservationContainer{
+        width:380px !important;
     }
     
-  }
+
+
+
+}

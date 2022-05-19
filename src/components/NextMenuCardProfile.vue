@@ -1,6 +1,6 @@
 <template>
   <div id="divMenuCard">
-    <b-container id="nextMenuCard" style="background-color: white;height:310px">
+    <b-container id="nextMenuCard" style="background-color: white;height:280px;width:400px">
       <b-row no-gutters>
         <b-col cols="5" style="margin-top: 4px">
           <b-img id="menuDateImg" src="../assets/icons/calendar24.png"></b-img>
@@ -27,8 +27,8 @@
             id="menuImg"
             src="https://www.receitasemenus.net/wp-content/uploads/2018/10/receitas-carne.jpg"
             alt=""
-            width="100%"
-            height="100px"
+            width="90%"
+            height="80px"
           />
         </b-col>
         <br />
@@ -46,8 +46,8 @@
             id="menuImg"
             src="https://www.receitasemenus.net/wp-content/uploads/2018/10/receitas-carne.jpg"
             alt=""
-            width="100%"
-            height="100"
+            width="90%"
+            height="80px"
           />
         </b-col>
         <br />
@@ -70,7 +70,7 @@
 <script>
 //import { mapGetters } from "vuex";
 export default {
-  name: "NextMenuCard",
+  name: "NextMenuCardProfile",
   props: {
     nextMenu: Object,
   },
