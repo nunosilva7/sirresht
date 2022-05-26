@@ -1,5 +1,5 @@
 <template>
-  <div id="divReservationCard" style="width:500px;">
+  <div id="divReservationCard" >
     <b-container id="nextReservationCard" style="background-color: white; width:500px;height:280px" fluid>
       <b-row no-gutters>
         <b-col >  <br></b-col>

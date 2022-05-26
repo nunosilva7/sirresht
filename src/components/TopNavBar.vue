@@ -34,7 +34,7 @@
           <b-nav-item
             :to="{ name: 'Home' }"
             :class="{ active: $route.name === 'Home' }"
-            >Home</b-nav-item
+            >Página Inicial</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'Profile' }"

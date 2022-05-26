@@ -80,9 +80,14 @@ h6 {
 }
 
 
-
-
 @media screen and (max-width:500px) {
+
+    #reservationTitle{
+        font-family: "Fredoka regular" !important;
+    }
+    #menuTitle{
+        font-family: "Fredoka regular" !important;
+    }
 
     #reservationCard{
         width: 320px !important;
@@ -91,12 +96,7 @@ h6 {
     }
     
 
-    #nextReservationCard {
-        width: 90% !important;
-        margin-left: 5%;
-        margin-right: 5%;
-
-    }
+    
 
     #homeMenu {
         font-family: "Fredoka medium";
@@ -150,9 +150,13 @@ h6 {
         margin: 0 !important;
         width: 100% !important;
     }
-    #nextReservationCard{
-        width:360px !important;
+    #nextReservationCard {
+        width: 360px !important;
+        margin-left: 5%;
+        margin-right: 5%;
+
     }
+    
     #nextMenuCard{
         width:90% !important;
       
@@ -168,7 +172,7 @@ h6 {
         
     }
     #nextReservationContainer{
-        width:s !important;
+        width:90% !important;
         margin-left:5% !important;
         margin-right:5 !important;
     }
@@ -189,3 +193,184 @@ h6 {
     }
     
 }
+
+
+@media screen and (min-width:500px) and (max-width:550px){
+
+   
+    
+
+    
+
+    #homeMenu {
+        font-family: "Fredoka medium";
+        font-size: 25px;
+    }
+
+    #menuDate {
+        font-size: 90%;
+    }
+
+    #menuTime {
+        font-size: 90%;
+    }
+
+    #menuPrice {
+        font-size: 90%;
+    }
+
+    #menuDateImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuTimeImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuPriceImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuImg {
+        width: 100px;
+    }
+
+    #expandNextMenuImg {
+        width: 34px;
+        height: 34px;
+
+    }
+
+    #expandNextMenuImg:hover {
+        width: 40px;
+        height: 40px;
+
+    }
+
+    #carousel {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    #nextReservationCard {
+        width: 420px !important;
+        margin-left: 5%;
+        margin-right: 5%;
+
+    }
+    
+    #nextMenuCard{
+        width:90% !important;
+      
+    }
+    #reservationBtn{
+        margin-left:2% !important;
+    }
+    #nextMenuContainer{
+        width:90% !important;
+        margin-top:5% !important;
+        margin-left:5% !important;
+        margin-right:5 !important;
+        
+    }
+    #nextReservationContainer{
+        width:90% !important;
+        margin-left:5% !important;
+        margin-right:5 !important;
+    }
+    #nextMenuContainer{
+        width:90% !important;
+        
+    }
+    #expandNextReservationImg {
+        width: 34px;
+        height: 34px;
+
+    }
+
+    #expandNextReservationImg:hover {
+        width: 40px;
+        height: 40px;
+
+    }
+    
+}
+
+@media screen and (min-width:1200px) and (max-width:1300px){
+
+    #carousel {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+  
+    #nextMenuContainer{
+        margin-left:7% !important;
+        margin-right:0% !important;
+        
+    }
+    #nextReservationContainer{
+       
+        margin-left:5% !important;
+        margin-right:0% !important;
+    }
+    
+    
+
+    
+    
+}
+
+@media screen and (min-width:1300px) and (max-width:1400px){
+
+    #carousel {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+  
+    #nextMenuContainer{
+        margin-left:10% !important;
+        margin-right:0% !important;
+        
+    }
+    #nextReservationContainer{
+       
+        margin-left:10% !important;
+        margin-right:0% !important;
+    }
+    
+    
+
+    
+    
+}
+
+@media screen and (min-width:1400px) and (max-width:1500px){
+
+    #carousel {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+  
+    #nextMenuContainer{
+        margin-left:10% !important;
+        margin-right:0% !important;
+        
+    }
+    #nextReservationContainer{
+       
+        margin-left:10% !important;
+        margin-right:0% !important;
+    }
+    
+    
+
+    
+    
+}
+
+
+
+
+

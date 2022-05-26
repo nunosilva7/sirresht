@@ -10,7 +10,7 @@
       <div>
         <div
           id="nextReservationContainer"
-          style="margin-left: 10%; margin-right: 10%; width: 510px; float: left"
+          style="margin-left: 10%; margin-right: 5%; width: 510px; float: left"
         >
           <b-row>
             <b-col>
@@ -60,7 +60,7 @@
           id="nextMenuContainer"
           style="
             margin-left: 10%;
-            margin-right: 1%;
+            margin-right: 5%;
             margin-top: 0.1%;
             width: 510px;
             float: left;
@@ -68,7 +68,7 @@
         >
           <b-row>
             <b-col>
-              <h1>Menu em Destaque</h1>
+              <h1 id="menuTitle">Menu em Destaque</h1>
             </b-col>
           </b-row>
 
@@ -80,6 +80,11 @@
               />
             </b-card-group>
           </b-row>
+          <br />
+          <br />
+          <br />
+          <br />
+
           <br />
         </div>
       </div>
@@ -236,30 +241,32 @@
                 display: block;
                 margin: auto;
                 width: 90%;
-                border: solid thin #C8C4C4;
+                border: solid thin #c8c4c4;
                 margin-bottom: 4%;
                 border-radius: 15px;
                 box-shadow: -2px 5px 10px #888888;
               "
             >
-              <b-row style="margin-left:1%">
-                <b-col style="margin-top:1%">
+              <b-row style="margin-left: 1%">
+                <b-col style="margin-top: 1%">
                   <h6>
                     {{ participant.firstName + " " + participant.lastName }}
                   </h6>
                 </b-col>
-                <b-col style="margin-top:1%">
-                  <h6 v-if="participant.menuPrice!=null">Preço: {{participant.menuPrice}}€</h6>
+                <b-col style="margin-top: 1%">
+                  <h6 v-if="participant.menuPrice != null">
+                    Preço: {{ participant.menuPrice }}€
+                  </h6>
                   <h6 v-else>Preço: 0,00€</h6>
                 </b-col>
               </b-row>
-              <b-row style="margin-left:5%">
+              <b-row style="margin-left: 5%">
                 <b-col>{{ getDish(participant.dishesIds[0]) }}</b-col>
               </b-row>
-              <b-row style="margin-left:5%">
+              <b-row style="margin-left: 5%">
                 <b-col>{{ getDish(participant.dishesIds[1]) }}</b-col>
               </b-row>
-              <b-row style="margin-left:5%">
+              <b-row style="margin-left: 5%">
                 <b-col>{{ getDish(participant.dishesIds[2]) }}</b-col>
               </b-row>
               <b-img
@@ -270,7 +277,7 @@
                   display: block;
                   margin-left: auto;
                   margin-right: 2%;
-                  margin-bottom:2%
+                  margin-bottom: 2%;
                 "
                 @click="editParticipant(participant.id)"
                 src="../assets/icons/expand-arrows48.png"
@@ -380,7 +387,19 @@
                               </b-row>
                             </b-form-radio-group>
 
-                            <b-button type="submit">adicionar</b-button>
+                            <b-button
+                              style="
+                                position:absolute;
+                                left: 40%;
+                                display:block;
+                                margin-top:15%
+                                min-width: max-content;
+                                background-color: #fca311;
+                                border: none;
+                              "
+                              type="submit"
+                              >adicionar</b-button
+                            >
                           </b-form-group>
                         </div>
                       </b-row>
@@ -410,7 +429,7 @@
                   border: none;
                 "
                 @click="showPreviousForm()"
-                v-if="!this.form1"
+                v-if="!this.form1 && !this.form5"
                 >Voltar</b-button
               >
             </b-col>
@@ -645,6 +664,7 @@ export default {
       email: "",
       participants: [],
       participant_id: "",
+      menu_id: "",
       starter: "",
       main: "",
       dessert: "",
@@ -752,7 +772,8 @@ export default {
         (participant) => participant.id === participant_id
       );
       this.participants[objIndex].dishesIds = dishesIds;
-      this.participants[objIndex].menuPrice = this.getMenuById(menu_id)[0].price;
+      this.participants[objIndex].menuPrice =
+        this.getMenuById(menu_id)[0].price;
       //this.$bvModal.hide("modal-multi-4");
       //this.$bvModal.show("reservationModal");
       this.form5 = false;
@@ -955,7 +976,7 @@ export default {
     getNextMenu() {
       return this.$store.getters.getNextMenu;
     },
-    getMenuById(){
+    getMenuById() {
       return this.$store.getters.getMenuById;
     },
     getMenusByDate() {

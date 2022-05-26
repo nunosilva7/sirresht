@@ -3,7 +3,7 @@
     <br /><br />
     <b-container  fluid>
       <h1 v-if="!getReservations.length">Não Foram Encontrados Reservas!</h1>
-      <b-row style="margin-right: 10%; margin-left: 10%" >
+      <b-row style="margin-right: 5%; margin-left: 5%" >
         <ReservationsCard
           v-for="myReservation in getReservations"
           :key="myReservation.id"
