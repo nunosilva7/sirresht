@@ -1,9 +1,9 @@
 <template>
-  <div id="reservations">
+  <div id="reservations" style="margin:auto">
     <br /><br />
-    <b-container fluid>
+    <b-container  fluid>
       <h1 v-if="!getReservations.length">Não Foram Encontrados Reservas!</h1>
-      <b-row >
+      <b-row style="margin-right: 10%; margin-left: 10%" >
         <ReservationsCard
           v-for="myReservation in getReservations"
           :key="myReservation.id"

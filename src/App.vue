@@ -33,6 +33,27 @@ export default {
 
     }),
   },
+  metaInfo: {
+    title: "sirresht",
+    titleTemplate: "%s | restaurante ESHT",
+    htmlAttrs: {
+      lang: "pt-PT"
+    },
+    meta: [
+      { charset: "utf-8" },
+      {
+        name: "description",
+        content: "Esta página serve para reservar refeições."
+      },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        name: "keywords",
+        content:
+          "ESHT, Sirresht, Almoços, Jantares, Menus, Reservas,"
+      },
+      { name: "author", content: "Nuno Silva" }
+    ]
+  }
 };
 </script>
 <style scoped >

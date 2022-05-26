@@ -1,6 +1,6 @@
 <template>
-  <div id="divReservationCard">
-    <b-container id="nextReservationCard" style="background-color: white; width:400px;height:280px">
+  <div id="divReservationCard" style="width:500px;">
+    <b-container id="nextReservationCard" style="background-color: white; width:500px;height:280px" fluid>
       <b-row no-gutters>
         <b-col >  <br></b-col>
       </b-row>
@@ -12,36 +12,36 @@
       </b-row>
 
       <b-row>
-        <b-col cols="7" >
+        <b-col cols="6" >
           <h6 style="margin-left:10%"> {{ nextReservation.status.desc }}</h6>
         </b-col>
         
         <b-col > 
-          <b-img id="menuDateImg" src="../assets/icons/calendar24.png" style="width:30px;height:30px;margin-bottom:5%"></b-img>
+          <b-img id="menuDateImg" src="../assets/icons/calendar24.png" style="width:30px;height:30px;margin-bottom:5%;margin-right:5%"></b-img>
           <span>{{ getNextReservationDate() }}</span>
           
            </b-col>
       </b-row>
 
       <b-row >
-        <b-col cols="7"></b-col>
+        <b-col cols="6"></b-col>
          
         <b-col>
-          <b-img id="menuDateImg" src="../assets/icons/clock24.png" style="width:30px;height:30px;margin-bottom:5%"></b-img>
+          <b-img id="menuDateImg" src="../assets/icons/clock24.png" style="width:30px;height:30px;margin-bottom:5%;margin-right:5%"></b-img>
           <span>{{ getNextReservationTime() }} </span>
           
           </b-col>
       </b-row>
       <b-row>
-        <b-col cols="7"> <h5>Parcipantes</h5></b-col>
+        <b-col cols="6"> <h5></h5></b-col>
         
         <b-col>
-           <b-img id="menuDateImg" src="../assets/icons/money24.png" style="width:30px;height:30px;margin-bottom:5%"></b-img>
+           <b-img id="menuDateImg" src="../assets/icons/money24.png" style="width:30px;height:30px;margin-bottom:5%;margin-right:5%"></b-img>
           <span>  {{ nextReservation.reservationPrice }}€ </span>
         
           </b-col>
       </b-row>
-      <br>
+      
       <b-row>
         <b-col>
           <h5>Parcipantes</h5>

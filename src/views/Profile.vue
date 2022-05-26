@@ -7,22 +7,30 @@
       <br />
       <br />
 
-      <div >
-        <div id="reservationContainer" style="margin-left:5%;margin-right:10%;width:510px;float:left">
+      <div>
+        <div
+          id="nextReservationContainer"
+          style="margin-left: 10%; margin-right: 10%; width: 510px; float: left"
+        >
           <b-row>
             <b-col>
-              <h1  id="reservationTitle" style="font-family: Fredoka medium">
+              <h1 id="reservationTitle" style="font-family: Fredoka medium">
                 Próxima Reserva
                 <button
-                id="reservationBtn"
+                  id="reservationBtn"
                   style="
                     border: none;
                     background-color: #ebebeb;
-                    margin-left:10%;
+                    margin-left: 10%;
                   "
                 >
                   <b-img
-                    style="width: 48px; height: 48px; "
+                    style="
+                      width: 48px;
+                      height: 48px;
+                      position: absolute;
+                      top: 3px;
+                    "
                     @click="openReservationModal"
                     src="../assets/icons/add96.png"
                   ></b-img>
@@ -31,16 +39,15 @@
             </b-col>
           </b-row>
 
-          <div v-if="getNextReservation">
-            <b-row>
-              <b-card-group>
-                <NextReservationCard
-                  :key="getNextReservation.id"
-                  :nextReservation="getNextReservation"
-                />
-              </b-card-group>
-            </b-row>
-          </div>
+          <b-row v-if="getNextReservation">
+            <b-card-group>
+              <NextReservationCard
+                :key="getNextReservation.id"
+                :nextReservation="getNextReservation"
+              />
+            </b-card-group>
+          </b-row>
+
           <div
             v-else
             class="justify-content-md-center"
@@ -49,43 +56,52 @@
             <h5>Não tem nenhuma reserva próxima</h5>
           </div>
         </div>
-        <div id="nextMenuContainer" style="margin-left:5%;margin-right:5%;margin-top:0.1%;width:510px;float:left;">
-          
-        <h1 >Menu em Destaque</h1>
-        <b-row>
-          <b-card-group>
-            <NextMenuCardProfile :key="getNextMenu.id" :nextMenu="getNextMenu" />
-          </b-card-group>
-        </b-row>
-      
+        <div
+          id="nextMenuContainer"
+          style="
+            margin-left: 10%;
+            margin-right: 1%;
+            margin-top: 0.1%;
+            width: 510px;
+            float: left;
+          "
+        >
+          <b-row>
+            <b-col>
+              <h1>Menu em Destaque</h1>
+            </b-col>
+          </b-row>
 
+          <b-row>
+            <b-card-group>
+              <NextMenuCardProfile
+                :key="getNextMenu.id"
+                :nextMenu="getNextMenu"
+              />
+            </b-card-group>
+          </b-row>
+          <br />
         </div>
       </div>
 
-     
-
-      <b-modal id="reservationModal" hide-footer>
-        <b-form @submit.prevent="Reservation()">
-          <div id="form1" v-if="this.form1">
+      <b-modal id="reservationModal" hide-footer centered>
+        <b-form @submit.prevent="">
+          <div id="form1" v-if="this.form1" style="height: 24rem">
             <b-row>
-              <b-col md="auto">
+              <b-col>
                 <b-calendar
                   v-model="date"
                   :date-disabled-fn="dateDisabled"
                   @context="onContext"
                   locale="pt-PT"
-                  width="300px"
+                  label-help=""
+                  block
                   hide-header
                   required
                 ></b-calendar>
               </b-col>
-
-              <b-col>
-                <p>
-                  Data: <b>'{{ date }}'</b>
-                </p>
-              </b-col>
             </b-row>
+            <br />
             <b-row>
               <b-col cols="12">
                 <b-form-group v-slot="{ ariaDescribedby }">
@@ -101,7 +117,7 @@
               </b-col>
             </b-row>
             <b-row>
-              <div>
+              <div style="margin-left: 5%">
                 <b-form-select
                   v-if="this.selected == 1"
                   v-model="selectedTime"
@@ -113,19 +129,15 @@
                   :options="optionsTime2"
                 >
                 </b-form-select>
-
-                <div class="mt-3" v-if="this.selected == 1">
-                  Selected: <strong>{{ selectedTime }}</strong>
-                </div>
-                <div class="mt-3" v-else>
-                  Selected: <strong>{{ selectedTime2 }}</strong>
-                </div>
               </div>
             </b-row>
           </div>
-          <div id="form2" v-if="this.form2">
-            <p>FORM2</p>
-
+          <div
+            id="form2"
+            v-if="this.form2"
+            style="min-height: 200px; height: 24rem"
+          >
+            <!--
             <ul v-for="participant in this.participants" :key="participant.id">
               <li>
                 {{ participant.firstName + " " + participant.lastName }}
@@ -136,77 +148,331 @@
                 </div>
               </li>
             </ul>
+-->
+            <div
+              v-for="participant in this.participants"
+              :key="participant.id"
+              style="height: 3rem; margin-bottom: 5%"
+            >
+              <b-row
+                style="
+                  border-radius: 5px;
+                  margin-left: 5%;
+                  margin-right: 5%;
 
-            <b-row class="justify-content-md-center">
-              <b-button v-b-modal.modal-multi-3>participantes</b-button>
+                  height: 3rem;
+                  box-shadow: -2px 5px 10px #888888;
+                "
+              >
+                <b-col cols="8" style="margin-top: auto; margin-bottom: auto"
+                  >{{ participant.firstName + " " + participant.lastName }}
+                </b-col>
+                <b-col v-if="getLoggedUserInformation.id != participant.id">
+                  <b-img
+                    style="display: block; margin-left: auto; cursor: pointer"
+                    @click="removeParticipant(participant.id)"
+                    src="../assets/icons/fechar.png"
+                  ></b-img>
+                </b-col>
+              </b-row>
+              <br />
+            </div>
+
+            <b-row
+              class="justify-content-md-center"
+              style="margin: 2%; min-width: max-content"
+              no-gutters
+            >
+              <b-col
+                style="
+                  min-width: max-content;
+                  max-width: max-content;
+                  margin-right: 2%;
+                "
+              >
+                <p
+                  style="cursor: pointer; color: #fca311"
+                  @click="openAddParticipantModal()"
+                >
+                  Adicionar um novo participante
+                </p>
+              </b-col>
+              <b-col
+                style="
+                  min-width: max-content;
+                  max-width: max-content;
+                  margin-right: 2%;
+                "
+              >
+                <b-img
+                  style="
+                    width: 24px;
+                    height: 24px;
+                    position: absolute;
+                    top: 1px;
+                    cursor: pointer;
+                  "
+                  @click="openAddParticipantModal()"
+                  src="../assets/icons/add96.png"
+                ></b-img>
+              </b-col>
             </b-row>
           </div>
-          <div id="form3" v-if="this.form3">
-            <p>FORM3</p>
-          </div>
-          <div id="form4" v-if="this.form4">
-            <p>FORM4</p>
-
+          <div
+            id="form3"
+            v-if="this.form3"
+            style="min-height: 200px; height: 24rem"
+          ></div>
+          <div
+            id="form4"
+            v-if="this.form4"
+            style="min-height: 400px; height: 24rem"
+          >
             <div
               id="participantsMenu"
               v-for="participant in this.participants"
               :key="participant.id"
+              style="
+                display: block;
+                margin: auto;
+                width: 90%;
+                border: solid thin #C8C4C4;
+                margin-bottom: 4%;
+                border-radius: 15px;
+                box-shadow: -2px 5px 10px #888888;
+              "
             >
-              <b-row>
-                <b-col>
+              <b-row style="margin-left:1%">
+                <b-col style="margin-top:1%">
                   <h6>
                     {{ participant.firstName + " " + participant.lastName }}
                   </h6>
                 </b-col>
-                <b-col>
-                  <button
-                    v-b-modal.modal-multi-4
-                    @click="editParticipant(participant.id)"
-                  >
-                    expandir
-                  </button>
+                <b-col style="margin-top:1%">
+                  <h6 v-if="participant.menuPrice!=null">Preço: {{participant.menuPrice}}€</h6>
+                  <h6 v-else>Preço: 0,00€</h6>
                 </b-col>
               </b-row>
-
-              <div v-if="participant.dishesIds != null">
-                <p>{{ getDish(participant.dishesIds[0]) }}</p>
-                <p>{{ getDish(participant.dishesIds[1]) }}</p>
-                <p>{{ getDish(participant.dishesIds[2]) }}</p>
-              </div>
-              <div v-else>
-                <p>nada</p>
-              </div>
+              <b-row style="margin-left:5%">
+                <b-col>{{ getDish(participant.dishesIds[0]) }}</b-col>
+              </b-row>
+              <b-row style="margin-left:5%">
+                <b-col>{{ getDish(participant.dishesIds[1]) }}</b-col>
+              </b-row>
+              <b-row style="margin-left:5%">
+                <b-col>{{ getDish(participant.dishesIds[2]) }}</b-col>
+              </b-row>
+              <b-img
+                style="
+                  width: 24px;
+                  height: 24px;
+                  cursor: pointer;
+                  display: block;
+                  margin-left: auto;
+                  margin-right: 2%;
+                  margin-bottom:2%
+                "
+                @click="editParticipant(participant.id)"
+                src="../assets/icons/expand-arrows48.png"
+              ></b-img>
             </div>
           </div>
-          <div id="form5" v-if="this.form5"></div>
+          <div id="form5" v-if="this.form5" style="">
+            <b-form @submit.prevent="">
+              <b-card no body>
+                <b-tabs card>
+                  <b-tab
+                    v-for="menu in getMenusByDate"
+                    :key="menu.id"
+                    :title="
+                      'Menu ' +
+                      (1 +
+                        getMenusByDate.findIndex((element) => {
+                          return element.id === menu.id;
+                        }))
+                    "
+                    @click="clearOptions()"
+                  >
+                    <b-form
+                      @submit.prevent="pickDishes(participant_id, menu.id)"
+                    >
+                      <b-row>
+                        <div>
+                          <h6>Entrada</h6>
+                          <b-form-group v-slot="{ ariaDescribedby }">
+                            <b-form-radio-group id="starter" required>
+                              <b-row>
+                                <b-form-radio
+                                  v-model="starter"
+                                  :aria-describedby="ariaDescribedby"
+                                  name="some-radios"
+                                  value="0"
+                                  >{{
+                                    menuStarter(menu.id)[0].name
+                                  }}</b-form-radio
+                                >
+                              </b-row>
+                              <b-row>
+                                <b-form-radio
+                                  v-model="starter"
+                                  :aria-describedby="ariaDescribedby"
+                                  name="some-radios"
+                                  value="1"
+                                  >{{
+                                    menuStarter(menu.id)[1].name
+                                  }}</b-form-radio
+                                >
+                              </b-row>
+                            </b-form-radio-group>
+                          </b-form-group>
+
+                          <h6>Prato principal</h6>
+                          <b-form-group v-slot="{ ariaDescribedby }" required>
+                            <b-form-radio-group id="main" required>
+                              <b-row>
+                                <b-form-radio
+                                  v-model="main"
+                                  :aria-describedby="ariaDescribedby"
+                                  name="some-radios"
+                                  value="0"
+                                  required
+                                >
+                                  {{ menuMain(menu.id)[0].name }}</b-form-radio
+                                >
+                              </b-row>
+                              <b-row>
+                                <b-form-radio
+                                  v-model="main"
+                                  :aria-describedby="ariaDescribedby"
+                                  name="some-radios"
+                                  value="1"
+                                  required
+                                  >{{ menuMain(menu.id)[1].name }}</b-form-radio
+                                >
+                              </b-row>
+                            </b-form-radio-group>
+                          </b-form-group>
+                          <h6>Sobremesa</h6>
+                          <b-form-group v-slot="{ ariaDescribedby }">
+                            <b-form-radio-group id="dessert">
+                              <b-row>
+                                <b-form-radio
+                                  v-model="dessert"
+                                  :aria-describedby="ariaDescribedby"
+                                  name="some-radios"
+                                  value="0"
+                                >
+                                  {{
+                                    menuDessert(menu.id)[0].name
+                                  }}</b-form-radio
+                                >
+                              </b-row>
+                              <b-row>
+                                <b-form-radio
+                                  v-model="dessert"
+                                  :aria-describedby="ariaDescribedby"
+                                  name="some-radios"
+                                  value="1"
+                                  >{{
+                                    menuDessert(menu.id)[1].name
+                                  }}</b-form-radio
+                                >
+                              </b-row>
+                            </b-form-radio-group>
+
+                            <b-button type="submit">adicionar</b-button>
+                          </b-form-group>
+                        </div>
+                      </b-row>
+                    </b-form>
+                  </b-tab>
+                </b-tabs>
+              </b-card>
+            </b-form>
+          </div>
+
+          <div id="form6" v-if="this.form6"></div>
 
           <b-row>
             <div class="row px-5">
               <label>{{ formError }}</label>
             </div>
           </b-row>
-          <b-row class="justify-content-md-center">
+          <b-row class="justify-content-md-center" no-gutters>
             <b-col>
-              <b-button @click="showPreviousForm()">back</b-button>
-            </b-col>
-            <b-col>
-              <b-button @click="showNextForm()" v-if="!this.form5"
-                >next</b-button
+              <b-button
+                style="
+                  position: absolute;
+                  right: 15%;
+                  width: 50%;
+                  min-width: max-content;
+                  background-color: #fc004c;
+                  border: none;
+                "
+                @click="showPreviousForm()"
+                v-if="!this.form1"
+                >Voltar</b-button
               >
             </b-col>
+            <b-col v-if="!this.form6">
+              <b-button
+                style="
+                  position: absolute;
+                  left: 15%;
+                  width: 50%;
+                  min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                "
+                @click="showNextForm()"
+                v-if="!this.date"
+                disabled
+                >Seguinte</b-button
+              >
+
+              <b-button
+                style="
+                  position: absolute;
+                  left: 15%;
+                  width: 50%;
+                  min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                "
+                @click="showNextForm()"
+                v-else-if="!this.form6 && !this.form5"
+                >Seguinte</b-button
+              >
+            </b-col>
+            <b-col v-if="this.form6">
+              <b-button
+                style="
+                  position: absolute;
+                  left: 15%;
+                  width: 50%;
+                  min-width: max-content;
+                  border: none;
+                "
+                @click="Reservation()"
+                variant="danger"
+                >Concluir</b-button
+              >
+            </b-col>
+            <br />
           </b-row>
           <b-row class="justify-content-md-center"> </b-row>
 
-          <b-row class="justify-content-md-center">
-            <b-button type="submit" variant="danger" v-if="this.form5"
-              >Concluir</b-button
-            >
-          </b-row>
           <br />
         </b-form>
       </b-modal>
 
-      <b-modal id="modal-multi-3" size="sm" title="Third Modal" ok-only>
+      <b-modal
+        id="modal-multi-3"
+        size="sm"
+        title="Third Modal"
+        ok-only
+        centered
+      >
         <b-form @submit.prevent="" id="f">
           <b-row>
             <b-col>
@@ -219,7 +485,14 @@
           </b-row>
         </b-form>
       </b-modal>
-      <b-modal id="modal-multi-4" size="lg" title="Fourth Modal" ok-only>
+      <!-- 
+      <b-modal
+        id="modal-multi-4"
+        size="lg"
+        title="Fourth Modal"
+        ok-only
+        centered
+      >
         <b-form @submit.prevent="">
           <b-card no body>
             <b-tabs card>
@@ -328,6 +601,7 @@
           </b-card>
         </b-form>
       </b-modal>
+      -->
 
       <!--Open nextReservationModal with all reservation information-->
       <b-modal id="nextReservationModal" @show="getActiveReservation">
@@ -363,6 +637,8 @@ export default {
     maxDate.setDate(31);
 
     return {
+      array: [0, 1, 2],
+      addedDishes: false,
       test: "",
       minDate: minDate,
       maxDate: maxDate,
@@ -403,6 +679,7 @@ export default {
       form3: false,
       form4: false,
       form5: false,
+      form6: false,
       formError: "",
       loginData: {
         email: "",
@@ -421,16 +698,27 @@ export default {
 
       await this.$store.dispatch("getAllMenus");
       await this.$store.dispatch("getAllDishes");
-      this.participants.push(this.getLoggedUserInformation);
+      let participant = this.getLoggedUserInformation;
+      participant.dishesIds = [null, null, null];
+      this.participants.push(participant);
     },
     openReservationModal() {
       this.$bvModal.show("reservationModal");
+    },
+    openAddParticipantModal() {
+      this.$bvModal.show("modal-multi-3");
     },
     clearOptions() {
       (this.starter = ""), (this.main = ""), (this.dessert = "");
     },
     editParticipant(id) {
+      /*
       this.participant_id = id;
+      this.$bvModal.hide("reservationModal");
+      */
+      this.participant_id = id;
+      this.form4 = false;
+      this.form5 = true;
     },
 
     pickDishes(participant_id, menu_id) {
@@ -464,6 +752,11 @@ export default {
         (participant) => participant.id === participant_id
       );
       this.participants[objIndex].dishesIds = dishesIds;
+      this.participants[objIndex].menuPrice = this.getMenuById(menu_id)[0].price;
+      //this.$bvModal.hide("modal-multi-4");
+      //this.$bvModal.show("reservationModal");
+      this.form5 = false;
+      this.form4 = true;
     },
     getAllMenusData() {
       const menus = this.$store.getters.getAllMenus;
@@ -505,8 +798,8 @@ export default {
       } else if (this.form2) {
         this.form1 = false;
         this.form2 = false;
-        this.form3 = true;
-        this.form4 = false;
+        this.form3 = false;
+        this.form4 = true;
         this.form5 = false;
       } else if (this.form3) {
         this.form1 = false;
@@ -519,14 +812,14 @@ export default {
         this.form2 = false;
         this.form3 = false;
         this.form4 = false;
-        this.form5 = true;
+        this.form6 = true;
       }
     },
     showPreviousForm() {
       if (this.form4) {
         this.form1 = false;
-        this.form2 = false;
-        this.form3 = true;
+        this.form2 = true;
+        this.form3 = false;
         this.form4 = false;
       } else if (this.form3) {
         this.form1 = false;
@@ -538,6 +831,20 @@ export default {
         this.form2 = false;
         this.form3 = false;
         this.form4 = false;
+      } else if (this.form5) {
+        this.form1 = false;
+        this.form2 = false;
+        this.form3 = false;
+        this.form4 = true;
+        this.form5 = false;
+        this.form6 = false;
+      } else if (this.form6) {
+        this.form1 = false;
+        this.form2 = false;
+        this.form3 = false;
+        this.form4 = true;
+        this.form5 = false;
+        this.form6 = false;
       }
     },
     async checkParticipant() {
@@ -556,6 +863,8 @@ export default {
           }
 
           if (findEmail === undefined) {
+            participant.dishesIds = [null, null, null];
+
             this.participants.push(participant);
             console.log("participante adicionado");
           } else {
@@ -586,7 +895,11 @@ export default {
     menuDessert(id) {
       return this.$store.getters.getMenuDessert(id);
     },
+
     getDish(id) {
+      if (!id) {
+        return "Sem escolha";
+      }
       return this.$store.getters.getDish(id)[0].name;
     },
     Reservation() {
@@ -621,6 +934,7 @@ export default {
           participants: arrayParticipant,
         };
         console.log(reservation);
+
         this.$store.dispatch("createReservation", reservation);
       }
     },
@@ -640,6 +954,9 @@ export default {
     },
     getNextMenu() {
       return this.$store.getters.getNextMenu;
+    },
+    getMenuById(){
+      return this.$store.getters.getMenuById;
     },
     getMenusByDate() {
       const menus = this.$store.getters.getAllMenus;

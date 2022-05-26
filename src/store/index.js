@@ -61,6 +61,13 @@ export default new Vuex.Store({
 
     getAllMenus: state => state.menus,
 
+    getMenuById: state =>(id) =>{
+      const menu =state.menus.filter(
+        menu => menu.id ===id
+      )
+      return menu
+    },
+
     getMenuMain: state => (id) => {
       const menu = state.menus.filter(
         menu => menu.id === id
@@ -101,12 +108,19 @@ export default new Vuex.Store({
     getAllDishes: state => state.dishes,
 
     getDish: state => (id) => {
-      const dish = state.dishes.rows.filter(
-        dish => dish.id === id
-      );
-      console.log("coiso")
-
-      return dish
+      if(id != null){
+        const dish = state.dishes.rows.filter(
+          dish => dish.id === id
+        );
+        console.log("coiso")
+  
+        return dish
+      }
+      else{
+        let response = "nao aplicavel"
+        return response
+      }
+     
     },
     getNextReservation: state => state.nextReservation,
 

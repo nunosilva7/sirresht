@@ -1,6 +1,6 @@
 <template>
   <div id="divMenuCard">
-    <b-container id="nextMenuCard" style="background-color: white;height:280px;width:400px">
+    <b-container id="nextMenuCard" style="background-color: white;height:280px;width:500px" fluid>
       <b-row no-gutters>
         <b-col cols="5" style="margin-top: 4px">
           <b-img id="menuDateImg" src="../assets/icons/calendar24.png"></b-img>
@@ -56,12 +56,14 @@
           ><p style="margin-top: 5%;text-align:center">{{ getNextMenuMain()[1].name }}</p>
         </b-col>
       </b-row>
-      <div id="expandNextMenu">
+      
+      
+      <div id="expandNextMenu" style="margin-top:3%">
         <b-img
           id="expandNextMenuImg"
           src="../assets/icons/expand-arrows48.png"
         ></b-img>
-        <br />
+       <br />
       </div>
     </b-container>
   </div>
