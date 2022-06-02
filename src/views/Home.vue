@@ -10,8 +10,8 @@
           controls
           indicators
           background="#ababab"
-          img-width="200px"
-          img-height="200px" 
+          img-width="1024"
+          img-height="480"
           style="text-shadow: 1px 1px 2px #333"
           @sliding-start="onSlideStart"
           @sliding-end="onSlideEnd"
@@ -20,12 +20,12 @@
           <b-carousel-slide
             caption="SIRRESHT"
             text="Regista-te e reserva a tua refeição"
-            img-src="https://picsum.photos/1024/480/?image=52"
+            img-src="../assets/img/carousel1.png"
             
           ></b-carousel-slide>
 
           <!-- Slides with custom text -->
-          <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54"
+          <b-carousel-slide img-src="../assets/img/carousel2.png"
            text="20% desconto para a comunindade IPP"
           
           >
@@ -34,7 +34,7 @@
 
           <!-- Slides with image only -->
           <b-carousel-slide
-            img-src="https://picsum.photos/1024/480/?image=58"
+            img-src="../assets/img/carousel4.png"
           ></b-carousel-slide>
 
           <!-- Slides with img slot -->
@@ -45,7 +45,7 @@
                 class="d-block img-fluid w-100"
                 width="1024"
                 height="480"
-                src="https://picsum.photos/1024/480/?image=55"
+                src="../assets/img/carousel3.png"
                 alt="image slot"
               />
             </template>
@@ -59,12 +59,13 @@
       </div>
       <br>
 
-      <b-container>
+      <b-container  >
         <div style="text-align: center"><h1 id="homeMenu" >Menu em Destaque</h1></div>
-
+        <b-row>
         <b-card-group id="menuCard" class="justify-content-md-center">
           <NextMenuCard :key="getNextMenu.id" :nextMenu="getNextMenu" />
         </b-card-group>
+        </b-row>
       </b-container>
     </div>
     <br>

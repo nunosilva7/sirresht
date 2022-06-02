@@ -17,7 +17,7 @@
 
       <b-row>
         <b-col cols="6">
-          <h6 style="margin-left: 10%">Pendente</h6>
+          <h6 style="margin-left: 10%;color:#FC004C">Pendente</h6>
         </b-col>
 
         <b-col>
@@ -72,7 +72,7 @@
 
       <b-row>
         <b-col>
-          <h5>Participantes</h5>
+          <h5 style="font-family:Fredoka regular">Participantes</h5>
           
             <b-avatar-group size="40px">
               <b-avatar v-for="participant in nextReservation.participants" :key="participant.id"></b-avatar>
@@ -92,8 +92,16 @@
           src="../assets/icons/expand-arrows48.png"
         ></b-img>
         <br />
+          
       </div>
+      <div>
+        <p id="seeAllReservations" style="text-align:right;margin-top:1%"
+        
+        >Ver todas</p>
+      </div>
+    
     </b-container>
+    
   </div>
 </template>
 

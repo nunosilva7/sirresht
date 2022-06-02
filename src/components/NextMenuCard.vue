@@ -65,6 +65,11 @@
         ></b-img>
         <br />
       </div>
+      <div>
+        <p id="seeAllMenus" style="text-align:right;margin-top:3%"
+        
+        >Ver todos</p>
+      </div>
     </b-container>
   </div>
 </template>

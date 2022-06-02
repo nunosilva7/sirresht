@@ -14,6 +14,9 @@ h5,
 h6 {
     font-family: "Fredoka medium";
 }
+p{
+    font-family: "Fredoka light";
+}
 #reservationCard{
     font-family: "Fredoka light";
     border-radius: 15px;
@@ -87,7 +90,39 @@ input[type="radio"]:checked+label:after{
     border-radius:45%;
    
   }*/
- 
+ #seeAllReservations{
+    color:#fca311;
+    cursor: pointer;
+    text-shadow: 2px 2px 8px #fca311;
+
+    
+ }
+ #seeAllReservations:hover{
+    color:#fca311;
+    font-size:110%;
+    font-family: "Fredoka regular"
+    
+ }
+
+ #seeAllMenus{
+    color:#fca311;
+    cursor: pointer;
+    text-shadow: 2px 2px 8px #fca311;
+
+    
+ }
+ #seeAllMenus:hover{
+    color:#fca311;
+    font-size:110%;
+    font-family: "Fredoka regular"
+    
+ }
+ #reservationModal___BV_modal_title_{
+     color:red !important;
+     text-align: center !important;
+     margin-left: 43%;
+    
+ }
 
   
 
@@ -160,11 +195,14 @@ input[type="radio"]:checked+label:after{
     #carousel {
         margin: 0 !important;
         width: 100% !important;
+        margin-bottom:2% !important 
     }
+    
     #nextReservationCard {
         width: 360px !important;
         margin-left: 5%;
         margin-right: 5%;
+        margin-bottom:8% !important;
 
     }
     
@@ -201,6 +239,9 @@ input[type="radio"]:checked+label:after{
         width: 40px;
         height: 40px;
 
+    }
+    #seeAllReservations{
+        margin-top:2% !important;
     }
     
 }

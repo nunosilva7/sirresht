@@ -46,7 +46,7 @@
             :class="{ active: $route.name === 'Reservations' }"
             >Reservas</b-nav-item
           >
-          <b-nav-item href="#" disabled>Disabled</b-nav-item>
+          
         </b-navbar-nav>
       </b-collapse>
       <template v-if="isLoggedUser === false">
@@ -61,7 +61,12 @@
       </template>
       <template v-else>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item href="#" @click="logout()">Sair</b-nav-item>
+          <b-row>
+            <b-col style="padding-right:1px">
+             <b-avatar></b-avatar>
+        </b-col>
+          <b-col style="padding-left:6px">  <b-nav-item href="#" @click="logout()">Sair</b-nav-item></b-col></b-row>
+         
         </b-navbar-nav>
       </template>
     </b-navbar>

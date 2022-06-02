@@ -13,7 +13,7 @@
 
       <b-row>
         <b-col cols="6" >
-          <h6 style="margin-left:10%">  Pendente </h6>
+          <h6 style="margin-left:10%;color:#FC004C">  Pendente </h6>
         </b-col>
         
         <b-col > 
