@@ -7,7 +7,7 @@
       <br />
       <br />
 
-      <div>
+      <div style="margin-top: 5%">
         <div
           id="nextReservationContainer"
           style="margin-left: 10%; margin-right: 5%; width: 510px; float: left"
@@ -238,6 +238,7 @@
               v-for="participant in this.participants"
               :key="participant.id"
               style="
+                position: relative;
                 display: block;
                 margin: auto;
                 width: 90%;
@@ -253,22 +254,40 @@
                     {{ participant.firstName + " " + participant.lastName }}
                   </h6>
                 </b-col>
-                <b-col style="margin-top: 1%">
+                <b-col style="margin-top: 1%" class="text-center">
                   <h6 v-if="participant.menuPrice != null">
-                    Preço: {{ participant.menuPrice }}€
+                    {{ participant.menuPrice }}€
                   </h6>
-                  <h6 v-else>Preço: 0,00€</h6>
                 </b-col>
               </b-row>
-              <b-row style="margin-left: 5%">
-                <b-col>{{ getDish(participant.dishesIds[0]) }}</b-col>
-              </b-row>
-              <b-row style="margin-left: 5%">
-                <b-col>{{ getDish(participant.dishesIds[1]) }}</b-col>
-              </b-row>
-              <b-row style="margin-left: 5%">
-                <b-col>{{ getDish(participant.dishesIds[2]) }}</b-col>
-              </b-row>
+              <div v-if="participant.dishesIds[1] != null">
+                <b-row style="margin-left: 5%">
+                  <b-col v-if="participant.dishesIds[0] != null">{{
+                    getDish(participant.dishesIds[0])
+                  }}</b-col>
+                </b-row>
+                <b-row style="margin-left: 5%">
+                  <b-col v-if="participant.dishesIds[1] != null">{{
+                    getDish(participant.dishesIds[1])
+                  }}</b-col>
+                </b-row>
+                <b-row style="margin-left: 5%">
+                  <b-col v-if="participant.dishesIds[2] != null">{{
+                    getDish(participant.dishesIds[2])
+                  }}</b-col>
+                </b-row>
+              </div>
+              <div
+                v-else
+                style="
+                  position: absolute;
+                  bottom: 0%;
+                  left: 20%;
+                  color: #fca311;
+                "
+              >
+                <h6>Adicione os seus pratos</h6>
+              </div>
               <b-img
                 style="
                   width: 24px;
@@ -305,9 +324,9 @@
                     >
                       <b-row>
                         <div>
-                          <h6>Entrada</h6>
+                          <h6>Entrada (opcional)</h6>
                           <b-form-group v-slot="{ ariaDescribedby }">
-                            <b-form-radio-group id="starter" required>
+                            <b-form-radio-group id="starter">
                               <b-row>
                                 <b-form-radio
                                   v-model="starter"
@@ -359,7 +378,7 @@
                               </b-row>
                             </b-form-radio-group>
                           </b-form-group>
-                          <h6>Sobremesa</h6>
+                          <h6>Sobremesa (opcional)</h6>
                           <b-form-group v-slot="{ ariaDescribedby }">
                             <b-form-radio-group id="dessert">
                               <b-row>
@@ -386,23 +405,22 @@
                                 >
                               </b-row>
                             </b-form-radio-group>
-
-                            <b-button
-                              style="
-                                position:absolute;
-                                left: 40%;
-                                display:block;
-                                margin-top:15%
-                                min-width: max-content;
-                                background-color: #fca311;
-                                border: none;
-                              "
-                              type="submit"
-                              >adicionar</b-button
-                            >
                           </b-form-group>
                         </div>
                       </b-row>
+                      <b-button
+                        style="
+                          position: absolute;
+                          left: 50%;
+                          transform: translate(-50%, -50%);
+                          top:108%
+                          min-width: max-content;
+                          background-color: #fca311;
+                          border: none;
+                        "
+                        type="submit"
+                        >adicionar</b-button
+                      >
                     </b-form>
                   </b-tab>
                 </b-tabs>
@@ -410,7 +428,86 @@
             </b-form>
           </div>
 
-          <div id="form6" v-if="this.form6"></div>
+          <div id="form6" v-if="this.form6">
+            <div
+              id="participantsMenu"
+              v-for="participant in this.participants"
+              :key="participant.id"
+              style="
+                position: relative;
+                display: block;
+                margin: auto;
+                width: 90%;
+                border: solid thin #c8c4c4;
+                margin-bottom: 4%;
+                border-radius: 15px;
+                box-shadow: -2px 5px 10px #888888;
+              "
+            >
+              <b-row style="margin-left: 1%">
+                <b-col style="margin-top: 1%">
+                  <h6>
+                    {{ participant.firstName + " " + participant.lastName }}
+                  </h6>
+                </b-col>
+                <b-col style="margin-top: 1%" class="text-center">
+                  <h6
+                    v-if="participant.menuPrice != null"
+                    style="text-decoration: line-through; display: inline"
+                  >
+                    {{ participant.menuPrice }}€
+                  </h6>
+                  <h6 style="margin-left: 2%; display: inline;color:#fca311">
+                    {{ calculateDiscount(participant.id) }}€
+                  </h6>
+                </b-col>
+              </b-row>
+              <div
+                v-if="participant.dishesIds[1] != null"
+                style="margin-bottom: 2%"
+              >
+                <b-row style="margin-left: 5%">
+                  <b-col v-if="participant.dishesIds[0] != null">{{
+                    getDish(participant.dishesIds[0])
+                  }}</b-col>
+                </b-row>
+                <b-row style="margin-left: 5%">
+                  <b-col v-if="participant.dishesIds[1] != null">{{
+                    getDish(participant.dishesIds[1])
+                  }}</b-col>
+                </b-row>
+                <b-row style="margin-left: 5%">
+                  <b-col v-if="participant.dishesIds[2] != null">{{
+                    getDish(participant.dishesIds[2])
+                  }}</b-col>
+                </b-row>
+              </div>
+              <div
+                v-else
+                style="
+                  position: absolute;
+                  bottom: 0%;
+                  left: 20%;
+                  color: #fca311;
+                "
+              ></div>
+            </div>
+
+            <b-row>
+              <b-col></b-col>
+              <b-col>Subtotal: {{ calculateReservationPrice() }}€</b-col>
+            </b-row>
+            <b-row>
+              <b-col></b-col>
+              <b-col>Desconto: {{ discountSum() }}€ </b-col>
+            </b-row>
+            <b-row>
+              <b-col></b-col>
+              <b-col>Total: {{ calculateTotal() }}€</b-col>
+            </b-row>
+
+            form6
+          </div>
 
           <b-row>
             <div class="row px-5">
@@ -488,21 +585,76 @@
       <b-modal
         id="modal-multi-3"
         size="sm"
-        title="Third Modal"
         ok-only
         centered
+        hide-footer
+        hide-header
       >
-        <b-form @submit.prevent="" id="f">
-          <b-row>
-            <b-col>
-              <b-form-input v-model="email" placeholder="Escreve o email">
-              </b-form-input>
-            </b-col>
-            <b-col>
-              <b-button @click="checkParticipant()">check</b-button>
-            </b-col>
-          </b-row>
-        </b-form>
+        <div class="d-flex justify-content-center">
+          <b-form-group v-slot="{ ariaDescribedby }">
+            <b-form-radio-group
+              id="radio-group-2"
+              v-model="typeUser"
+              :aria-describedby="ariaDescribedby"
+              name="radio-sub-component"
+            >
+              <b-form-radio value="0">Utilizador</b-form-radio>
+              <b-form-radio value="1">Convidado</b-form-radio>
+            </b-form-radio-group>
+          </b-form-group>
+        </div>
+
+        <div id="addUser" v-if="this.typeUser == 0">
+          <b-form @submit.prevent="" id="f">
+            <b-row style="margin-bottom: 5%">
+              <b-col>
+                <b-form-input v-model="email" placeholder="Escreve o email">
+                </b-form-input>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <b-button
+                  style="
+                    margin: auto;
+                    display: block;
+                    min-width: max-content;
+                    background-color: #fca311;
+                    border: none;
+                  "
+                  @click="checkParticipant()"
+                  >Adicionar</b-button
+                >
+              </b-col>
+            </b-row>
+          </b-form>
+        </div>
+        <div id="addGuest" v-else>
+          convidado
+          <b-form @submit.prevent="" id="f">
+            <b-row style="margin-bottom: 5%">
+              <b-col>
+                <b-form-input v-model="email" placeholder="Escreve o email">
+                </b-form-input>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <b-button
+                  style="
+                    margin: auto;
+                    display: block;
+                    min-width: max-content;
+                    background-color: #fca311;
+                    border: none;
+                  "
+                  @click="checkParticipant()"
+                  >Adicionar</b-button
+                >
+              </b-col>
+            </b-row>
+          </b-form>
+        </div>
       </b-modal>
       <!-- 
       <b-modal
@@ -621,11 +773,53 @@
         </b-form>
       </b-modal>
       -->
-
+     
       <!--Open nextReservationModal with all reservation information-->
-      <b-modal id="nextReservationModal" @show="getActiveReservation">
-        <div>{{ getActiveReservation() }}</div>
+      <b-modal id="nextReservationModal"  centered>
+        <b-row>
+          <b-col>
+            <h6>Reserva {{ getActiveReservation().id }}</h6>
+          </b-col>
+        </b-row>
+        <b-row style="margin-bottom: 5%">
+          <b-col id="nextReservationStatus">
+            {{ getNextReservationStatus() }}
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>Data: {{ getNextReservationDate() }}</b-col>
+          <b-col
+            >Preço total: {{ getActiveReservation().reservationPrice }}€
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>Hora: {{ getNextReservationTime() }}</b-col>
+          <b-col style="min-width: max-content"
+            >Pagamento: {{ isReservationPaid() }}</b-col
+          >
+        </b-row>
+        <div style="margin-top: 5%">
+          <b-button v-b-toggle="'collapse-1'" class="m-1"
+            >Participantes</b-button
+          >
+          <b-collapse id="collapse-1">
+            <b-row v-for="participant in this.participants" :key="participant.id">
+              <b-col>{{}}</b-col>
+            </b-row>
+          </b-collapse>
+        </div>
+
+        <div>
+          <b-button v-b-toggle="'collapse-2'" class="m-1">Suplementos</b-button>
+          <b-collapse id="collapse-2">
+            <b-row>
+              <b-col>Suplementos</b-col>
+            </b-row>
+          </b-collapse>
+        </div>
       </b-modal>
+
+      
     </div>
   </div>
 </template>
@@ -665,9 +859,9 @@ export default {
       participants: [],
       participant_id: "",
       menu_id: "",
-      starter: "",
-      main: "",
-      dessert: "",
+      starter: null,
+      main: null,
+      dessert: null,
       dishes: [],
 
       selected: "1",
@@ -705,7 +899,14 @@ export default {
         email: "",
         password: "",
       },
+      typeUser: 0,
+      finalOrder: [],
+      totalPrice: null,
+
+      
     };
+
+    
   },
   created: function () {
     this.PrepareData();
@@ -758,6 +959,7 @@ export default {
       if (this.main === "1") {
         mainId = this.menuMain(menu_id)[1].id;
       }
+
       if (this.dessert === "0") {
         dessertId = this.menuDessert(menu_id)[0].id;
       }
@@ -774,6 +976,7 @@ export default {
       this.participants[objIndex].dishesIds = dishesIds;
       this.participants[objIndex].menuPrice =
         this.getMenuById(menu_id)[0].price;
+      console.log(this.getMenuById(menu_id)[0].price);
       //this.$bvModal.hide("modal-multi-4");
       //this.$bvModal.show("reservationModal");
       this.form5 = false;
@@ -936,8 +1139,8 @@ export default {
         }
         let obj = {
           userId: this.participants[i].id,
-          reservationPrice: "8.00",
-          discountId: 2,
+          reservationPrice: this.participants[i].menuPrice,
+          discountId: this.participants[i].discount_id,
           dishesIds: this.participants[i].dishesIds,
         };
 
@@ -949,7 +1152,7 @@ export default {
         const reservation = {
           startDate: this.date + " " + this.selectedTime,
           endDate: this.date + " " + this.selectedTime,
-          reservationPrice: 6.4,
+          reservationPrice: this.totalPrice,
           message: "mensagem",
           isTableCommunal: false,
           participants: arrayParticipant,
@@ -960,7 +1163,123 @@ export default {
       }
     },
     getActiveReservation() {
-      return this.$store.getters.getActiveReservation;
+      return this.$store.getters.getNextReservation;
+      
+    },
+    calculateReservationPrice() {
+      /*
+      let dishesArray = [];
+      for (let i = 0; i < this.participants.length; i++) {
+        //dishesArray.push(this.participants[i].dishesIds)
+        dishesArray = dishesArray.concat(this.participants[i].dishesIds);
+      }
+
+      const count = {};
+      dishesArray.forEach((element) => {
+        count[element] = (count[element] || 0) + 1;
+      });
+      this.finalOrder = Object.entries(count);*/
+      let subTotal = 0;
+      for (let i = 0; i < this.participants.length; i++) {
+        subTotal += parseFloat(this.participants[i].menuPrice);
+      }
+      console.log(this.participants.length);
+      return (Math.round(subTotal * 100) / 100).toFixed(2);
+    },
+    calculateDiscount(id) {
+      let participant = this.participants.find(
+        (participant) => participant.id == id
+      );
+      let finalMenuPrice;
+      if (participant.discount_id == 1 || participant.discount_id == 2) {
+        finalMenuPrice = participant.menuPrice - participant.menuPrice * 0.2;
+        return (Math.round(finalMenuPrice * 100) / 100).toFixed(2);
+      }
+      if (participant.discount_id == 3) {
+        return participant.menuPrice;
+      }
+    },
+    discountSum() {
+      let discountSum = 0;
+
+      for (let i = 0; i < this.participants.length; i++) {
+        if (
+          this.participants[i].discount_id == 1 ||
+          this.participants[i].discount_id == 2
+        ) {
+          let sum = this.participants[i].menuPrice * 0.2;
+          discountSum += sum;
+        }
+      }
+      console.log(discountSum);
+      return (Math.round(discountSum * 100) / 100).toFixed(2);
+    },
+    calculateTotal() {
+      let discount = this.discountSum();
+      let subtotal = this.calculateReservationPrice();
+      this.totalPrice =(Math.round((subtotal - discount) * 100) / 100).toFixed(2);
+
+      return (Math.round((subtotal - discount) * 100) / 100).toFixed(2);
+    },
+    getNextReservationDate() {
+      let date = String(this.getActiveReservation().startDate).slice(0, 10);
+      //console.log("date " + this.getActiveReservation().startDate.slice(0, 10))
+      return date;
+    },
+
+    getNextReservationTime() {
+      let time = String(this.getActiveReservation().startDate).slice(11, 16);
+      //console.log("time " + this.getActiveReservation().startDate.slice(0,10))
+      return time;
+    },
+     getNextReservationStatus() {
+     let status = this.getActiveReservation().status.id;
+     
+      //let statusColor = document.getElementById('nextReservationStatus')
+      
+      let statusString = "";
+      switch (status) {
+        case 1:
+          statusString = "Pendente";
+          //statusColor.style.color='red'
+         
+          break;
+
+        case 2:
+          statusString = "Aprovada";
+          break;
+        case 3:
+          statusString = "Rejeitada";
+          break;
+        case 4:
+          statusString = "Cancelada";
+          break;
+        case 5:
+          statusString = "Concluído";
+          break;
+        case 6:
+          statusString = "Não comparência";
+          break;
+        default:
+          statusString ="Erro"
+      }
+      console.log(status);
+      return statusString
+    },
+    isReservationPaid() {
+      let price = Number(this.getActiveReservation().reservationPrice);
+      let amountReceived = Number(this.getActiveReservation().amountReceived);
+      console.log("price " + price);
+      console.log("paid " + amountReceived);
+
+      if (amountReceived < price) {
+        console.log("nao pago");
+        return "Por pagar";
+      }
+      if (amountReceived == price) {
+        console.log("pago");
+        return "Pago";
+      }
     },
   },
   computed: {

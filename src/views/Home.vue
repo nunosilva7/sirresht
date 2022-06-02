@@ -11,7 +11,7 @@
           indicators
           background="#ababab"
           img-width="200px"
-          img-height="200px"
+          img-height="200px" 
           style="text-shadow: 1px 1px 2px #333"
           @sliding-start="onSlideStart"
           @sliding-end="onSlideEnd"

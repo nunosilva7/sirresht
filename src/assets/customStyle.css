@@ -79,6 +79,17 @@ h6 {
 
 }
 
+/*
+input[type="radio"]:checked+label:after{
+  
+    background-color:#fca311;
+    border:none;
+    border-radius:45%;
+   
+  }*/
+ 
+
+  
 
 @media screen and (max-width:500px) {
 

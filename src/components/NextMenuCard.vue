@@ -24,6 +24,7 @@
       <b-row>
         <b-col cols="4">
           <img
+           style="border-radius:20%"
             id="menuImg"
             src="https://www.receitasemenus.net/wp-content/uploads/2018/10/receitas-carne.jpg"
             alt=""
@@ -43,6 +44,7 @@
       <b-row>
         <b-col cols="4">
           <img
+           style="border-radius:20%"
             id="menuImg"
             src="https://www.receitasemenus.net/wp-content/uploads/2018/10/receitas-carne.jpg"
             alt=""

@@ -13,7 +13,7 @@
 
       <b-row>
         <b-col cols="6" >
-          <h6 style="margin-left:10%"> {{ reservation.status.desc }}</h6>
+          <h6 style="margin-left:10%">  Pendente </h6>
         </b-col>
         
         <b-col > 
@@ -44,9 +44,11 @@
       
       <b-row>
         <b-col>
-          <h5>Parcipantes</h5>
-          <p> Participantes: {{reservation.participants.length}}</p>
-         
+          <h5>Participantes</h5>
+            <b-avatar-group size="40px">
+              <b-avatar v-for="participant in reservation.participants" :key="participant.id"></b-avatar>
+             
+            </b-avatar-group>
           </b-col>
       </b-row>
       

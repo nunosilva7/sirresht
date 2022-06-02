@@ -100,7 +100,7 @@
           <b-col cols="12">
             <b-form-group
               id="registerSelect"
-              label="É docente/aluno do IPP?"
+              label="É docente/aluno do IPP? (20% desconto)"
               v-slot="{ ariaDescribedby }"
             >
               <b-form-radio-group
@@ -259,8 +259,8 @@ export default {
     return {
       selected: "",
       options: [
-        { text: "Sim", value: "1" },
-        { text: "Não", value: null },
+        { text: "Sim", value: 2 },
+        { text: "Não", value: 3 },
       ],
 
       loginData: {
@@ -328,6 +328,7 @@ export default {
           lastName: this.registerData.lastName,
           email: this.registerData.email,
           password: this.registerData.password,
+          discountId: this.selected
         };
         await this.$store.dispatch("register", user);
         this.$bvModal.hide("registerModal");
