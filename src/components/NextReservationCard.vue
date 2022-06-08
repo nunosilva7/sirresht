@@ -75,7 +75,7 @@
           <h5 style="font-family:Fredoka regular">Participantes</h5>
           
             <b-avatar-group size="40px">
-              <b-avatar v-for="participant in nextReservation.participants" :key="participant.id"></b-avatar>
+              <b-avatar v-for="participant in nextReservation.participants" :key="participant.id" alt="avatar" :src=participant.user.avatarReference></b-avatar>
              
             </b-avatar-group>
          
@@ -111,6 +111,20 @@ export default {
   props: {
     nextReservation: Object,
   },
+
+  data() {
+    return {
+      users: [],
+     
+    };
+  },
+
+  created:  function () {
+    //this.getReservationParticipant(this.reservation.id)
+      //this.getUser()
+  },
+  
+ 
   methods: {
     getNextReservationDate() {
       const date = this.nextReservation.startDate.slice(0, 10);
@@ -123,7 +137,40 @@ export default {
     },
     getReservationById(id) {
       this.$store.dispatch("getReservationById", id);
+    },/*
+    getUser(){
+      let users = this.$store.getters.getUserById;
+    for (let i = 0; i < this.nextReservation.participants.length; i++) {
+      if (users.length!=0) {
+        if (
+          users.filter(
+            (user) => user.id != this.nextReservation.participants.participants[i].userId
+          )
+        ) {
+           this.$store.dispatch(
+            "getUserById",
+            this.nextReservation.participants[i].userId
+          );
+        }
+      }
+      else{
+         this.$store.dispatch(
+            "getUserById",
+            this.nextReservation.participants[i].userId
+          );
+      }
+    }
+    this.users = users;
+     
     },
+     findAvatar(id){
+      
+      let userAvatar =this.users.find(user => user.id == id)
+      return userAvatar.avatarReference
+     
+      
+
+    }*/
   },
 };
 </script>

@@ -15,7 +15,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     users: [],
-    userById: {},
+    userById: [],
     menus: [],
     nextMenu: {},
     dishes: [],
@@ -129,6 +129,7 @@ export default new Vuex.Store({
     getUserReservations: state => state.userReservations,
 
     getReservationsParticipant: state => state.reservationsParticipant,
+    
 
   },
 
@@ -315,7 +316,7 @@ export default new Vuex.Store({
       state.loggedUserInformation = data;
     },
     GET_USER_BY_ID(state, data) {
-      state.userById = data;
+      state.userById.push(data);
     },
     GET_NEXT_MENU(state, data) {
       state.nextMenu = data

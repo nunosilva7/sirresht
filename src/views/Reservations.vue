@@ -79,11 +79,12 @@ export default {
   components: {
     ReservationsCard,
   },
-  data(){
-    return{
-      ordem:null,
-      estado:null
-    }
+  data() {
+    return {
+      ordem: null,
+      estado: null,
+      users: [],
+    };
   },
   created: function () {
     this.PrepareData();

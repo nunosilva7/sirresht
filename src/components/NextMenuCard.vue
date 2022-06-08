@@ -26,7 +26,7 @@
           <img
            style="border-radius:20%"
             id="menuImg"
-            src="https://www.receitasemenus.net/wp-content/uploads/2018/10/receitas-carne.jpg"
+            src="https://www.pingodoce.pt/wp-content/uploads/2021/09/folhas-alface-com-frango-couve-roxa-e-maionese.jpg"
             alt=""
             width="100%"
             height="100px"
@@ -46,7 +46,7 @@
           <img
            style="border-radius:20%"
             id="menuImg"
-            src="https://www.receitasemenus.net/wp-content/uploads/2018/10/receitas-carne.jpg"
+            src="https://www.pingodoce.pt/wp-content/uploads/2021/09/peixe-espada-grelhado-com-salada-feijao-frade.jpg"
             alt=""
             width="100%"
             height="100"

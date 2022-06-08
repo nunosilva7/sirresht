@@ -63,7 +63,8 @@
         <b-navbar-nav class="ml-auto">
           <b-row>
             <b-col style="padding-right:1px">
-             <b-avatar></b-avatar>
+             <b-avatar v-if="this.getLoggedUser!=null" :src=this.getLoggedUser()></b-avatar>
+               <b-avatar v-else></b-avatar>
         </b-col>
           <b-col style="padding-left:6px">  <b-nav-item href="#" @click="logout()">Sair</b-nav-item></b-col></b-row>
          
@@ -347,6 +348,13 @@ export default {
       this.$bvModal.hide("loginModal");
       this.$bvModal.show("registerModal");
     },
+    getLoggedUser(){
+      console.log(this.$store.getters.getLoggedUserInformation)
+      if(this.$store.getters.getLoggedUserInformation){
+           return this.$store.getters.getLoggedUserInformation.avatarReference;
+      }
+  
+    }
   },
   computed: {
     ...mapGetters({
