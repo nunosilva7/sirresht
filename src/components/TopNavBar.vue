@@ -41,16 +41,18 @@
             :class="{ active: $route.name === 'Menus' }"
             >Menus</b-nav-item
           >
+          <template v-if=isLoggedUser>
           <b-nav-item v-if="!isLoggedAdmin()"
             :to="{ name: 'Profile' }"
             :class="{ active: $route.name === 'Profile' }"
             >Perfil</b-nav-item
           >
            <b-nav-item v-else
-            :to="{ name: 'Profile' }"
-            :class="{ active: $route.name === 'Profile' }"
+            :to="{ name: 'Admin' }"
+            :class="{ active: $route.name === 'Admin' }"
             >Admin</b-nav-item
           >
+          </template>
           
           <b-nav-item
             :to="{ name: 'Reservations' }"

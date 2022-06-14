@@ -1,5 +1,6 @@
 <template>
-  <div class="profile">
+  <div class="profile">  
+    <!-- USER PAGE -->
     <div v-if="!isLoggedAdmin()">
       <h1  style="text-align: center">
         Bem Vindo, {{ getLoggedUserInformation.firstName }}
@@ -974,6 +975,8 @@
         </div>
       </b-modal>
     </div>
+
+    <!-- ADMIN PAGE -->
     <div v-else>
       ADMIN
     </div>

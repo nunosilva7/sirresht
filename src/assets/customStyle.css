@@ -141,6 +141,12 @@ input[type="radio"]:checked+label:after{
     
     
  }
+ .nav-tabs li a  {
+    color: black !important;
+}
+
+
+
 
 @media screen and (min-width:300px) and (max-width:350px){
 

@@ -56,6 +56,24 @@ export const DishService = {
 
     },
 
+    async createDish(user, dish) {
+
+        const response = await fetch(`${API_URL}/dishes`, {
+            method: "POST",
+            headers: authHeader(user),
+            body: JSON.stringify(dish)
+        });
+        if (response.ok) {
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+        else {
+            console.log("erro")
+            throw Error(response.Error)
+        }
+    },
+
 }
 
 

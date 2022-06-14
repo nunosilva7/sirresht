@@ -27,7 +27,7 @@ const routes = [
     name: "Profile",
     component: Profile,
     meta:{
-      requiresUserAuth: true,
+      requiresNotAdminAuth: true,
     }
   },
   {
@@ -77,6 +77,17 @@ router.beforeEach((to,from,next)=>{
   }
   if(to.meta.requiresAdminAuth ===true){
     if(store.getters.isLoggedAdmin){
+      next();
+    }
+    else{
+      next("/")
+    }
+  }
+  else{
+    next()
+  }
+  if(to.meta.requiresNotAdminAuth ===true){
+    if(!store.getters.isLoggedAdmin && store.getters.isLoggedUser){
       next();
     }
     else{
