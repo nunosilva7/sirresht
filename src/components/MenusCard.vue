@@ -1,6 +1,6 @@
 <template>
-  <div id="divMenuCard" style="margin-bottom:3%;margin-right:5%">
-    <b-container id="nextMenuCard" style="background-color: white;height:280px;width:500px; " >
+  <div id="divMenusCard" style="margin-bottom:3%;margin-right:10%">
+    <b-container id="MenusCard" style="background-color: white;height:280px;width:500px; " >
       <b-row no-gutters>
         <b-col cols="5" style="margin-top: 4px">
           <b-img id="menuDateImg" src="../assets/icons/calendar24.png"></b-img>

@@ -24,7 +24,7 @@
     <hr class="rounded" />
     <b-container fluid>
       <h1 v-if="!getAllMenus.length">Não Foram Encontrados menus!</h1>
-      <b-row style="margin-right: 10%; margin-left: 15%">
+      <b-row style="margin-right: 0%; margin-left: 10%" id="menuCardRow">
         <MenusCard
           v-for="myMenu in getAllMenus"
           :key="myMenu.id"
