@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
-    <div>
-      <h1 style="text-align: center">
+    <div v-if="!isLoggedAdmin()">
+      <h1  style="text-align: center">
         Bem Vindo, {{ getLoggedUserInformation.firstName }}
       </h1>
       <br />
@@ -974,6 +974,9 @@
         </div>
       </b-modal>
     </div>
+    <div v-else>
+      ADMIN
+    </div>
   </div>
 </template>
 
@@ -1060,6 +1063,7 @@ export default {
   },
   created: function () {
     this.PrepareData();
+    this.isLoggedAdmin();
   },
 
   methods: {
@@ -1072,6 +1076,10 @@ export default {
       let participant = this.getLoggedUserInformation;
       participant.dishesIds = [null, null, null];
       this.participants.push(participant);
+    },
+
+    isLoggedAdmin(){
+      return this.$store.getters.isLoggedAdmin
     },
 
     openReservationModal() {

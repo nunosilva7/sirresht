@@ -23,7 +23,7 @@ export default new Vuex.Store({
     userReservations: [],
     nextReservation: {},
     activeReservation: {},
-    reservationsParticipant:[],
+    reservationsParticipant: [],
     loggedUserInformation: localStorage.getItem("loggedUserInformation")
       ? JSON.parse(localStorage.getItem("loggedUserInformation"))
       : null,
@@ -37,6 +37,31 @@ export default new Vuex.Store({
     getLoggedUser: state => state.loggedUser,
     isLoggedUser: state =>
       state.loggedUser === null ? false : true,
+
+    isLoggedAdmin: state => {
+
+     
+      
+      if(state.loggedUserInformation !=null){
+        console.log( state.loggedUserInformation.role.id)
+        if (state.loggedUserInformation.role.id == 2) {
+          return true
+        }
+        else {
+          return false
+        }
+      }
+      else{
+        return false
+      }
+       
+       /*
+      state.loggedUser === null
+        ? false
+        : state.loggedUserInformation.role.desc === "admin"
+          ? true
+          : false*/
+    },
 
     getLoggedUserInformation: state => state.loggedUserInformation,
     getUserById: state => state.userById,
@@ -61,9 +86,9 @@ export default new Vuex.Store({
 
     getAllMenus: state => state.menus,
 
-    getMenuById: state =>(id) =>{
-      const menu =state.menus.filter(
-        menu => menu.id ===id
+    getMenuById: state => (id) => {
+      const menu = state.menus.filter(
+        menu => menu.id === id
       )
       return menu
     },
@@ -108,19 +133,19 @@ export default new Vuex.Store({
     getAllDishes: state => state.dishes,
 
     getDish: state => (id) => {
-      if(id != null){
+      if (id != null) {
         const dish = state.dishes.rows.filter(
           dish => dish.id === id
         );
         console.log("coiso")
-  
+
         return dish
       }
-      else{
+      else {
         let response = "nao aplicavel"
         return response
       }
-     
+
     },
     getNextReservation: state => state.nextReservation,
 
@@ -129,7 +154,7 @@ export default new Vuex.Store({
     getUserReservations: state => state.userReservations,
 
     getReservationsParticipant: state => state.reservationsParticipant,
-    
+
 
   },
 
@@ -264,15 +289,15 @@ export default new Vuex.Store({
           context.state.loggedUser,
         );
         console.log("reservations " + data.length)
-        for(let i=0;i<data.length;i++){
+        for (let i = 0; i < data.length; i++) {
           let participant = await ReservationService.fetchReservationById(
             context.state.loggedUser,
             data[i].id
           );
-          data[i].participants =participant.participants
+          data[i].participants = participant.participants
 
         }
-       
+
 
 
 
@@ -290,17 +315,17 @@ export default new Vuex.Store({
         context.commit("RESERVATION_INFO", data)
       }
     },
-/*
-    async getReservationPartcipant(context, reservationId) {
-      if (context.loggedUser !== null) {
-        let data = await ReservationService.fetchReservationById(
-          context.state.loggedUser,
-          reservationId
-        );
-        console.log(data.participants)
-        context.commit("PARTICIPANT_INFO", data.participants)
-      }
-    }*/
+    /*
+        async getReservationPartcipant(context, reservationId) {
+          if (context.loggedUser !== null) {
+            let data = await ReservationService.fetchReservationById(
+              context.state.loggedUser,
+              reservationId
+            );
+            console.log(data.participants)
+            context.commit("PARTICIPANT_INFO", data.participants)
+          }
+        }*/
 
   },
   mutations: {
@@ -342,7 +367,7 @@ export default new Vuex.Store({
     GET_USER_RESERVATIONS(state, data) {
       state.userReservations = data
     },
-    PARTICIPANT_INFO(state,data){
+    PARTICIPANT_INFO(state, data) {
       state.reservationsParticipant = data
     }
 

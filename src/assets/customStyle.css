@@ -129,7 +129,11 @@ input[type="radio"]:checked+label:after{
  }
  #reservationModal___BV_modal_header_ button{
      position: absolute !important;
-    right:0  !important
+     right:2% !important;
+     width:55px !important;
+     height:61px !important;
+     color:red
+
  }
  #reservationModal___BV_modal_title_{
      

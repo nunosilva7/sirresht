@@ -6,6 +6,7 @@ import Home from "../views/Home.vue";
 import Profile from "../views/Profile.vue"
 import Reservations from "../views/Reservations.vue"
 import Menus from "../views/Menu.vue"
+import Admin from "../views/Admin.vue"
 
 Vue.use(VueRouter);
 
@@ -48,6 +49,14 @@ const routes = [
     meta:{
       requiresUserAuth:true,
     }
+  },
+  {
+    path:"/admin",
+    name:"Admin",
+    component: Admin,
+    meta:{
+      requiresAdminAuth:true,
+    }
   }
 ];
 
@@ -63,6 +72,14 @@ router.beforeEach((to,from,next)=>{
     if(store.getters.isLoggedUser){
       next();
     }else{
+      next("/")
+    }
+  }
+  if(to.meta.requiresAdminAuth ===true){
+    if(store.getters.isLoggedAdmin){
+      next();
+    }
+    else{
       next("/")
     }
   }

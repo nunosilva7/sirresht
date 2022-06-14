@@ -30,6 +30,7 @@ export default {
     ...mapGetters({
       isLoggedUser: "isLoggedUser",
       getLoggedUserInformation: "getLoggedUserInformation",
+      isLoggedAdmin:"isLoggedAdmin",
 
     }),
   },

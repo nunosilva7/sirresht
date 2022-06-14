@@ -41,11 +41,17 @@
             :class="{ active: $route.name === 'Menus' }"
             >Menus</b-nav-item
           >
-          <b-nav-item
+          <b-nav-item v-if="!isLoggedAdmin()"
             :to="{ name: 'Profile' }"
             :class="{ active: $route.name === 'Profile' }"
             >Perfil</b-nav-item
           >
+           <b-nav-item v-else
+            :to="{ name: 'Profile' }"
+            :class="{ active: $route.name === 'Profile' }"
+            >Admin</b-nav-item
+          >
+          
           <b-nav-item
             :to="{ name: 'Reservations' }"
             :class="{ active: $route.name === 'Reservations' }"
@@ -260,11 +266,13 @@
 import { mapGetters } from "vuex";
 export default {
   name: "TopNavBar",
+  
 
   watch: {
     isLoggedUser: function (newVal, oldVal) {
       console.log("Prop mudou isLoggedUser: ", newVal, " | era: ", oldVal);
     },
+   
   },
   data() {
     return {
@@ -309,7 +317,7 @@ export default {
 
         /* Se o login falhar por alguma razão um trow vai ser lançado e o redirect
            da route para o home não vai ser executado */
-        this.$router.push({ name: "Profile" });
+        
       } catch (error) {
         console.log(error);
         this.formError = error;
@@ -347,6 +355,10 @@ export default {
       } catch (error) {
         this.$data.formErros = error;
       }
+    },
+    
+     isLoggedAdmin(){
+      return this.$store.getters.isLoggedAdmin
     },
 
     openRegisterModal() {
