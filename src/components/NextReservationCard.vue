@@ -31,7 +31,7 @@
               margin-right: 5%;
             "
           ></b-img>
-          <span>{{ getNextReservationDate() }}</span>
+          <span id="menuDateText">{{ getNextReservationDate() }}</span>
         </b-col>
       </b-row>
 
@@ -49,7 +49,7 @@
               margin-right: 5%;
             "
           ></b-img>
-          <span>{{ getNextReservationTime() }} </span>
+          <span id="menuTimeText">{{ getNextReservationTime() }} </span>
         </b-col>
       </b-row>
       <b-row>
@@ -70,11 +70,11 @@
         </b-col>
       </b-row>
 
-      <b-row>
+      <b-row id="participants">
         <b-col>
           <h5 style="font-family:Fredoka regular">Participantes</h5>
           
-            <b-avatar-group size="40px">
+            <b-avatar-group  size="40px">
               <b-avatar v-for="participant in nextReservation.participants" :key="participant.id" alt="avatar" :src=participant.user.avatarReference></b-avatar>
              
             </b-avatar-group>
@@ -122,6 +122,7 @@ export default {
   created:  function () {
     //this.getReservationParticipant(this.reservation.id)
       //this.getUser()
+      
   },
   
  

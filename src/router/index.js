@@ -5,6 +5,7 @@ import store from "../store"
 import Home from "../views/Home.vue";
 import Profile from "../views/Profile.vue"
 import Reservations from "../views/Reservations.vue"
+import Menus from "../views/Menu.vue"
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,14 @@ const routes = [
     path:"/reservations",
     name:"Reservations",
     component: Reservations,
+    meta:{
+      requiresUserAuth:true,
+    }
+  },
+  {
+    path:"/menus",
+    name:"Menus",
+    component: Menus,
     meta:{
       requiresUserAuth:true,
     }

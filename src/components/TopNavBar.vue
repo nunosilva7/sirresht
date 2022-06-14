@@ -37,6 +37,11 @@
             >Página Inicial</b-nav-item
           >
           <b-nav-item
+            :to="{ name: 'Menus' }"
+            :class="{ active: $route.name === 'Menus' }"
+            >Menus</b-nav-item
+          >
+          <b-nav-item
             :to="{ name: 'Profile' }"
             :class="{ active: $route.name === 'Profile' }"
             >Perfil</b-nav-item

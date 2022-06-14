@@ -89,9 +89,7 @@
         </div>
       </div>
 
-      <b-modal id="reservationModal"  hide-footer centered
-     
-      >
+      <b-modal id="reservationModal" hide-footer centered :title=getModalTitle()>
         <b-form @submit.prevent="">
           <div id="form1" v-if="this.form1" style="height: 24rem">
             <b-row>
@@ -105,7 +103,6 @@
                   block
                   hide-header
                   required
-                 
                 ></b-calendar>
               </b-col>
             </b-row>
@@ -119,7 +116,7 @@
                     :options="options"
                     :aria-describedby="ariaDescribedby"
                     name="radio-options-slots"
-                    style="font-family:Fredoka regular"
+                    style="font-family: Fredoka regular"
                   >
                   </b-form-radio-group>
                 </b-form-group>
@@ -173,7 +170,15 @@
                   box-shadow: -2px 5px 10px #888888;
                 "
               >
-                <b-col cols="8" style="margin-top: auto; margin-bottom: auto;font-family:Fredoka regular;font-size:20px;color:#938F8A"
+                <b-col
+                  cols="8"
+                  style="
+                    margin-top: auto;
+                    margin-bottom: auto;
+                    font-family: Fredoka regular;
+                    font-size: 20px;
+                    color: #938f8a;
+                  "
                   >{{ participant.firstName + " " + participant.lastName }}
                 </b-col>
                 <b-col v-if="getLoggedUserInformation.id != participant.id">
@@ -200,7 +205,11 @@
                 "
               >
                 <p
-                  style="cursor: pointer; color: #fca311;font-family:Fredoka regular;"
+                  style="
+                    cursor: pointer;
+                    color: #fca311;
+                    font-family: Fredoka regular;
+                  "
                   @click="openAddParticipantModal()"
                 >
                   Adicionar um novo participante
@@ -254,18 +263,34 @@
             >
               <b-row style="margin-left: 1%">
                 <b-col style="margin-top: 1%">
-                  <h6 style="font-family:Fredoka regular;font-size:20px;color:#938F8A;min-width:max-content">
+                  <h6
+                    style="
+                      font-family: Fredoka regular;
+                      font-size: 20px;
+                      color: #938f8a;
+                      min-width: max-content;
+                    "
+                  >
                     {{ participant.firstName + " " + participant.lastName }}
                   </h6>
                 </b-col>
-                <b-col style="margin-top: 1%;" class="text-center">
-                  <h6  v-if="participant.menuPrice != null"
-                  style="font-family:Fredoka regular;font-size:15px;">
+                <b-col style="margin-top: 1%" class="text-center">
+                  <h6
+                    v-if="participant.menuPrice != null"
+                    style="font-family: Fredoka regular; font-size: 15px"
+                  >
                     {{ participant.menuPrice }}€
                   </h6>
                 </b-col>
               </b-row>
-              <div v-if="participant.dishesIds[1] != null" style="font-family:Fredoka regular;font-size:14px;color:#000000">
+              <div
+                v-if="participant.dishesIds[1] != null"
+                style="
+                  font-family: Fredoka regular;
+                  font-size: 14px;
+                  color: #000000;
+                "
+              >
                 <b-row style="margin-left: 5%">
                   <b-col v-if="participant.dishesIds[0] != null">{{
                     getDish(participant.dishesIds[0])
@@ -291,7 +316,9 @@
                   color: #fca311;
                 "
               >
-                <h6 style="font-family:Fredoka regular;font-size:15px;">Adicione os seus pratos</h6>
+                <h6 style="font-family: Fredoka regular; font-size: 15px">
+                  Adicione os seus pratos
+                </h6>
               </div>
               <b-img
                 style="
@@ -323,8 +350,6 @@
                         }))
                     "
                     @click="clearOptions()"
-
-                    
                   >
                     <b-form
                       @submit.prevent="pickDishes(participant_id, menu.id)"
@@ -340,7 +365,10 @@
                                   :aria-describedby="ariaDescribedby"
                                   name="some-radios"
                                   value="0"
-                                  style="font-family:Fredoka regular;font-size:14px;"
+                                  style="
+                                    font-family: Fredoka regular;
+                                    font-size: 14px;
+                                  "
                                   >{{
                                     menuStarter(menu.id)[0].name
                                   }}</b-form-radio
@@ -352,7 +380,10 @@
                                   :aria-describedby="ariaDescribedby"
                                   name="some-radios"
                                   value="1"
-                                  style="font-family:Fredoka regular;font-size:14px;"
+                                  style="
+                                    font-family: Fredoka regular;
+                                    font-size: 14px;
+                                  "
                                   >{{
                                     menuStarter(menu.id)[1].name
                                   }}</b-form-radio
@@ -371,7 +402,10 @@
                                   name="some-radios"
                                   value="0"
                                   required
-                                  style="font-family:Fredoka regular;font-size:14px;"
+                                  style="
+                                    font-family: Fredoka regular;
+                                    font-size: 14px;
+                                  "
                                 >
                                   {{ menuMain(menu.id)[0].name }}</b-form-radio
                                 >
@@ -383,7 +417,10 @@
                                   name="some-radios"
                                   value="1"
                                   required
-                                  style="font-family:Fredoka regular;font-size:14px;"
+                                  style="
+                                    font-family: Fredoka regular;
+                                    font-size: 14px;
+                                  "
                                   >{{ menuMain(menu.id)[1].name }}</b-form-radio
                                 >
                               </b-row>
@@ -398,7 +435,10 @@
                                   :aria-describedby="ariaDescribedby"
                                   name="some-radios"
                                   value="0"
-                                  style="font-family:Fredoka regular;font-size:14px;"
+                                  style="
+                                    font-family: Fredoka regular;
+                                    font-size: 14px;
+                                  "
                                 >
                                   {{
                                     menuDessert(menu.id)[0].name
@@ -411,7 +451,10 @@
                                   :aria-describedby="ariaDescribedby"
                                   name="some-radios"
                                   value="1"
-                                  style="font-family:Fredoka regular;font-size:14px;"
+                                  style="
+                                    font-family: Fredoka regular;
+                                    font-size: 14px;
+                                  "
                                   >{{
                                     menuDessert(menu.id)[1].name
                                   }}</b-form-radio
@@ -459,21 +502,52 @@
             >
               <b-row style="margin-left: 1%">
                 <b-col style="margin-top: 1%">
-                  <h6 style="font-family:Fredoka regular;font-size:20px;color:#938F8A;min-width:max-content"> 
+                  <h6
+                    style="
+                      font-family: Fredoka regular;
+                      font-size: 20px;
+                      color: #938f8a;
+                      min-width: max-content;
+                    "
+                  >
                     {{ participant.firstName + " " + participant.lastName }}
                   </h6>
                 </b-col>
                 <b-col style="margin-top: 1%" class="text-center">
                   <h6
-                    v-if="participant.menuPrice != null && participant.discount_id!=3"
-                    style="text-decoration: line-through; display: inline;font-family:Fredoka regular;font-size:15px;"
+                    v-if="
+                      participant.menuPrice != null &&
+                      participant.discount_id != 3
+                    "
+                    style="
+                      text-decoration: line-through;
+                      display: inline;
+                      font-family: Fredoka regular;
+                      font-size: 15px;
+                    "
                   >
                     {{ participant.menuPrice }}€
                   </h6>
-                  <h6 v-if="participant.discount_id!=3" style="margin-left: 2%; display: inline;color:#fca311;font-family:Fredoka medium;">
+                  <h6
+                    v-if="participant.discount_id != 3"
+                    style="
+                      margin-left: 2%;
+                      display: inline;
+                      color: #fca311;
+                      font-family: Fredoka medium;
+                    "
+                  >
                     {{ calculateDiscount(participant.id) }}€
                   </h6>
-                  <h6 v-else style="margin-left: 2%; display: inline;color:#fca311;font-family:Fredoka medium;">
+                  <h6
+                    v-else
+                    style="
+                      margin-left: 2%;
+                      display: inline;
+                      color: #fca311;
+                      font-family: Fredoka medium;
+                    "
+                  >
                     {{ participant.menuPrice }}€
                   </h6>
                 </b-col>
@@ -483,22 +557,37 @@
                 style="margin-bottom: 2%"
               >
                 <b-row style="margin-left: 5%">
-                  <b-col v-if="participant.dishesIds[0] != null"
-                  style="font-family:Fredoka regular;font-size:14px;color:#000000">{{
-                    getDish(participant.dishesIds[0])
-                  }}</b-col>
+                  <b-col
+                    v-if="participant.dishesIds[0] != null"
+                    style="
+                      font-family: Fredoka regular;
+                      font-size: 14px;
+                      color: #000000;
+                    "
+                    >{{ getDish(participant.dishesIds[0]) }}</b-col
+                  >
                 </b-row>
                 <b-row style="margin-left: 5%">
-                  <b-col v-if="participant.dishesIds[1] != null"
-                  style="font-family:Fredoka regular;font-size:14px;color:#000000">{{
-                    getDish(participant.dishesIds[1])
-                  }}</b-col>
+                  <b-col
+                    v-if="participant.dishesIds[1] != null"
+                    style="
+                      font-family: Fredoka regular;
+                      font-size: 14px;
+                      color: #000000;
+                    "
+                    >{{ getDish(participant.dishesIds[1]) }}</b-col
+                  >
                 </b-row>
                 <b-row style="margin-left: 5%">
-                  <b-col v-if="participant.dishesIds[2] != null"
-                  style="font-family:Fredoka regular;font-size:14px;color:#000000">{{
-                    getDish(participant.dishesIds[2])
-                  }}</b-col>
+                  <b-col
+                    v-if="participant.dishesIds[2] != null"
+                    style="
+                      font-family: Fredoka regular;
+                      font-size: 14px;
+                      color: #000000;
+                    "
+                    >{{ getDish(participant.dishesIds[2]) }}</b-col
+                  >
                 </b-row>
               </div>
               <div
@@ -514,18 +603,39 @@
 
             <b-row>
               <b-col></b-col>
-              <b-col style="font-family:Fredoka regular;font-size:18px;color:#000000">Subtotal: {{ calculateReservationPrice() }}€</b-col>
+              <b-col
+                style="
+                  font-family: Fredoka regular;
+                  font-size: 18px;
+                  color: #000000;
+                "
+                >Subtotal: {{ calculateReservationPrice() }}€</b-col
+              >
             </b-row>
             <b-row>
               <b-col></b-col>
-              <b-col style="font-family:Fredoka regular;font-size:18px;color:#000000">Desconto: {{ discountSum() }}€ </b-col>
+              <b-col
+                style="
+                  font-family: Fredoka regular;
+                  font-size: 18px;
+                  color: #000000;
+                "
+                >Desconto: {{ discountSum() }}€
+              </b-col>
             </b-row>
             <b-row>
               <b-col></b-col>
-              <b-col style="font-family:Fredoka regular;font-size:18px;color:#000000">Total: {{ calculateTotal() }}€</b-col>
+              <b-col
+                style="
+                  font-family: Fredoka regular;
+                  font-size: 18px;
+                  color: #000000;
+                "
+                >Total: {{ calculateTotal() }}€</b-col
+              >
             </b-row>
 
-            <br>
+            <br />
           </div>
 
           <b-row>
@@ -543,8 +653,8 @@
                   min-width: max-content;
                   background-color: #fc004c;
                   border: none;
-                  font-family:Fredoka medium;
-                  font-size:15px
+                  font-family: Fredoka medium;
+                  font-size: 15px;
                 "
                 @click="showPreviousForm()"
                 v-if="!this.form1 && !this.form5"
@@ -560,8 +670,8 @@
                   min-width: max-content;
                   background-color: #fca311;
                   border: none;
-                    font-family:Fredoka medium;
-                  font-size:15px
+                  font-family: Fredoka medium;
+                  font-size: 15px;
                 "
                 @click="showNextForm()"
                 v-if="!this.date"
@@ -577,8 +687,8 @@
                   min-width: max-content;
                   background-color: #fca311;
                   border: none;
-                    font-family:Fredoka medium;
-                  font-size:15px
+                  font-family: Fredoka medium;
+                  font-size: 15px;
                 "
                 @click="showNextForm()"
                 v-else-if="!this.form6 && !this.form5"
@@ -593,11 +703,12 @@
                   width: 50%;
                   min-width: max-content;
                   border: none;
-                    font-family:Fredoka medium;
-                  font-size:15px
+                  font-family: Fredoka medium;
+                  font-size: 15px;
                 "
                 @click="Reservation()"
-                variant="danger" :disabled="this.clickReservation"
+                variant="danger"
+                :disabled="this.clickReservation"
                 >Concluir</b-button
               >
             </b-col>
@@ -615,9 +726,9 @@
         ok-only
         centered
         hide-footer
-          headerClass="p-2 border-bottom-0"
+        headerClass="p-2 border-bottom-0"
       >
-        <div  >
+        <div>
           <b-form-group v-slot="{ ariaDescribedby }">
             <b-form-radio-group
               id="radio-group-2"
@@ -800,16 +911,16 @@
         </b-form>
       </b-modal>
       -->
-     
+
       <!--Open nextReservationModal with all reservation information-->
-      <b-modal id="nextReservationModal"  centered>
-        <b-row>
+      <b-modal id="nextReservationModal" centered>
+        <b-row class="text-center">
           <b-col>
             <h6>Reserva {{ getActiveReservation().id }}</h6>
           </b-col>
         </b-row>
-        <b-row style="margin-bottom: 5%">
-          <b-col id="nextReservationStatus">
+        <b-row style="margin-bottom: 5%" class="text-center">
+          <b-col id="nextReservationStatus" ref="nextReservationStatus">
             {{ getNextReservationStatus() }}
           </b-col>
         </b-row>
@@ -825,28 +936,43 @@
             >Pagamento: {{ isReservationPaid() }}</b-col
           >
         </b-row>
-        <div style="margin-top: 5%">
-          <b-button v-b-toggle="'collapse-1'" class="m-1"
+        <div style="margin-top: 5%;" >
+          <b-button style="width:70%; margin-left:15%;" v-b-toggle="'collapse-1'" 
             >Participantes</b-button
           >
           <b-collapse id="collapse-1">
-            <b-row v-for="participant in this.participants" :key="participant.id">
-              <b-col>{{}}</b-col>
-            </b-row>
+            <b-container fluid>
+              <b-row style="margin-right: 5%; margin-left: 5%">
+                <div
+                  v-for="participant in getActiveReservation().participants"
+                  :key="participant.id"
+                  style="margin-right: 5%; margin-left: 5%;margin-top:1%"
+                >
+                <h6 style="text-align:center">{{participant.id}}</h6>
+                 <b-avatar id="participantsAvatar" :src=participant.user.avatarReference></b-avatar>
+                 
+                </div>
+              </b-row>
+            </b-container>
           </b-collapse>
         </div>
 
-        <div>
-          <b-button v-b-toggle="'collapse-2'" class="m-1">Suplementos</b-button>
+        <div style="margin-top: 5%;">
+          <b-button style="width:70%;margin-left:15%;" v-b-toggle="'collapse-2'" >Suplementos</b-button>
           <b-collapse id="collapse-2">
-            <b-row>
-              <b-col>Suplementos</b-col>
+            <b-row v-if="getActiveReservation().suplementsPrice != null" class="text-center">
+              <b-col 
+                >Suplementos:
+                {{ getActiveReservation().suplementsPrice }}</b-col
+              >
+              
             </b-row>
+            <b-row v-else class="text-center" style="margin-top:3%">
+              <b-col>Suplementos: 0.00€</b-col>
+              </b-row>
           </b-collapse>
         </div>
       </b-modal>
-
-      
     </div>
   </div>
 </template>
@@ -929,12 +1055,8 @@ export default {
       typeUser: 0,
       finalOrder: [],
       totalPrice: null,
-      clickReservation:false,
-
-      
+      clickReservation: false,
     };
-
-    
   },
   created: function () {
     this.PrepareData();
@@ -951,7 +1073,7 @@ export default {
       participant.dishesIds = [null, null, null];
       this.participants.push(participant);
     },
-    
+
     openReservationModal() {
       this.$bvModal.show("reservationModal");
       this.clickReservation = false;
@@ -1101,6 +1223,27 @@ export default {
         this.form6 = false;
       }
     },
+    getModalTitle(){
+      let modalTitle= "";
+      if(this.form1){
+        modalTitle ="Escolha a data"
+      }
+      else if(this.form2){
+        modalTitle="Participantes"
+      }
+       else if(this.form4){
+        modalTitle="Escolha os pratos"
+      }
+        else if(this.form5){
+        modalTitle="Escolha os pratos"
+      }
+       else if(this.form6){
+        modalTitle="Confirme a reserva"
+      }
+      return modalTitle
+
+    },
+
     async checkParticipant() {
       console.log(this.getLoggedUserInformation.email);
       if (this.email != this.getLoggedUserInformation.email) {
@@ -1178,7 +1321,7 @@ export default {
       }
       if (!this.date || err === true) {
         console.log("falta data");
-        this.$data.formError ="erro"
+        this.$data.formError = "erro";
       } else {
         const reservation = {
           startDate: this.date + " " + this.selectedTime,
@@ -1189,16 +1332,14 @@ export default {
           participants: arrayParticipant,
         };
         console.log(reservation);
-        this.clickReservation=true;
-        this.$data.formError ="Reserva criada com sucesso"
+        this.clickReservation = true;
+        this.$data.formError = "Reserva criada com sucesso";
         this.$store.dispatch("createReservation", reservation);
-        setInterval(this.$bvModal.hide("reservationModal"),2000);
-
+        setInterval(this.$bvModal.hide("reservationModal"), 2000);
       }
     },
     getActiveReservation() {
       return this.$store.getters.getNextReservation;
-      
     },
     calculateReservationPrice() {
       /*
@@ -1251,7 +1392,9 @@ export default {
     calculateTotal() {
       let discount = this.discountSum();
       let subtotal = this.calculateReservationPrice();
-      this.totalPrice =(Math.round((subtotal - discount) * 100) / 100).toFixed(2);
+      this.totalPrice = (Math.round((subtotal - discount) * 100) / 100).toFixed(
+        2
+      );
 
       return (Math.round((subtotal - discount) * 100) / 100).toFixed(2);
     },
@@ -1266,17 +1409,19 @@ export default {
       //console.log("time " + this.getActiveReservation().startDate.slice(0,10))
       return time;
     },
-     getNextReservationStatus() {
-     let status = this.getActiveReservation().status.id;
-     
-      //let statusColor = document.getElementById('nextReservationStatus')
+    getNextReservationStatus() {
+      let status = this.getActiveReservation().status.id;
+
+      //let statusColor = this.$refs.nextReservationStatus
       
+
       let statusString = "";
       switch (status) {
         case 1:
           statusString = "Pendente";
-          //statusColor.style.color='red'
-         
+      
+         // console.log(statusColor)
+          
           break;
 
         case 2:
@@ -1295,10 +1440,10 @@ export default {
           statusString = "Não comparência";
           break;
         default:
-          statusString ="Erro"
+          statusString = "Erro";
       }
       console.log(status);
-      return statusString
+      return statusString;
     },
     isReservationPaid() {
       let price = Number(this.getActiveReservation().reservationPrice);

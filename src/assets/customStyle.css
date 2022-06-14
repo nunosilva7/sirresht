@@ -117,16 +117,285 @@ input[type="radio"]:checked+label:after{
     font-family: "Fredoka regular"
     
  }
+ #reservationModal___BV_modal_header_{
+    text-align: center !important;
+    margin:auto !important;
+ }
+ #reservationModal___BV_modal_header_ button{
+     position: absolute !important;
+    right:0  !important
+ }
  #reservationModal___BV_modal_title_{
-     color:red !important;
+     
      text-align: center !important;
-     margin-left: 43%;
+    
     
  }
 
-  
+@media screen and (min-width:300px) and (max-width:350px){
 
-@media screen and (max-width:500px) {
+    #reservationTitle{
+        font-family: "Fredoka regular" !important;
+        font-size:30px
+    }
+   
+    #menuTitle{
+        font-family: "Fredoka regular" !important;
+        font-size:30px
+    }
+
+    #reservationCard{
+        width: 271px !important;
+       margin-right: 2%  !important;
+       margin-bottom: 4%  !important;
+    }
+    
+
+    
+
+    #homeMenu {
+        font-family: "Fredoka medium";
+        font-size: 20px;
+    }
+
+    #menuDate {
+        font-size: 80%;
+    }
+
+    #menuTime {
+        font-size: 80%;
+    }
+
+    #menuPrice {
+        font-size: 80%;
+    }
+
+    #menuDateImg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    #menuTimeImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuPriceImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuImg {
+        width: 80px;
+    }
+
+    #expandNextMenuImg {
+        width: 30px ;
+        height: 30px;
+
+    }
+
+    #expandNextMenuImg:hover {
+        width: 35px;
+        height: 35px;
+
+    }
+
+    #carousel {
+        margin: 0 !important;
+        width: 100% !important;
+        margin-bottom:2% !important 
+    }
+    
+    #nextReservationCard {
+        width: 271px !important;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-bottom:8% !important;
+
+    }
+    
+    #nextMenuCard{
+        width:90% !important;
+      
+    }
+    #reservationBtn{
+        margin-left:2% !important;
+        
+    }
+    #reservationBtn img{
+       
+        width: 40px !important;
+        height: 40px !important;
+    }
+    #nextMenuContainer{
+        width:90% !important;
+        margin-top:5% !important;
+        margin-left:5% !important;
+        margin-right:5 !important;
+        
+    }
+    #nextReservationContainer{
+        width:90% !important;
+        margin-left:5% !important;
+        margin-right:5 !important;
+    }
+    #nextMenuContainer{
+        width:90% !important;
+        
+    }
+    #expandNextReservationImg {
+        width: 30px;
+        height: 30px;
+       
+
+    }
+
+    #expandNextReservationImg:hover {
+        width: 35px;
+        height: 35px;
+
+    }
+    #seeAllReservations{
+        margin-top:2% !important;
+    }
+    #menuDateText{
+        font-size:80% !important
+    }
+    #participants{
+        margin-top:15%
+    }
+    #menuMainName{
+        font-size:85% !important
+    }
+    
+    
+}
+@media screen and (min-width:350px) and (max-width:412px){
+
+    #reservationTitle{
+        font-family: "Fredoka regular" !important;
+    }
+    #menuTitle{
+        font-family: "Fredoka regular" !important;
+    }
+
+    #reservationCard{
+        width: 330px !important;
+       margin-right: 2%  !important;
+       margin-bottom: 4%  !important;
+    }
+    
+
+    
+
+    #homeMenu {
+        font-family: "Fredoka medium";
+        font-size: 20px;
+    }
+
+    #menuDate {
+        font-size: 80%;
+    }
+
+    #menuTime {
+        font-size: 80%;
+    }
+
+    #menuPrice {
+        font-size: 80%;
+    }
+
+    #menuDateImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuTimeImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuPriceImg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #menuImg {
+        width: 80px;
+    }
+
+    #expandNextMenuImg {
+        width: 30px;
+        height: 30px;
+
+    }
+
+    #expandNextMenuImg:hover {
+        width: 35px;
+        height: 35px;
+
+    }
+
+    #carousel {
+        margin: 0 !important;
+        width: 100% !important;
+        margin-bottom:2% !important 
+    }
+    
+    #nextReservationCard {
+        width: 330px !important;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-bottom:8% !important;
+
+    }
+    
+    #nextMenuCard{
+        width:90% !important;
+      
+    }
+    #reservationBtn{
+        margin-left:2% !important;
+    }
+    #nextMenuContainer{
+        width:90% !important;
+        margin-top:5% !important;
+        margin-left:5% !important;
+        margin-right:5 !important;
+        
+    }
+    #nextReservationContainer{
+        width:90% !important;
+        margin-left:5% !important;
+        margin-right:5 !important;
+    }
+    #nextMenuContainer{
+        width:90% !important;
+        
+    }
+    #expandNextReservationImg {
+        width: 34px;
+        height: 34px;
+
+    }
+
+    #expandNextReservationImg:hover {
+        width: 40px;
+        height: 40px;
+
+    }
+    #seeAllReservations{
+        margin-top:2% !important;
+    }
+    #menuMainName{
+        font-size:90% !important
+    }
+    
+    
+}
+
+@media screen and (min-width:412px) and (max-width:500px) {
 
     #reservationTitle{
         font-family: "Fredoka regular" !important;

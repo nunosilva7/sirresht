@@ -35,7 +35,7 @@
         <br />
         <br />
         <b-col cols="8">
-          <p class="justify-content-md-center" style="margin-top: 5%;text-align:center">
+          <p id="menuMainName" class="justify-content-md-center" style="margin-top: 5%;text-align:center">
             {{ getNextMenuMain()[0].name }}
           </p>
         </b-col>
@@ -55,7 +55,7 @@
         <br />
         <br />
         <b-col cols="8"
-          ><p style="margin-top: 5%;text-align:center">{{ getNextMenuMain()[1].name }}</p>
+          ><p id="menuMainName" style="margin-top: 5%;text-align:center">{{ getNextMenuMain()[1].name }}</p>
         </b-col>
       </b-row>
       
