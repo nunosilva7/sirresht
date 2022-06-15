@@ -88,6 +88,7 @@ export default {
       sliding: null,
     };
   },
+ 
   methods: {
     onSlideStart() {
       this.sliding = true;
@@ -95,11 +96,15 @@ export default {
     onSlideEnd() {
       this.sliding = false;
     },
+ 
   },
+   
+  
   computed: {
     getNextMenu() {
       return this.$store.getters.getNextMenu;
     },
+   
   },
 };
 </script>

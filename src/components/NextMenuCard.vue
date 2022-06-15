@@ -26,7 +26,7 @@
           <img
            style="border-radius:20%"
             id="menuImg"
-            src="https://www.pingodoce.pt/wp-content/uploads/2021/09/folhas-alface-com-frango-couve-roxa-e-maionese.jpg"
+            :src= getNextMenuMain()[0].imageReference
             alt=""
             width="100%"
             height="100px"
@@ -46,7 +46,7 @@
           <img
            style="border-radius:20%"
             id="menuImg"
-            src="https://www.pingodoce.pt/wp-content/uploads/2021/09/peixe-espada-grelhado-com-salada-feijao-frade.jpg"
+            :src=getNextMenuMain()[1].imageReference
             alt=""
             width="100%"
             height="100"
@@ -95,6 +95,7 @@ export default {
     getNextMenuTime() {
       return this.$store.getters.getNextMenuTime;
     },
+    
   },
 };
 </script>

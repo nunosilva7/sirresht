@@ -69,8 +69,18 @@
           
         </b-col>
         </b-row>
-        </b-tab
-      >
+        <hr class="rounded" />
+        <b-container fluid>
+          <h1 v-if="!getAllDishes.length">Não Foram Encontrados pratos!</h1>
+          <b-row style="margin-right: 0%; margin-left: 10%" id="menuDishRow">
+            <DishesCard
+              v-for="myDish in getAllDishes"
+              :key="myDish.id"
+              :dish="myDish"
+            />
+          </b-row> 
+          </b-container>
+        </b-tab>
     </b-tabs>
     <br />
     <br />
@@ -206,6 +216,7 @@
 
 <script>
 import MenusCard from "../components/MenusCard.vue";
+import DishesCard from "../components/DishCard.vue";
 //import { getStorage, ref } from "firebase/storage";
 //import * as firebase  from "firebase";
 
@@ -213,6 +224,7 @@ export default {
   name: "Menus",
   components: {
     MenusCard,
+    DishesCard,
   },
   data() {
     return {
@@ -300,18 +312,18 @@ export default {
       
     },*/
 
-    createDish() {
-      if (this.checkImage(this.previewImage)) {
+     createDish() {
+      
         let dish = {
           name: this.dishName,
           courseId: this.dishType,
           isALaCarte: false,
-          imgReference: this.previewImage,
+          imageReference: this.previewImage,
         };
+
         console.log(dish);
-      } else {
-        console.log("imagem não é válida");
-      }
+         this.$store.dispatch("createDish",dish)
+      
     },
   },
   computed: {
@@ -319,6 +331,10 @@ export default {
       console.log(this.$store.getters.getAllMenus);
       return this.$store.getters.getAllMenus;
     },
+    getAllDishes(){
+      console.log(this.$store.getters.getAllDishes.rows);
+      return this.$store.getters.getAllDishes.rows;
+    }
   },
 };
 </script>

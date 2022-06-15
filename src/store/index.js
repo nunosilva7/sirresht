@@ -19,6 +19,7 @@ export default new Vuex.Store({
     menus: [],
     nextMenu: {},
     dishes: [],
+    dishById:[],
     Reservations: [],
     userReservations: [],
     nextReservation: {},
@@ -147,6 +148,8 @@ export default new Vuex.Store({
       }
 
     },
+    getDishById: state => state.dishById,
+    
     getNextReservation: state => state.nextReservation,
 
     getActiveReservation: state => state.activeReservation,
@@ -271,7 +274,9 @@ export default new Vuex.Store({
           let data = await ReservationService.fetchNextReservation(
             context.state.loggedUser,
           );
-          console.log("reservation " + data.id)
+          console.log("reservation " + data)
+          if(data!=null){
+            console.log("reservation " + data.id)
 
           let data2 = await ReservationService.fetchReservationById(
             context.state.loggedUser,
@@ -279,6 +284,8 @@ export default new Vuex.Store({
           );
 
           context.commit("GET_NEXT_RESERVATION", data2)
+          }
+          
         }
       }
     },
@@ -327,6 +334,16 @@ export default new Vuex.Store({
           }
         }*/
 
+        async createDish(context, dish) {
+          if (context.state.loggedUser !== null) {
+    
+            await DishService.createDish(
+              context.state.loggedUser,
+              dish);
+    
+          }
+        },
+
   },
   mutations: {
     LOGIN(state, data) {
@@ -335,6 +352,7 @@ export default new Vuex.Store({
     LOGOUT(state) {
       state.loggedUser = null;
       state.loggedUserInformation = null;
+      
     },
 
     LOGGED_USER_INFORMATION(state, data) {

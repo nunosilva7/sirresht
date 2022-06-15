@@ -40,7 +40,7 @@
             </b-col>
           </b-row>
 
-          <b-row v-if="getNextReservation">
+          <b-row v-if="Number.isInteger(getNextReservation.id)">
             <b-card-group>
               <NextReservationCard
                 :key="getNextReservation.id"
@@ -913,8 +913,8 @@
       </b-modal>
       -->
 
-      <!--Open nextReservationModal with all reservation information-->
-      <b-modal id="nextReservationModal" centered>
+      <!--Open nextReservationModal with all reservation information  -->
+      <b-modal v-if="getActiveReservation().length" id="nextReservationModal" centered>
         <b-row class="text-center">
           <b-col>
             <h6>Reserva {{ getActiveReservation().id }}</h6>
@@ -974,6 +974,7 @@
           </b-collapse>
         </div>
       </b-modal>
+    
     </div>
 
     <!-- ADMIN PAGE -->
@@ -1500,6 +1501,7 @@ export default {
     },
     getNextReservation() {
       console.log("NEXT RESERVATION");
+      console.log(this.$store.getters.getNextReservation)
       return this.$store.getters.getNextReservation;
     },
   },
