@@ -84,7 +84,7 @@ export default {
       return this.$store.getters.isLoggedUser;
     },
     getMenuMain(id) {
-      console.log(this.$store.getters.getMenuMain);
+     
       return this.$store.getters.getMenuMain(id);
     },
     getNextMenuDate() {

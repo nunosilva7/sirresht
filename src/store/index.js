@@ -102,7 +102,7 @@ export default new Vuex.Store({
       const menuMain = menu[0].dishes.filter(
         menu => menu.course.id === 2
       )
-      console.log(menuMain)
+      //console.log(menuMain)
       return menuMain
     },
     getMenuStarter: state => (id) => {
