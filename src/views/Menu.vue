@@ -165,15 +165,18 @@
   </b-modal>
 
   <!-- CREATE MENU MODAL -->
-  <b-modal id="createMenu" centered hide-footer>
-    <form @submit.prevent="">
-      <b-row>
+  <b-modal id="createMenu" centered hide-footer :title="getMenuModalTitle()">
+    <form @submit.prevent="createMenu()">
+      <div v-if="this.form1" id="form1">
+        <b-row>
               <b-col>
                 <b-calendar
-                  v-model="formMenu.date"
+                  v-model="form.date"
                   @context="onContext"
                   locale="pt-PT"
                   label-help=""
+                  :min="minDate"
+                  :max="maxDate"
                   block
                   hide-header
                   required
@@ -181,17 +184,27 @@
               </b-col>
        </b-row>
        <br>
-       <b-row>
-        <b-col md="8">
-        <b-form-timepicker  labelNoTimeSelected= 'Nenhuma hora selecionada'
-            labelCloseButton= 'Fechar' locale="pt-PT"></b-form-timepicker>
-        </b-col>
-       </b-row>
-       <br>
+      <b-row>
+              <b-col cols="12">
+                <b-form-group v-slot="{ ariaDescribedby }">
+                  <b-form-radio-group
+                    id="radio-slots"
+                    v-model="form.selected"
+                    :options="options2"
+                    :aria-describedby="ariaDescribedby"
+                    name="radio-options-slots"
+                    style="font-family: Fredoka regular"
+                  >
+                  </b-form-radio-group>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            
+      
        
        <b-row>
         <b-col>
-          Preço
+          Preço €
         </b-col>
         <b-col>
           Nº de Reservas
@@ -199,14 +212,180 @@
        </b-row>
        <b-row>
         <b-col>
-          <b-input placeholder="Preço da reserva"></b-input>
+         
+          <b-form-input  v-model="form.menuPrice" type="number" step="0.05" min="0.00" max="150.00" placeholder="Preço da reserva(€)" required></b-form-input>
         </b-col>
        <b-col>
-        <b-input placeholder="Nº de reservas"></b-input>
+        <b-form-input v-model="form.menuMaxReservations"  type="number"  min="0" max="80" placeholder="Nº de reservas" required></b-form-input>
+      
        </b-col>
        </b-row>
 
-       <b-button style="margin:auto;display:block;width:60%;margin-top:10%" type="Submit">Adicionar</b-button>
+       <b-row>
+        <b-button :disabled="isForm1Done()" @click="nextForm()" style="margin:auto;display:block;width:60%;margin-top:10%;min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;">Seguinte</b-button>
+       </b-row>
+
+      </div>
+      <div id="form2" v-if="this.form2">
+        <b-row>
+          <b-col cols="10">Entradas</b-col>
+          <b-col cols="2">Qtd.</b-col>
+        </b-row>
+        <b-row no-gutters>
+          <b-col cols="10">
+            <v-select v-model="form.dishStarter1" :options="getStarterDishForSelect" style="font-size:80%;" required></v-select>
+          </b-col>
+          <b-col cols="2">
+            <b-input v-model="form.starter1Qt" style="font-size:80%"  type="number" min="1" :max="this.form.menuMaxReservations" required></b-input>
+          </b-col>
+        </b-row>
+        <b-row no-gutters style="margin-top:3%">
+          <b-col cols="10">
+            <v-select v-model="form.dishStarter2" :options="getStarterDishForSelect" style="font-size:80%;" required></v-select>
+          </b-col>
+          <b-col cols="2">
+            <b-input v-model="form.starter2Qt" style="font-size:80%" type="number" min="1" :max="this.form.menuMaxReservations" required></b-input>
+          </b-col>
+        </b-row>
+        <br>
+
+        <b-row>
+          <b-col cols="10">Prato Principal</b-col>
+           <b-col cols="2">Qtd.</b-col>
+        </b-row>
+        <b-row no-gutters>
+          <b-col cols="10">
+            <v-select v-model="form.dishMain1" :options="getMainDishForSelect" style="font-size:80%;" required></v-select>
+          </b-col>
+          <b-col cols="2">
+            <b-input v-model="form.main1Qt" style="font-size:80%" type="number" min="1" :max="this.form.menuMaxReservations" required></b-input>
+          </b-col>
+        </b-row>
+        <b-row no-gutters style="margin-top:3%">
+          <b-col cols="10">
+            <v-select v-model="form.dishMain2" :options="getMainDishForSelect" style="font-size:80%;" required></v-select>
+          </b-col>
+          <b-col cols="2">
+            <b-input  v-model="form.main2Qt" style="font-size:80%" type="number" min="1" :max="this.form.menuMaxReservations" required></b-input>
+          </b-col>
+        </b-row>
+        <br>
+
+        <b-row>
+          <b-col cols="10">Sobremesa</b-col>
+           <b-col cols="2">Qtd.</b-col>
+        </b-row>
+        <b-row no-gutters>
+          <b-col cols="10">
+            <v-select v-model="form.dishDessert1" :options="getDessertDishForSelect" style="font-size:80%;"></v-select>
+          </b-col>
+          <b-col cols="2">
+            <b-input  v-model="form.dessert1Qt" style="font-size:80%" type="number" :max="this.form.menuMaxReservations" min="1"></b-input>
+          </b-col>
+        </b-row>
+        <b-row no-gutters style="margin-top:3%">
+          <b-col cols="10">
+            <v-select v-model="form.dishDessert2" :options="getDessertDishForSelect" style="font-size:80%;"></v-select>
+          </b-col>
+          <b-col cols="2">
+            <b-input v-model="form.dessert2Qt" style="font-size:80%" type="number" :max="this.form.menuMaxReservations" min="1"></b-input>
+          </b-col>
+        </b-row>
+        <br>
+        
+
+        <b-row no-gutters>
+          <b-col class="text-right" >
+            <b-button @click="previousForm()" style="
+                
+                  width: 50%;
+                  min-width: max-content;
+                  background-color: #fc004c;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;
+                " >Voltar</b-button>
+          </b-col>
+          <b-col style="margin-left:5%">
+            <b-button @click="nextForm()" style="
+              
+                  width: 50%;
+                  min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;
+                ">Seguinte</b-button>
+          </b-col>
+        
+       </b-row>
+      </div>
+      <div id="form3" v-if="this.form3">
+        <b-row>
+          <b-col>Data: {{this.form.date}}</b-col>
+          <b-col>Horário: {{isDinner()}}</b-col>
+        </b-row>
+        <b-row>
+          <b-col>Preço: {{(Math.round(this.form.menuPrice * 100) / 100).toFixed(2)}}€</b-col>
+          <b-col>Reservas: {{this.form.menuMaxReservations}}</b-col>
+        </b-row>
+        <hr class="rounded" />
+
+        <b-row>
+          <b-col>
+            <h6>Entradas</h6>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            {{this.form.dishStarter1.label}}
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            {{this.form.dishStarter2.label}}
+          </b-col>
+        </b-row>
+        <br>
+        <b-row>
+          <b-col><h6>Prato Principal</h6></b-col> 
+          </b-row>
+        <b-row><b-col>{{this.form.dishMain1.label}}</b-col></b-row>
+        <b-row><b-col>{{this.form.dishMain2.label}}</b-col></b-row>
+        <br>
+
+        <b-row><b-col><h6>Sobremesa</h6></b-col></b-row>
+        <b-row><b-col>{{this.form.dishDessert1.label}}</b-col></b-row>
+        <b-row><b-col>{{this.form.dishDessert2.label}}</b-col></b-row>
+
+       
+      </div>
+      <br>
+      
+  <b-row v-if="this.form3" no-gutters>
+    <b-col class="text-right">
+        <b-button @click="previousForm()" style="width: 50%;
+                  min-width: max-content;
+                  background-color: #fc004c;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;" >Voltar</b-button>
+    </b-col>
+    <b-col style="margin-left:5%">
+      <b-button   type="Submit" style=" width: 50%;
+                  min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;">Criar</b-button>
+
+    </b-col>
+  </b-row>
+       
       
     </form>
 
@@ -227,7 +406,15 @@ export default {
     DishesCard,
   },
   data() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const minDate = new Date(today);
+    const maxDate = new Date(today);
+    maxDate.setMonth(maxDate.getMonth() + 1);
+    maxDate.setDate(30);
     return {
+      minDate: minDate,
+      maxDate:maxDate,
       ordem: null,
       estado: null,
       users: [],
@@ -241,9 +428,34 @@ export default {
       ],
       dishName: "",
       dishType: "1",
-      formMenu: {
+      form1: true,
+      form2: false,
+      form3: false,
+      form: {
         date: "",
+        selected: "1",
+        menuPrice: null,
+        menuMaxReservations: 20,
+        dishStarter1: "",
+        starter1Qt: 1,
+        dishStarter2: "",
+        starter2Qt: 1,
+        dishMain1: "",
+        main1Qt: 1,
+        dishMain2: "",
+        main2Qt: 1,
+        dishDessert1: "",
+        dessert1Qt: 1,
+        dishDessert2: "",
+        dessert2Qt: 1,
       },
+      startTime: "",
+      endTime: "",
+
+      options2: [
+        { text: "Almoço", value: "1" },
+        { text: "Jantar", value: "2" },
+      ],
     };
   },
   created: function () {
@@ -257,6 +469,59 @@ export default {
     },
     onContext(ctx) {
       this.context = ctx;
+    },
+    getMenuModalTitle() {
+      let modalTitle = "";
+      if (this.form1) {
+        modalTitle = "Informação Geral";
+      } else if (this.form2) {
+        modalTitle = "Pratos";
+      } else if (this.form3) {
+        modalTitle = "Confirme os dados do menu";
+      }
+
+      return modalTitle;
+    },
+
+    nextForm() {
+      if (this.form1) {
+        this.form1 = false;
+        this.form2 = true;
+        this.form3 = false;
+      } else if (this.form2) {
+        this.form1 = false;
+        this.form2 = false;
+        this.form3 = true;
+      }
+    },
+    previousForm() {
+      if (this.form2) {
+        this.form1 = true;
+        this.form2 = false;
+        this.form3 = false;
+      } else if (this.form3) {
+        this.form1 = false;
+        this.form2 = true;
+        this.form3 = false;
+      }
+    },
+    isForm1Done() {
+      if (
+        !this.form.date ||
+        !this.form.menuPrice ||
+        !this.form.menuMaxReservations
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    isDinner() {
+      if (this.form.selected == 1) {
+        return "Almoço";
+      } else if (this.form.selected == 2) {
+        return "Jantar";
+      }
     },
     isLoggedAdmin() {
       return this.$store.getters.isLoggedAdmin;
@@ -312,18 +577,76 @@ export default {
       
     },*/
 
-     createDish() {
-      
-        let dish = {
-          name: this.dishName,
-          courseId: this.dishType,
-          isALaCarte: false,
-          imageReference: this.previewImage,
-        };
+    createDish() {
+      let dish = {
+        name: this.dishName,
+        courseId: this.dishType,
+        isALaCarte: false,
+        imageReference: this.previewImage,
+      };
 
-        console.log(dish);
-         this.$store.dispatch("createDish",dish)
-      
+      console.log(dish);
+      this.$store.dispatch("createDish", dish);
+    },
+
+    createMenu() {
+      if (this.form.selected == 1) {
+        this.startTime = "12:00";
+        this.endTime = "14:00";
+      }
+      if (this.form.selected == 2) {
+        this.startTime = "20:00";
+        this.endTime = "22:00";
+      }
+      let menuPrice = parseFloat(
+        (Math.round(this.form.menuPrice * 100) / 100).toFixed(2)
+      );
+      let menu = {
+        startDate: this.form.date + " " + this.startTime,
+        endDate: this.form.date + " " + this.endTime,
+        price: menuPrice,
+        openReservations: this.form.menuMaxReservations,
+        dishes: [
+          {
+            id: this.form.dishStarter1.code,
+            menuDish: {
+              dishQuantity: this.form.starter1Qt,
+            },
+          },
+          {
+            id: this.form.dishStarter2.code,
+            menuDish: {
+              dishQuantity: this.form.starter2Qt,
+            },
+          },
+          {
+            id: this.form.dishMain1.code,
+            menuDish: {
+              dishQuantity: this.form.main1Qt,
+            },
+          },
+          {
+            id: this.form.dishMain2.code,
+            menuDish: {
+              dishQuantity: this.form.main2Qt,
+            },
+          },
+          {
+            id: this.form.dishDessert1.code,
+            menuDish: {
+              dishQuantity: this.form.dessert1Qt,
+            },
+          },
+          {
+            id: this.form.dishDessert2.code,
+            menuDish: {
+              dishQuantity: this.form.dessert2Qt,
+            },
+          },
+        ],
+      };
+      console.log(menu);
+      this.$store.dispatch("createMenu", menu);
     },
   },
   computed: {
@@ -331,10 +654,22 @@ export default {
       console.log(this.$store.getters.getAllMenus);
       return this.$store.getters.getAllMenus;
     },
-    getAllDishes(){
+    getAllDishes() {
       console.log(this.$store.getters.getAllDishes.rows);
       return this.$store.getters.getAllDishes.rows;
-    }
+    },
+    getStarterDishForSelect() {
+      console.log(this.$store.getters.getStarterDishForSelect);
+      return this.$store.getters.getStarterDishForSelect;
+    },
+    getMainDishForSelect() {
+      console.log(this.$store.getters.getMainDishForSelect);
+      return this.$store.getters.getMainDishForSelect;
+    },
+    getDessertDishForSelect() {
+      console.log(this.$store.getters.getDessertDishForSelect);
+      return this.$store.getters.getDessertDishForSelect;
+    },
   },
 };
 </script>

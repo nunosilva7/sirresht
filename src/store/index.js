@@ -19,7 +19,7 @@ export default new Vuex.Store({
     menus: [],
     nextMenu: {},
     dishes: [],
-    dishById:[],
+    dishById: [],
     Reservations: [],
     userReservations: [],
     nextReservation: {},
@@ -41,10 +41,10 @@ export default new Vuex.Store({
 
     isLoggedAdmin: state => {
 
-     
-      
-      if(state.loggedUserInformation !=null){
-        console.log( state.loggedUserInformation.role.id)
+
+
+      if (state.loggedUserInformation != null) {
+        console.log(state.loggedUserInformation.role.id)
         if (state.loggedUserInformation.role.id == 2) {
           return true
         }
@@ -52,16 +52,16 @@ export default new Vuex.Store({
           return false
         }
       }
-      else{
+      else {
         return false
       }
-       
-       /*
-      state.loggedUser === null
-        ? false
-        : state.loggedUserInformation.role.desc === "admin"
-          ? true
-          : false*/
+
+      /*
+     state.loggedUser === null
+       ? false
+       : state.loggedUserInformation.role.desc === "admin"
+         ? true
+         : false*/
     },
 
     getLoggedUserInformation: state => state.loggedUserInformation,
@@ -149,7 +149,7 @@ export default new Vuex.Store({
 
     },
     getDishById: state => state.dishById,
-    
+
     getNextReservation: state => state.nextReservation,
 
     getActiveReservation: state => state.activeReservation,
@@ -157,6 +157,41 @@ export default new Vuex.Store({
     getUserReservations: state => state.userReservations,
 
     getReservationsParticipant: state => state.reservationsParticipant,
+
+
+    getStarterDishForSelect: state => {
+    const starters = state.dishes.rows.filter(
+      dish => dish.course.id===1
+    )
+     const dishes=  starters.map(dish => ({
+      code: dish.id,
+      label: dish.name
+    }))
+      return dishes
+
+    },
+    getMainDishForSelect: state => {
+      const mains = state.dishes.rows.filter(
+        dish => dish.course.id===2
+      )
+       const dishes=  mains.map(dish => ({
+        code: dish.id,
+        label: dish.name
+      }))
+        return dishes
+  
+      },
+      getDessertDishForSelect: state => {
+        const desserts = state.dishes.rows.filter(
+          dish => dish.course.id===3
+        )
+         const dishes=  desserts.map(dish => ({
+          code: dish.id,
+          label: dish.name
+        }))
+          return dishes
+    
+        },
 
 
   },
@@ -275,17 +310,17 @@ export default new Vuex.Store({
             context.state.loggedUser,
           );
           console.log("reservation " + data)
-          if(data!=null){
+          if (data != null) {
             console.log("reservation " + data.id)
 
-          let data2 = await ReservationService.fetchReservationById(
-            context.state.loggedUser,
-            data.id
-          );
+            let data2 = await ReservationService.fetchReservationById(
+              context.state.loggedUser,
+              data.id
+            );
 
-          context.commit("GET_NEXT_RESERVATION", data2)
+            context.commit("GET_NEXT_RESERVATION", data2)
           }
-          
+
         }
       }
     },
@@ -334,15 +369,24 @@ export default new Vuex.Store({
           }
         }*/
 
-        async createDish(context, dish) {
-          if (context.state.loggedUser !== null) {
-    
-            await DishService.createDish(
-              context.state.loggedUser,
-              dish);
-    
-          }
-        },
+    async createDish(context, dish) {
+      if (context.state.loggedUser !== null) {
+
+        await DishService.createDish(
+          context.state.loggedUser,
+          dish);
+
+      }
+    },
+
+    async createMenu(context,menu){
+      if(context.state.loggedUser!==null){
+        await MenuService.createMenu(
+          context.state.loggedUser,
+          menu
+        )
+      }
+    },
 
   },
   mutations: {
@@ -352,7 +396,7 @@ export default new Vuex.Store({
     LOGOUT(state) {
       state.loggedUser = null;
       state.loggedUserInformation = null;
-      
+
     },
 
     LOGGED_USER_INFORMATION(state, data) {
