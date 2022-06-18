@@ -959,12 +959,19 @@
           <b-col>Suplementos: 0.00€</b-col>
         </b-row>
         <div style="margin-top: 5%">
-          <b-button
-            style="width: 70%; margin-left: 15%;background-color: #fca311;
-                    border: none;font-family:Fredoka medium"
-            v-b-toggle="'collapse-1'"
-            >Participantes</b-button
-          >
+          <b-row no-gutters  v-b-toggle="'collapse-1'" @click="changeIcon()" style="max-width:max-content" v-if="this.icon">
+            <b-col style="max-width:max-content">
+              <h6 style="min-width:max-content">Participantes ({{getNextReservation.participants.length}})</h6>
+            </b-col>
+            <b-col>
+              <b-icon style="margin-bottom:20%;margin-left:20%" :icon=this.icon ></b-icon>
+             
+            </b-col>
+          </b-row>
+
+           
+          
+          
           <b-collapse id="collapse-1">
             <b-container fluid>
               <b-row style="margin-right: 5%; margin-left: 5%;">
@@ -982,7 +989,22 @@
               </b-row>
             </b-container>
           </b-collapse>
+        
+
         </div>
+        <br>
+          <b-row no-gutters>
+          <b-col class="text-right" >
+           
+            <b-button style="margin:auto;display:block;width:60%;margin-top:10%;min-width: max-content;
+                  background-color: #fc004c;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;">Cancelar Reserva</b-button>
+          </b-col>
+         
+        
+       </b-row>
 
         
       </b-modal>
@@ -1032,6 +1054,7 @@ export default {
       main: null,
       dessert: null,
       dishes: [],
+      icon:"arrow-down",
 
       selected: "1",
       options: [
@@ -1089,6 +1112,16 @@ export default {
       let participant = this.getLoggedUserInformation;
       participant.dishesIds = [null, null, null];
       this.participants.push(participant);
+    },
+    changeIcon(){
+      if(this.icon=="arrow-up"){
+        this.icon="arrow-down"
+       
+      }
+       else if(this.icon=="arrow-down"){
+        this.icon="arrow-up"
+       
+      }
     },
 
     isLoggedAdmin() {

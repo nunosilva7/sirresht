@@ -52,7 +52,7 @@
               :key="myMenu.id"
               :menu="myMenu"
             />
-          </b-row> </b-container
+          </b-row></b-container
       ></b-tab>
 
       <!-- This tabs content will not be mounted until the tab is shown -->
@@ -390,6 +390,95 @@
     </form>
 
   </b-modal>
+
+  <!--DISH MODAL(EDIT)-->
+  <b-modal id="dishModal" @show="getActiveDish"  centered hide-footer>
+    <b-form @submit.prevent="updateDish()">
+      <b-row>
+        <b-col>
+          <label for="">ID</label>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-form-input v-model="editDish.id" disabled></b-form-input>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <label for="">Nome do prato</label>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-form-input v-model="editDish.name"></b-form-input>
+        </b-col>
+      </b-row>
+      <br>
+      <b-row class="row justify-content-center">
+        <div v-if="this.editDish.imageReference!=null " >
+     
+          <img  :src="this.editDish.imageReference" alt="Imagem do prato" @error="dishImageNull()"  class="uploading-image" width="200px" height="150px" style="margin:auto;border:1px solid" required />
+          <br>
+    
+        </div>
+        <div v-else>
+     
+          <img  src="../assets/img/placeholderimage.png" alt="Imagem do prato"   width="200px" height="150px" style="margin:auto;display:block;border:1px solid" required />
+          <br>
+    
+        </div>
+         
+      </b-row>
+      <b-row>
+        <b-col>
+          <label for="">URL da imagem</label>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col><b-form-input type="url" v-model="editDish.imageReference" placeholder="Insira o url da imagem" required ></b-form-input></b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <label for="">Tipo de prato</label>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-form-select id="dishType"  v-model="editDish.courseId" :options="options" required >
+          </b-form-select>
+        </b-col>
+      </b-row>
+      <br>
+     
+      <b-row>
+        <b-col class="text-right">
+           <b-button style="width: 50%;
+                  min-width: max-content;
+                  background-color: #fc004c;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;" variant="danger" @click="deleteBolsa(editDish.id)">Apagar Prato</b-button>
+          
+        </b-col>
+        <b-col>
+          <b-button style=" width: 50%;
+                  min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;" type="submit">Guardar</b-button>
+
+        </b-col>
+         
+                  
+        
+      
+      </b-row>
+    </b-form>
+    
+
+  </b-modal>
   </div>
 </template>
 
@@ -414,7 +503,7 @@ export default {
     maxDate.setDate(30);
     return {
       minDate: minDate,
-      maxDate:maxDate,
+      maxDate: maxDate,
       ordem: null,
       estado: null,
       users: [],
@@ -422,12 +511,12 @@ export default {
       isImageValid: null,
       img1: null,
       options: [
-        { value: 1, text: "Prato Principal" },
-        { value: 2, text: "Entrada" },
+        { value: 2, text: "Prato Principal" },
+        { value: 1, text: "Entrada" },
         { value: 3, text: "Sobremesa" },
       ],
       dishName: "",
-      dishType: "1",
+      dishType: "2",
       form1: true,
       form2: false,
       form3: false,
@@ -456,6 +545,14 @@ export default {
         { text: "Almoço", value: "1" },
         { text: "Jantar", value: "2" },
       ],
+
+      editDish: {
+        id: "",
+        name: "",
+        imageReference: null,
+        courseId: "",
+        isALaCarte: null,
+      },
     };
   },
   created: function () {
@@ -528,6 +625,9 @@ export default {
     },
     previewImageNull() {
       this.previewImage = null;
+    },
+    dishImageNull() {
+      this.editDish.imageReference = null;
     },
     checkImage(url) {
       var image = new Image();
@@ -647,6 +747,38 @@ export default {
       };
       console.log(menu);
       this.$store.dispatch("createMenu", menu);
+    },
+
+    getActiveDish() {
+      let dish = this.$store.getters.getDishById;
+
+      this.editDish.id = dish.id;
+      this.editDish.name = dish.name;
+      this.editDish.isALaCarte = dish.isALaCarte;
+      this.editDish.imageReference = dish.imageReference;
+      this.editDish.courseId = dish.course.id;
+    },
+    async updateDish() {
+      let dish = {
+        name: this.editDish.name,
+        isALaCarte: this.editDish.isALaCarte,
+        imageReference: this.editDish.imageReference,
+        courseId: this.editDish.courseId,
+      };
+      if (confirm("Quer alterar os dados?")) {
+        await this.$store.dispatch("updateDish", dish);
+        await this.$store.dispatch("getAllDishes");
+        setTimeout(() => {
+          this.$bvModal.hide("dishModal");
+        }, 1000);
+      }
+    },
+    async deleteBolsa(id) {
+      await this.$store.dispatch("deleteDish", id);
+      await this.$store.dispatch("getAllDishes");
+      setTimeout(() => {
+        this.$bvModal.hide("dishModal");
+      }, 1000);
     },
   },
   computed: {

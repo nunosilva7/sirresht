@@ -9,14 +9,12 @@
     style="max-width: 20rem;height:25rem"
     class="mb-2"
   >
-    <b-card-text>
-      Faz parte da carta? {{dish.isALaCarte}}
-    </b-card-text>
+   
     <b-card-text>
       Id: {{dish.id}}
     </b-card-text>
 
-    <b-button  style="position:absolute;top:85%;left:40% " href="#" variant="primary">Editar</b-button>
+    <b-button  style="position:absolute;top:85%;left:40% " @click="getDishById(dish)"  v-b-modal.dishModal variant="primary">Editar</b-button>
   </b-card>
 
       
@@ -46,6 +44,11 @@ export default {
 
   
   methods: {
+
+    getDishById(dish){
+      //this.$store.dispatch("getDishById",id)
+      this.$store.dispatch("setActiveDish", dish)
+    }
 
   
    

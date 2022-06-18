@@ -19,6 +19,7 @@ export default new Vuex.Store({
     menus: [],
     nextMenu: {},
     dishes: [],
+    activeDish:[],
     dishById: [],
     Reservations: [],
     userReservations: [],
@@ -148,7 +149,7 @@ export default new Vuex.Store({
       }
 
     },
-    getDishById: state => state.dishById,
+    getDishById: state => state.activeDish,
 
     getNextReservation: state => state.nextReservation,
 
@@ -388,6 +389,26 @@ export default new Vuex.Store({
       }
     },
 
+    setActiveDish(context,dish){
+      context.commit("SET_ACTIVE_DISH", dish)
+    },
+
+    async updateDish(context,dish){
+      if(context.state.loggedUser!==null){
+        await DishService.updateDish(
+          context.state.loggedUser,
+          dish,
+          context.state.activeDish.id
+        )
+      }
+    },
+
+    async deleteDish(context,id){
+      if(context.state.loggedUser !==null){
+        await DishService.deleteDish(context.state.loggedUser,id)
+      }
+    }
+
   },
   mutations: {
     LOGIN(state, data) {
@@ -431,6 +452,9 @@ export default new Vuex.Store({
     },
     PARTICIPANT_INFO(state, data) {
       state.reservationsParticipant = data
+    },
+    SET_ACTIVE_DISH(state,data){
+      state.activeDish =data
     }
 
   },
