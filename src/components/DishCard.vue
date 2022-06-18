@@ -9,12 +9,11 @@
     style="max-width: 20rem;height:25rem"
     class="mb-2"
   >
-   
-    <b-card-text>
-      Id: {{dish.id}}
-    </b-card-text>
 
-    <b-button  style="position:absolute;top:85%;left:40% " @click="getDishById(dish)"  v-b-modal.dishModal variant="primary">Editar</b-button>
+    <b-button  style="position:absolute;top:85%;left:27%;width:50%;background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;" @click="getDishById(dish)"  v-b-modal.dishModal variant="primary">Editar</b-button>
   </b-card>
 
       

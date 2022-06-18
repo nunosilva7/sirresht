@@ -458,7 +458,7 @@
                   background-color: #fc004c;
                   border: none;
                   font-family: Fredoka medium;
-                  font-size: 15px;" variant="danger" @click="deleteBolsa(editDish.id)">Apagar Prato</b-button>
+                  font-size: 15px;" variant="danger" @click="deletePrato(editDish.id)">Apagar Prato</b-button>
           
         </b-col>
         <b-col>
@@ -470,13 +470,191 @@
                   font-size: 15px;" type="submit">Guardar</b-button>
 
         </b-col>
-         
-                  
-        
-      
       </b-row>
     </b-form>
+  </b-modal>
+
+  <!--MENU MODAL FOR USER AND EDIT MENU MODAL FOR ADMIN-->
+  <b-modal id="menuModal" @show="getActiveMenu" hide-footer hide-header centered>
+    <!--FULL MENU DATA-->
+    <div v-if="!isLoggedAdmin">
+      <b-row no-gutters>
+        <b-col cols="5" style="margin-top: 4px">
+          <b-img id="menuDateImg" src="../assets/icons/calendar24.png"></b-img>
+          <span id="menuDate"> {{ editMenu.startDate }}</span>
+        </b-col>
+        <b-col cols="4" style="margin-top: 3px">
+          <b-img id="menuTimeImg" src="../assets/icons/clock24.png"></b-img>
+          <span id="menuTime"> {{ editMenu.time }}H</span>
+        </b-col>
+        <b-col style="margin-top: 3px">
+          <b-img
+            id="menuPriceImg"
+            src="../assets/icons/money24.png"
+            style="margin-right: 5px"
+          ></b-img>
+          <span id="menuPrice">{{ editMenu.price }}</span></b-col
+        >
+      </b-row>
+    <hr>
+    <b-row no-gutters>
+      <b-col style="max-width:max-content">
+        <b-img :src="this.editMenu.starter1.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+      <b-col style="margin:auto;display:block" class="col-md- align-self-center" cols="8">
+      {{this.editMenu.starter1.name}}
+      </b-col>
+    </b-row>
+    <br>
+    <b-row no-gutters>
+      <b-col style="max-width:max-content">
+        <b-img :src="this.editMenu.starter2.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+      <b-col style="margin:auto;display:block" class="col-md- align-self-center" cols="8">
+      {{this.editMenu.starter1.name}}
+      </b-col>
+    </b-row>
+    <hr>
+    <b-row no-gutters>
+      <b-col style="max-width:max-content">
+        <b-img :src="this.editMenu.main1.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+      <b-col style="margin:auto;display:block" class="col-md- align-self-center" cols="8">
+      {{this.editMenu.main1.name}}
+      </b-col>
+    </b-row>
+    <br>
+    <b-row no-gutters>
+      <b-col style="max-width:max-content">
+        <b-img :src="this.editMenu.main2.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+      <b-col style="margin:auto;display:block" class="col-md- align-self-center" cols="8">
+      {{this.editMenu.main2.name}}
+      </b-col>
+    </b-row>
+    <hr>
+    <b-row no-gutters>
+      <b-col style="max-width:max-content">
+        <b-img :src="this.editMenu.dessert1.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+      <b-col style="margin:auto;display:block" class="col-md- align-self-center" cols="8">
+      {{this.editMenu.dessert1.name}}
+      </b-col>
+    </b-row>
+    <br>
+    <b-row no-gutters >
+      <b-col style="max-width:max-content">
+        <b-img :src="this.editMenu.dessert2.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+      <b-col style="margin:auto;display:block" class="col-md- align-self-center" cols="8">
+      {{this.editMenu.dessert2.name}}
+      </b-col>
+    </b-row>
+    <hr>
+
+    </div>
+
+    <div v-else>
+      <b-row no-gutters>
+        <b-col cols="5" style="margin-right:2%">
+         
+          Data
+        </b-col>
+        <b-col style="margin-right:2%"  >
+          Hora
+        </b-col>
+        <b-col >
+         Preço</b-col>
+
+      </b-row>
+      <b-row no-gutters >
+        <b-col cols="5" style="margin-right:2%">
+         
+          <b-form-input  v-model="editMenu.startDate"></b-form-input>
+        </b-col>
+        <b-col style="margin-right:2%"  >
+          <b-form-input v-model="editMenu.time"></b-form-input>
+        </b-col>
+        <b-col >
+         <b-form-input v-model="editMenu.price"></b-form-input></b-col
+        >
+      </b-row>
+      <br>
+      <b-row>
+        <b-col>
+          Nº Reservas
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-form-input v-model="editMenu.openReservations"></b-form-input>
+        </b-col>
+      </b-row>
+      <br>
+
+    <h6>Entradas</h6>
+      <b-row no-gutters>
+      
+        <b-col>
+          <v-select v-model="editMenu.vSelectStarter1" :options="getStarterDishForSelect"></v-select>
+        </b-col>
+      </b-row>
+    <br>
+    <b-row no-gutters>
+      
+      <b-col>
+        <v-select v-model="editMenu.vSelectStarter2" :options="getStarterDishForSelect"></v-select>
+      </b-col>
+    </b-row>
+    <hr>
+    <h6>Pratos Principais</h6>
+    <b-row no-gutters>
+     
+      <b-col>
+        <v-select v-model="editMenu.vSelectMain1" :options="getMainDishForSelect"></v-select>
+      </b-col>
+    </b-row>
+    <br>
+    <b-row no-gutters>
+      
+     <b-col>
+        <v-select v-model="editMenu.vSelectMain2" :options="getMainDishForSelect"></v-select>
+      </b-col>
+    </b-row>
+    <hr>
+    <h6>Sobremesas</h6>
+    <b-row no-gutters>
+      
+      <b-col>
+        <v-select v-model="editMenu.vSelectDessert1" :options="getDessertDishForSelect"></v-select>
+      </b-col>
+    </b-row>
+    <br>
+    <b-row no-gutters >
+      
+      <b-col>
+        <v-select v-model="editMenu.vSelectDessert2" :options="getDessertDishForSelect"></v-select>
+      </b-col>
+    </b-row>
+    <hr>
+
+
+
+
+      <b-row>
+       <b-button  style="margin:auto;display:block;width:60%;min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;">Guardar</b-button>
+    </b-row>
+    </div>
+
     
+
+
+   
+   
 
   </b-modal>
   </div>
@@ -552,6 +730,26 @@ export default {
         imageReference: null,
         courseId: "",
         isALaCarte: null,
+      },
+      editMenu: {
+        id: "",
+        startDate: "",
+        time: "",
+        price: "",
+        openReservations: "",
+        dishes: [],
+        starter1: {},
+        starter2: {},
+        main1: {},
+        main2: {},
+        dessert1: {},
+        dessert2: {},
+        vSelectStarter1:"",
+        vSelectStarter2:"",
+        vSelectMain1:"",
+        vSelectMain2:"",
+        vSelectDessert1:"",
+        vSelectDessert2:"",
       },
     };
   },
@@ -773,12 +971,54 @@ export default {
         }, 1000);
       }
     },
-    async deleteBolsa(id) {
+    async deletePrato(id) {
       await this.$store.dispatch("deleteDish", id);
       await this.$store.dispatch("getAllDishes");
       setTimeout(() => {
         this.$bvModal.hide("dishModal");
       }, 1000);
+    },
+
+    getActiveMenu() {
+      let menu = this.$store.getters.getActiveMenu;
+
+      this.editMenu.id = menu.id;
+      this.editMenu.startDate = menu.startDate.slice(0, 10);
+      this.editMenu.time = menu.startDate.slice(11, 16);
+      this.editMenu.openReservations = menu.openReservations;
+      this.editMenu.price = menu.price + "€";
+      this.editMenu.dishes = menu.dishes;
+      this.editMenu.starter1 = menu.dishes[0];
+      this.editMenu.starter2 = menu.dishes[1];
+      this.editMenu.vSelectStarter1={
+        code:menu.dishes[0].id,
+        label:menu.dishes[0].name
+      }
+      this.editMenu.vSelectStarter2={
+        code:menu.dishes[1].id,
+        label:menu.dishes[1].name
+      }
+
+      this.editMenu.main1 = menu.dishes[2];
+      this.editMenu.main2 = menu.dishes[3];
+      this.editMenu.vSelectMain1={
+        code:menu.dishes[2].id,
+        label:menu.dishes[2].name
+      }
+      this.editMenu.vSelectMain2={
+        code:menu.dishes[3].id,
+        label:menu.dishes[3].name
+      }
+      this.editMenu.dessert1 = menu.dishes[4];
+      this.editMenu.dessert2 = menu.dishes[5];
+      this.editMenu.vSelectDessert1={
+        code:menu.dishes[4].id,
+        label:menu.dishes[4].name
+      }
+      this.editMenu.vSelectDessert2={
+        code:menu.dishes[5].id,
+        label:menu.dishes[5].name
+      }
     },
   },
   computed: {

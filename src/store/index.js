@@ -18,6 +18,7 @@ export default new Vuex.Store({
     userById: [],
     menus: [],
     nextMenu: {},
+    activeMenu:{},
     dishes: [],
     activeDish:[],
     dishById: [],
@@ -192,7 +193,9 @@ export default new Vuex.Store({
         }))
           return dishes
     
-        },
+      },
+
+      getActiveMenu: state => state.activeMenu,
 
 
   },
@@ -407,7 +410,10 @@ export default new Vuex.Store({
       if(context.state.loggedUser !==null){
         await DishService.deleteDish(context.state.loggedUser,id)
       }
-    }
+    },
+    setActiveMenu(context,menu){
+      context.commit("SET_ACTIVE_MENU", menu)
+    },
 
   },
   mutations: {
@@ -455,6 +461,9 @@ export default new Vuex.Store({
     },
     SET_ACTIVE_DISH(state,data){
       state.activeDish =data
+    },
+    SET_ACTIVE_MENU(state,data){
+      state.activeMenu = data
     }
 
   },

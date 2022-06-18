@@ -60,7 +60,7 @@
       </b-row>
       
       
-      <div id="expandNextMenu" style="margin-top:3%">
+      <div id="expandNextMenu" style="margin-top:3%" @click="setActiveMenu(menu)" v-b-modal.menuModal>
         <b-img
           id="expandNextMenuImg"
           src="../assets/icons/expand-arrows48.png"
@@ -95,6 +95,10 @@ export default {
       const time = this.menu.startDate.slice(11, 16)
       return time
     },
+
+    setActiveMenu(menu){
+      this.$store.dispatch("setActiveMenu", menu)
+    }
   },
 };
 </script>
