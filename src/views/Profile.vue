@@ -1,8 +1,8 @@
 <template>
-  <div class="profile">  
+  <div class="profile">
     <!-- USER PAGE -->
     <div v-if="!isLoggedAdmin()">
-      <h1  style="text-align: center">
+      <h1 style="text-align: center">
         Bem Vindo, {{ getLoggedUserInformation.firstName }}
       </h1>
       <br />
@@ -90,7 +90,12 @@
         </div>
       </div>
 
-      <b-modal id="reservationModal" hide-footer centered :title=getModalTitle()>
+      <b-modal
+        id="reservationModal"
+        hide-footer
+        centered
+        :title="getModalTitle()"
+      >
         <b-form @submit.prevent="">
           <div id="form1" v-if="this.form1" style="height: 24rem">
             <b-row>
@@ -240,12 +245,12 @@
           <div
             id="form3"
             v-if="this.form3"
-            style="min-height: 200px; height: 24rem"
+            style="min-height: 200px; height: 24rem; overflow-y: auto"
           ></div>
           <div
             id="form4"
             v-if="this.form4"
-            style="min-height: 400px; height: 24rem"
+            style="min-height: 400px; height: 24rem; overflow-y: auto"
           >
             <div
               id="participantsMenu"
@@ -340,16 +345,14 @@
             <b-form @submit.prevent="">
               <b-card no body>
                 <b-tabs card>
+                  <!--1 +
+                        getMenusByDate.findIndex((element) => {
+                          return element.id === menu.id;
+                        }) -->
                   <b-tab
                     v-for="menu in getMenusByDate"
                     :key="menu.id"
-                    :title="
-                      'Menu ' +
-                      (1 +
-                        getMenusByDate.findIndex((element) => {
-                          return element.id === menu.id;
-                        }))
-                    "
+                    :title="'Menu ' + menu.price + '€'"
                     @click="clearOptions()"
                   >
                     <b-form
@@ -540,6 +543,7 @@
                   >
                     {{ calculateDiscount(participant.id) }}€
                   </h6>
+
                   <h6
                     v-else
                     style="
@@ -703,6 +707,7 @@
                   left: 15%;
                   width: 50%;
                   min-width: max-content;
+                  background-color: #fca311;
                   border: none;
                   font-family: Fredoka medium;
                   font-size: 15px;
@@ -914,10 +919,15 @@
       -->
 
       <!--Open nextReservationModal with all reservation information  -->
-      <b-modal v-if="getActiveReservation().length" id="nextReservationModal" centered>
+      <b-modal
+        v-if="Number.isInteger(getNextReservation.id)"
+        id="nextReservationModal"
+        centered
+        hide-footer
+      >
         <b-row class="text-center">
           <b-col>
-            <h6>Reserva {{ getActiveReservation().id }}</h6>
+            <h4>Reserva {{ getActiveReservation().id }}</h4>
           </b-col>
         </b-row>
         <b-row style="margin-bottom: 5%" class="text-center">
@@ -937,50 +947,49 @@
             >Pagamento: {{ isReservationPaid() }}</b-col
           >
         </b-row>
-        <div style="margin-top: 5%;" >
-          <b-button style="width:70%; margin-left:15%;" v-b-toggle="'collapse-1'" 
+        <b-row
+          v-if="getActiveReservation().suplementsPrice != null"
+          
+        >
+          <b-col
+            >Suplementos: {{ getActiveReservation().suplementsPrice }}</b-col
+          >
+        </b-row>
+        <b-row v-else >
+          <b-col>Suplementos: 0.00€</b-col>
+        </b-row>
+        <div style="margin-top: 5%">
+          <b-button
+            style="width: 70%; margin-left: 15%;background-color: #fca311;
+                    border: none;font-family:Fredoka medium"
+            v-b-toggle="'collapse-1'"
             >Participantes</b-button
           >
           <b-collapse id="collapse-1">
             <b-container fluid>
-              <b-row style="margin-right: 5%; margin-left: 5%">
+              <b-row style="margin-right: 5%; margin-left: 5%;">
                 <div
                   v-for="participant in getActiveReservation().participants"
                   :key="participant.id"
-                  style="margin-right: 5%; margin-left: 5%;margin-top:1%"
+                  style="margin-right: 5%; margin-left: 5%; margin-top: 1%;"
                 >
-                <h6 style="text-align:center">{{participant.id}}</h6>
-                 <b-avatar id="participantsAvatar" :src=participant.user.avatarReference></b-avatar>
-                 
+                  <h6 style="text-align: center">{{ participant.id }}</h6>
+                  <b-avatar
+                    id="participantsAvatar"
+                    :src="participant.user.avatarReference"
+                  ></b-avatar>
                 </div>
               </b-row>
             </b-container>
           </b-collapse>
         </div>
 
-        <div style="margin-top: 5%;">
-          <b-button style="width:70%;margin-left:15%;" v-b-toggle="'collapse-2'" >Suplementos</b-button>
-          <b-collapse id="collapse-2">
-            <b-row v-if="getActiveReservation().suplementsPrice != null" class="text-center">
-              <b-col 
-                >Suplementos:
-                {{ getActiveReservation().suplementsPrice }}</b-col
-              >
-              
-            </b-row>
-            <b-row v-else class="text-center" style="margin-top:3%">
-              <b-col>Suplementos: 0.00€</b-col>
-              </b-row>
-          </b-collapse>
-        </div>
+        
       </b-modal>
-    
     </div>
 
     <!-- ADMIN PAGE -->
-    <div v-else>
-      ADMIN
-    </div>
+    <div v-else>ADMIN</div>
   </div>
 </template>
 
@@ -1082,8 +1091,8 @@ export default {
       this.participants.push(participant);
     },
 
-    isLoggedAdmin(){
-      return this.$store.getters.isLoggedAdmin
+    isLoggedAdmin() {
+      return this.$store.getters.isLoggedAdmin;
     },
 
     openReservationModal() {
@@ -1235,25 +1244,20 @@ export default {
         this.form6 = false;
       }
     },
-    getModalTitle(){
-      let modalTitle= "";
-      if(this.form1){
-        modalTitle ="Escolha a data"
+    getModalTitle() {
+      let modalTitle = "";
+      if (this.form1) {
+        modalTitle = "Escolha a data";
+      } else if (this.form2) {
+        modalTitle = "Participantes";
+      } else if (this.form4) {
+        modalTitle = "Escolha os pratos";
+      } else if (this.form5) {
+        modalTitle = "Escolha os pratos";
+      } else if (this.form6) {
+        modalTitle = "Confirme a reserva";
       }
-      else if(this.form2){
-        modalTitle="Participantes"
-      }
-       else if(this.form4){
-        modalTitle="Escolha os pratos"
-      }
-        else if(this.form5){
-        modalTitle="Escolha os pratos"
-      }
-       else if(this.form6){
-        modalTitle="Confirme a reserva"
-      }
-      return modalTitle
-
+      return modalTitle;
     },
 
     async checkParticipant() {
@@ -1425,15 +1429,14 @@ export default {
       let status = this.getActiveReservation().status.id;
 
       //let statusColor = this.$refs.nextReservationStatus
-      
 
       let statusString = "";
       switch (status) {
         case 1:
           statusString = "Pendente";
-      
-         // console.log(statusColor)
-          
+
+          // console.log(statusColor)
+
           break;
 
         case 2:
@@ -1501,7 +1504,7 @@ export default {
     },
     getNextReservation() {
       console.log("NEXT RESERVATION");
-      console.log(this.$store.getters.getNextReservation)
+      console.log(this.$store.getters.getNextReservation);
       return this.$store.getters.getNextReservation;
     },
   },
