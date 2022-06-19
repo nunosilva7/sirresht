@@ -13,15 +13,15 @@
 
     <b-row class="justify-content-md-left" >
       <b-col >
-        <b-form-select id="select" >
-          <b-form-select-option value: null>Recente</b-form-select-option>
-          <b-form-select-option value="antigo">Antigo</b-form-select-option>
+        <b-form-select id="select" v-model="optionSortSelected" :options="optionsSort">
+         
         </b-form-select>
       </b-col>
       <b-col >
-        <b-form-select id="select2" >
-          <b-form-select-option value: null>Pendente</b-form-select-option>
-          <b-form-select-option value="aceite">Aceite</b-form-select-option>
+        <b-form-select id="select2" :options="options" required v-model="reservationStatusSelect">
+          <template #first>
+              <b-form-select-option value="">TODAS</b-form-select-option>
+            </template>
         </b-form-select>
       </b-col>
     </b-row>
@@ -35,18 +35,22 @@
     <b-row >
       <b-col >
         <b-form-datepicker
-          id="example-datepicker"
          
-           placeholder="YYYY-MM-DD"
+          id="example-datepicker"
+          placeholder="YYYY-MM-DD"
           class="mb-2"
+          :max="maxDate"
+          v-model="minDate"
         ></b-form-datepicker>
       </b-col>
       <b-col >
         <b-form-datepicker
-          id="example-datepicker"
-           placeholder="YYYY-MM-DD"
-         
+          :disabled="!isDate1Picked()"
+          id="example-datepicker2"
+          placeholder="YYYY-MM-DD"
           class="mb-2"
+          :min="minDate"
+          v-model="maxDate"
         ></b-form-datepicker>
       </b-col>
     </b-row>
@@ -84,6 +88,29 @@ export default {
       ordem: null,
       estado: null,
       users: [],
+      reservationStatusSelect: "",
+      options: [
+        { value: 1, text: "Pendente" },
+        { value: 2, text: "Aprovada" },
+        { value: 3, text: "Rejeitada" },
+        { value: 4, text: "Cancelada" },
+        { value: 5, text: "Completada" },
+        { value: 6, text: "Sem Comparência" },
+      ],
+      minDate:"",
+      maxDate:"",
+
+      optionSortSelected:1,
+      optionsSort: [
+        {
+          value: 1,
+          text: "Mais Recentes"
+        },
+        {
+          value: -1,
+          text: "Mais Antigos"
+        }
+      ],
     };
   },
   created: function () {
@@ -96,10 +123,29 @@ export default {
     getActiveReservation() {
       return this.$store.getters.getActiveReservation;
     },
+    isDate1Picked(){
+      if(this.minDate =="" || this.minDate ==null){
+        return false
+      }
+      else{
+        return true
+      }
+    }
   },
   computed: {
     getReservations() {
-      return this.$store.getters.getUserReservations;
+      //return this.$store.getters.getUserReservations;
+
+      return this.$store.getters.getUserReservationsFiltered(
+        this.minDate,
+        this.maxDate,
+        this.reservationStatusSelect,
+        this.optionSortSelected
+
+      )
+
+
+
     },
   },
 };

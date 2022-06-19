@@ -166,6 +166,24 @@ export default new Vuex.Store({
 
     getUserReservations: state => state.userReservations,
 
+    getUserReservationsFiltered: state => (minDate,maxDate,reservationStatus, _sort) =>{
+      const userReservations = state.userReservations.filter(
+        reservation => reservation.startDate.slice(0,10) >= minDate || minDate ==""
+      )
+      const userReservations2 = userReservations.filter(
+        reservation => reservation.startDate.slice(0,10) <= maxDate || maxDate ==""
+      )
+      var userReservations3 = userReservations2.filter(
+        reservation => reservation.statusId ==reservationStatus || reservationStatus==""
+      )
+      return userReservations3.sort((a,b) =>{
+        if(a.id > b.id) return -1 * _sort;
+        if(a.id < b.id) return 1 * _sort;
+        return 0
+      })
+
+    },
+
     getReservationsParticipant: state => state.reservationsParticipant,
 
 
