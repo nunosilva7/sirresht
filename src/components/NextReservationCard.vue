@@ -17,7 +17,7 @@
 
       <b-row>
         <b-col cols="6">
-          <h6 style="margin-left: 10%;color:#FC004C">Pendente</h6>
+          <h6 :style="statusStyleColor" style="margin-left: 10%;color:#FC004C">{{getNextReservationStatus()}}</h6>
         </b-col>
 
         <b-col>
@@ -115,6 +115,9 @@ export default {
   data() {
     return {
       users: [],
+      statusStyleColor:{
+        color:'black'
+      }
      
     };
   },
@@ -172,7 +175,48 @@ export default {
       
 
     }*/
+     getNextReservationStatus() {
+      let status = this.nextReservation.status.id;
+
+      //let statusColor = this.$refs.nextReservationStatus
+
+      let statusString = "";
+      switch (status) {
+        case 1:
+          statusString = "Pendente";
+          this.statusStyleColor.color="red"
+          // console.log(statusColor)
+
+          break;
+
+        case 2:
+          statusString = "Aprovada";
+          this.statusStyleColor.color="green"
+          break;
+        case 3:
+          statusString = "Rejeitada";
+          this.statusStyleColor.color="red"
+          break;
+        case 4:
+          statusString = "Cancelada";
+          this.statusStyleColor.color="red"
+          break;
+        case 5:
+          statusString = "Concluído";
+          this.statusStyleColor.color="green"
+          break;
+        case 6:
+          statusString = "Não comparência";
+          this.statusStyleColor.color="red"
+          break;
+        default:
+          statusString = "Erro";
+      }
+      console.log(status);
+      return statusString;
+    },
   },
+  
 };
 </script>
 

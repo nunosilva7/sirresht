@@ -931,7 +931,7 @@
           </b-col>
         </b-row>
         <b-row style="margin-bottom: 5%" class="text-center">
-          <b-col id="nextReservationStatus" ref="nextReservationStatus">
+          <b-col id="nextReservationStatus" ref="nextReservationStatus" :style="statusStyleColor">
             {{ getNextReservationStatus() }}
           </b-col>
         </b-row>
@@ -1095,6 +1095,10 @@ export default {
       finalOrder: [],
       totalPrice: null,
       clickReservation: false,
+
+      statusStyleColor:{
+        color:'black'
+      }
     };
   },
   created: function () {
@@ -1467,25 +1471,30 @@ export default {
       switch (status) {
         case 1:
           statusString = "Pendente";
-
+          this.statusStyleColor.color="red"
           // console.log(statusColor)
 
           break;
 
         case 2:
           statusString = "Aprovada";
+          this.statusStyleColor.color="green"
           break;
         case 3:
           statusString = "Rejeitada";
+          this.statusStyleColor.color="red"
           break;
         case 4:
           statusString = "Cancelada";
+          this.statusStyleColor.color="red"
           break;
         case 5:
           statusString = "Concluído";
+          this.statusStyleColor.color="green"
           break;
         case 6:
           statusString = "Não comparência";
+          this.statusStyleColor.color="red"
           break;
         default:
           statusString = "Erro";
