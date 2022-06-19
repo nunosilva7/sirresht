@@ -680,6 +680,8 @@ input[type="radio"]:checked+label:after{
     #divMenusCard{
         margin-right: 0% !important;
     }
+ 
+    
     
 }
 @media screen and (min-width:550px) and (max-width:750px){

@@ -10,6 +10,7 @@ export const ReservationService = {
             body: JSON.stringify(reservation)
         });
         if (response.ok) {
+            console.log(reservation)
             let data = await response.json();
             console.log(data)
             return data

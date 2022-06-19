@@ -1,59 +1,74 @@
 <template>
   <div id="reservations" style="margin: auto">
     <br /><br />
-    <b-container style="margin-left:2%">
-    <b-row >
-      <b-col >
-        <label for="select">Ordem</label>
-      </b-col>
-      <b-col>
-        <label for="select2">Estado</label>
-      </b-col>
-    </b-row>
+    <b-container style="margin-left: 2%">
+      <b-row>
+        <b-col>
+          <label for="select">Ordem</label>
+        </b-col>
+        <b-col>
+          <label for="select2">Estado</label>
+        </b-col>
+      </b-row>
 
-    <b-row class="justify-content-md-left" >
-      <b-col >
-        <b-form-select id="select" v-model="optionSortSelected" :options="optionsSort">
-         
-        </b-form-select>
-      </b-col>
-      <b-col >
-        <b-form-select id="select2" :options="options" required v-model="reservationStatusSelect">
-          <template #first>
+      <b-row class="justify-content-md-left">
+        <b-col>
+          <b-form-select
+            id="select"
+            v-model="optionSortSelected"
+            :options="optionsSort"
+          >
+          </b-form-select>
+        </b-col>
+        <b-col>
+          <b-form-select
+            id="select2"
+            :options="options"
+            required
+            v-model="reservationStatusSelect"
+          >
+            <template #first>
               <b-form-select-option value="">TODAS</b-form-select-option>
             </template>
-        </b-form-select>
-      </b-col>
-    </b-row>
-    <br />
-    <b-row >
-      <b-col >
-        <label for="select3">Data</label>
-      </b-col>
-    </b-row>
+          </b-form-select>
+        </b-col>
+      </b-row>
+      <br />
+      <b-row>
+        <b-col>
+          <label for="select3">Data</label>
+        </b-col>
+      </b-row>
 
-    <b-row >
-      <b-col >
-        <b-form-datepicker
-         
-          id="example-datepicker"
-          placeholder="YYYY-MM-DD"
-          class="mb-2"
-          :max="maxDate"
-          v-model="minDate"
-        ></b-form-datepicker>
-      </b-col>
-      <b-col >
-        <b-form-datepicker
-          :disabled="!isDate1Picked()"
-          id="example-datepicker2"
-          placeholder="YYYY-MM-DD"
-          class="mb-2"
-          :min="minDate"
-          v-model="maxDate"
-        ></b-form-datepicker>
-      </b-col>
-    </b-row>
+      <b-row>
+        <b-col>
+          <b-form-datepicker
+            id="example-datepicker"
+            placeholder="YYYY-MM-DD"
+            class="mb-2"
+            :max="maxDate"
+            v-model="minDate"
+            hide-header
+            no-flip
+            weekday-header-format="narrow"
+            
+          ></b-form-datepicker>
+        </b-col>
+        <b-col >
+          <b-form-datepicker
+            :disabled="!isDate1Picked()"
+            id="example-datepicker2"
+            placeholder="YYYY-MM-DD"
+            class="mb-2"
+            :min="minDate"
+            v-model="maxDate"
+            hide-header
+            no-flip
+            weekday-header-format="narrow"
+            
+          ></b-form-datepicker>
+        </b-col>
+      </b-row>
     </b-container>
 
     <hr class="rounded" />
@@ -97,19 +112,19 @@ export default {
         { value: 5, text: "Completada" },
         { value: 6, text: "Sem Comparência" },
       ],
-      minDate:"",
-      maxDate:"",
+      minDate: "",
+      maxDate: "",
 
-      optionSortSelected:1,
+      optionSortSelected: 1,
       optionsSort: [
         {
           value: 1,
-          text: "Mais Recentes"
+          text: "Mais Recentes",
         },
         {
           value: -1,
-          text: "Mais Antigos"
-        }
+          text: "Mais Antigos",
+        },
       ],
     };
   },
@@ -123,14 +138,13 @@ export default {
     getActiveReservation() {
       return this.$store.getters.getActiveReservation;
     },
-    isDate1Picked(){
-      if(this.minDate =="" || this.minDate ==null){
-        return false
+    isDate1Picked() {
+      if (this.minDate == "" || this.minDate == null) {
+        return false;
+      } else {
+        return true;
       }
-      else{
-        return true
-      }
-    }
+    },
   },
   computed: {
     getReservations() {
@@ -141,11 +155,7 @@ export default {
         this.maxDate,
         this.reservationStatusSelect,
         this.optionSortSelected
-
-      )
-
-
-
+      );
     },
   },
 };

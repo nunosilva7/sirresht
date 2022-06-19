@@ -160,7 +160,8 @@
                 </div>
               </li>
             </ul>
--->
+-->          
+           
             <div
               v-for="participant in this.participants"
               :key="participant.id"
@@ -241,6 +242,12 @@
                 ></b-img>
               </b-col>
             </b-row>
+             <div>
+            <b-form-group label="Tipo de mesa" v-slot="{ ariaDescribedby }" style="margin-left:5%;font-family:Fredoka Regular" required>
+              <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A" style="margin-left:5%;font-family:Fredoka Regular">Privada</b-form-radio>
+              <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="B" style="margin-left:5%;font-family:Fredoka Regular">Partilhada</b-form-radio>
+            </b-form-group>
+            </div>
           </div>
           <div
             id="form3"
@@ -925,23 +932,23 @@
         centered
         hide-footer
       >
-        <b-row class="text-center">
+        <b-row class="text-center" style="font-family:Fredoka Medium">
           <b-col>
-            <h4>Reserva {{ getActiveReservation().id }}</h4>
+            <h4 style="font-family:Fredoka Medium">Reserva {{ getActiveReservation().id }}</h4>
           </b-col>
         </b-row>
-        <b-row style="margin-bottom: 5%" class="text-center">
+        <b-row style="margin-bottom: 5%;" class="text-center" >
           <b-col id="nextReservationStatus" ref="nextReservationStatus" :style="statusStyleColor">
             {{ getNextReservationStatus() }}
           </b-col>
         </b-row>
-        <b-row>
+        <b-row style="font-family:Fredoka Regular;margin:auto;margin-bottom:2%">
           <b-col>Data: {{ getNextReservationDate() }}</b-col>
           <b-col
             >Preço total: {{ getActiveReservation().reservationPrice }}€
           </b-col>
         </b-row>
-        <b-row>
+        <b-row style="font-family:Fredoka Regular;margin:auto;margin-bottom:2%">
           <b-col>Hora: {{ getNextReservationTime() }}</b-col>
           <b-col style="min-width: max-content"
             >Pagamento: {{ isReservationPaid() }}</b-col
@@ -949,17 +956,17 @@
         </b-row>
         <b-row
           v-if="getActiveReservation().suplementsPrice != null"
-          
+          style="font-family:Fredoka Regular;margin:auto;margin-bottom:2%"
         >
           <b-col
             >Suplementos: {{ getActiveReservation().suplementsPrice }}</b-col
           >
         </b-row>
-        <b-row v-else >
+        <b-row v-else  style="font-family:Fredoka Regular;margin:auto;margin-bottom:2%">
           <b-col>Suplementos: 0.00€</b-col>
         </b-row>
         <div style="margin-top: 5%">
-          <b-row no-gutters  v-b-toggle="'collapse-1'" @click="changeIcon()" style="max-width:max-content" v-if="this.icon">
+          <b-row no-gutters  v-b-toggle="'collapse-1'" @click="changeIcon()" style="max-width:max-content;margin:auto" v-if="this.icon">
             <b-col style="max-width:max-content">
               <h6 style="min-width:max-content">Participantes ({{getNextReservation.participants.length}})</h6>
             </b-col>
@@ -1061,21 +1068,21 @@ export default {
         { text: "Almoço", value: "1" },
         { text: "Jantar", value: "2" },
       ],
-      selectedTime: "12:00",
+      selectedTime: "13:00",
       optionsTime: [
-        { value: "12:00", text: "12:00H" },
-        { value: "12:30", text: "12:30H" },
-        { value: "13:00", text: "13:00H" },
-        { value: "13:30", text: "13:30H" },
-        { value: "14:00", text: "14:00H" },
+        { value: "13:00", text: "12:00H" },
+        { value: "13:30", text: "12:30H" },
+        { value: "14:00", text: "13:00H" },
+        { value: "14:30", text: "13:30H" },
+        { value: "15:00", text: "14:00H" },
       ],
-      selectedTime2: "20:00",
+      selectedTime2: "21:00",
       optionsTime2: [
-        { value: "20:00", text: "20:00H" },
-        { value: "20:30", text: "20:30H" },
-        { value: "21:00", text: "21:00H" },
-        { value: "21:30", text: "21:30H" },
-        { value: "22:00", text: "22:00H" },
+        { value: "21:00", text: "20:00H" },
+        { value: "21:30", text: "20:30H" },
+        { value: "22:00", text: "21:00H" },
+        { value: "22:30", text: "21:30H" },
+        { value: "23:00", text: "22:00H" },
       ],
       date: null,
       context: null,
@@ -1376,9 +1383,17 @@ export default {
         console.log("falta data");
         this.$data.formError = "erro";
       } else {
+        let time;
+        if(this.selected==1){
+          time = this.selectedTime
+        }
+        else{
+          time = this.selectedTime2
+        }
+        console.log(this.date + " " + this.selectedTime)
         const reservation = {
-          startDate: this.date + " " + this.selectedTime,
-          endDate: this.date + " " + this.selectedTime,
+          startDate: this.date + " " + time,
+          endDate: this.date + " " + time,
           reservationPrice: this.totalPrice,
           message: "mensagem",
           isTableCommunal: false,
