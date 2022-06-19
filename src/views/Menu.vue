@@ -98,6 +98,7 @@
             id="example-datepicker"
             placeholder="YYYY-MM-DD"
             class="mb-2"
+            v-model="menuDate"
           ></b-form-datepicker>
         </b-col>
       </b-row>
@@ -477,7 +478,7 @@
   <!--MENU MODAL FOR USER AND EDIT MENU MODAL FOR ADMIN-->
   <b-modal id="menuModal" @show="getActiveMenu" hide-footer hide-header centered>
     <!--FULL MENU DATA-->
-    <div v-if="!isLoggedAdmin">
+    <div v-if="!isLoggedAdmin()">
       <b-row no-gutters>
         <b-col cols="5" style="margin-top: 4px">
           <b-img id="menuDateImg" src="../assets/icons/calendar24.png"></b-img>
@@ -751,6 +752,7 @@ export default {
         vSelectDessert1:"",
         vSelectDessert2:"",
       },
+      menuDate:now.toISOString().substring(0,10),
     };
   },
   created: function () {
@@ -1023,8 +1025,10 @@ export default {
   },
   computed: {
     getAllMenus() {
+      /*
       console.log(this.$store.getters.getAllMenus);
-      return this.$store.getters.getAllMenus;
+      return this.$store.getters.getAllMenus;*/
+      return this.$store.getters.getAllMenusFiltered(this.menuDate)
     },
     getAllDishes() {
       console.log(this.$store.getters.getAllDishes.rows);

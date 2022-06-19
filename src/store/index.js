@@ -89,6 +89,14 @@ export default new Vuex.Store({
 
     getAllMenus: state => state.menus,
 
+    getAllMenusFiltered: state => (date) =>{
+      const menusFiltered = state.menus.filter(
+        menu => menu.startDate.slice(0,10) >= date || date == ""
+      )
+      return menusFiltered
+
+    },
+
     getMenuById: state => (id) => {
       const menu = state.menus.filter(
         menu => menu.id === id
