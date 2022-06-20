@@ -49,7 +49,7 @@
               margin-right: 5%;
             "
           ></b-img>
-          <span id="menuTimeText">{{ getNextReservationTime() }} </span>
+          <span id="menuTimeText">{{ getNextReservationTime() }}H</span>
         </b-col>
       </b-row>
       <b-row>

@@ -4,14 +4,14 @@
     <b-container style="margin-left: 2%">
       <b-row>
         <b-col>
-          <label for="select">Ordem</label>
+          <label for="select" style="font-family:Fredoka Medium">Ordem</label>
         </b-col>
         <b-col>
-          <label for="select2">Estado</label>
+          <label for="select2" style="font-family:Fredoka Medium">Estado</label>
         </b-col>
       </b-row>
 
-      <b-row class="justify-content-md-left">
+      <b-row class="justify-content-md-left" style="font-family:Fredoka Regular"> 
         <b-col>
           <b-form-select
             id="select"
@@ -36,13 +36,14 @@
       <br />
       <b-row>
         <b-col>
-          <label for="select3">Data</label>
+          <label for="select3" style="font-family:Fredoka Medium">Data</label>
         </b-col>
       </b-row>
 
       <b-row>
         <b-col>
           <b-form-datepicker
+            style="font-family:Fredoka Regular"
             id="example-datepicker"
             placeholder="YYYY-MM-DD"
             class="mb-2"

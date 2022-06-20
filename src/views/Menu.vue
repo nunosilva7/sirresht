@@ -1,12 +1,12 @@
 <template>
   <div id="menus" style="margin: auto">
     <br>
-    <b-tabs content-class="mt-3" v-if="isLoggedAdmin()" active-nav-item-class="font-weight-bold text-success" >
+    <b-tabs content-class="mt-3" v-if="isLoggedAdmin()" active-nav-item-class="font-weight-bold text-success" style="font-family:Fredoka Regular" >
       <!-- This tabs content will always be mounted -->
       <b-tab title="Menus"
         ><b-container style="margin-left: 2%">
           
-        <b-row>
+        <b-row style="font-family:Fredoka regular">
         <b-col cols="7" style="margin-top: 1%">
           <b-button variant="warning" v-b-modal.createMenu
             >Criar Menu</b-button
@@ -16,7 +16,7 @@
         <br>
           <br>
 
-          <b-row>
+          <b-row style="font-family:Fredoka medium">
             <b-col>
               <label for="select3">Data</label>
             </b-col>
@@ -28,9 +28,14 @@
           <b-row>
             <b-col>
               <b-form-datepicker
+                style="font-family:Fredoka regular"
                 id="example-datepicker"
                 placeholder="YYYY-MM-DD"
+                
                 class="mb-2"
+                hide-header
+                no-flip
+                weekday-header-format="narrow"
               ></b-form-datepicker>
             </b-col>
             <b-col>
@@ -57,9 +62,8 @@
 
       <!-- This tabs content will not be mounted until the tab is shown -->
       <!-- and will be un-mounted when hidden -->
-      <b-tab title="Pratos" lazy 
-        ><b-alert show>Pratos</b-alert>
-        <b-row>
+      <b-tab title="Pratos" lazy >
+        <b-row style="font-family:Fredoka regular">
         <b-col cols="7" style="margin-top: 1%">
           <b-container style="margin-left: 2%">
             <b-button variant="warning" v-b-modal.createDish
@@ -88,17 +92,21 @@
     <b-container style="margin-left: 2%">
       <b-row>
         <b-col>
-          <label for="select3">Data</label>
+          <label for="select3" style="font-family:Fredoka Medium">Data</label>
         </b-col>
       </b-row>
 
       <b-row>
         <b-col>
           <b-form-datepicker
+          style="font-family:Fredoka Regular"
             id="example-datepicker"
             placeholder="YYYY-MM-DD"
             class="mb-2"
             v-model="menuDate"
+            hide-header
+            no-flip
+            weekday-header-format="narrow"
           ></b-form-datepicker>
         </b-col>
       </b-row>
@@ -132,9 +140,9 @@
       <br>
     
    </div>
-     <b-form-input type="url" v-model="previewImage" placeholder="Insira o url da imagem" required ></b-form-input>
+     <b-form-input style="font-family:Fredoka light" type="url" v-model="previewImage" placeholder="Insira o url da imagem" required ></b-form-input>
    <br>
-   <b-row>
+   <b-row style="font-family:Fredoka regular">
     <b-col>
       <label for="dishType" >Tipo de prato</label>
     </b-col>
@@ -142,14 +150,14 @@
       <label for="option">Opcção</label>
     </b-col>
    </b-row>
-   <b-row>
-    <b-col>
+   <b-row style="font-family:Fredoka light">
+    <b-col >
          <b-form-select id="dishType" v-model="dishType" :options="options" required >
          
         </b-form-select>
     </b-col>
-    <b-col>
-      <b-form-select id="option" >
+    <b-col >
+      <b-form-select id="option"  >
           <b-form-select-option value="coiso">Carne</b-form-select-option>
           <b-form-select-option value="fish">Peixe</b-form-select-option>
            <b-form-select-option value="vegetarian">Vegetariano</b-form-select-option>
@@ -158,10 +166,10 @@
     </b-col>
    </b-row>
    <br>
-   <label for="dishName" >Nome do Prato</label>
-   <b-form-input id="dishName" type="text" v-model="dishName" required placeholder="Nome do prato"></b-form-input>
+   <label style="font-family:Fredoka regular" for="dishName" >Nome do Prato</label>
+   <b-form-input  style="font-family:Fredoka light" id="dishName" type="text" v-model="dishName" required placeholder="Nome do prato"></b-form-input>
 
-   <b-button style="margin:auto;display:block;width:60%;margin-top:10%" type="Submit" >adicionar</b-button>
+   <b-button style="margin:auto;display:block;width:60%;margin-top:10%;background-color:#fca311;border:none;font-family:Fredoka medium" type="Submit" >Criar prato</b-button>
    </b-form>
   </b-modal>
 
@@ -172,6 +180,7 @@
         <b-row>
               <b-col>
                 <b-calendar
+                style="font-family: Fredoka regular"
                   v-model="form.date"
                   @context="onContext"
                   locale="pt-PT"
@@ -203,15 +212,15 @@
             
       
        
-       <b-row>
+       <b-row style="font-family: Fredoka Medium">
         <b-col>
-          Preço €
+          Preço 
         </b-col>
         <b-col>
           Nº de Reservas
         </b-col>
        </b-row>
-       <b-row>
+       <b-row style="font-family: Fredoka light ">
         <b-col>
          
           <b-form-input  v-model="form.menuPrice" type="number" step="0.05" min="0.00" max="150.00" placeholder="Preço da reserva(€)" required></b-form-input>
@@ -232,11 +241,11 @@
 
       </div>
       <div id="form2" v-if="this.form2">
-        <b-row>
+        <b-row style="font-family: Fredoka regular">
           <b-col cols="10">Entradas</b-col>
           <b-col cols="2">Qtd.</b-col>
         </b-row>
-        <b-row no-gutters>
+        <b-row no-gutters style="font-family: Fredoka light">
           <b-col cols="10">
             <v-select v-model="form.dishStarter1" :options="getStarterDishForSelect" style="font-size:80%;" required></v-select>
           </b-col>
@@ -244,7 +253,7 @@
             <b-input v-model="form.starter1Qt" style="font-size:80%"  type="number" min="1" :max="this.form.menuMaxReservations" required></b-input>
           </b-col>
         </b-row>
-        <b-row no-gutters style="margin-top:3%">
+        <b-row no-gutters style="margin-top:3%;font-family: Fredoka light" >
           <b-col cols="10">
             <v-select v-model="form.dishStarter2" :options="getStarterDishForSelect" style="font-size:80%;" required></v-select>
           </b-col>
@@ -254,11 +263,11 @@
         </b-row>
         <br>
 
-        <b-row>
+        <b-row style="font-family: Fredoka regular">
           <b-col cols="10">Prato Principal</b-col>
            <b-col cols="2">Qtd.</b-col>
         </b-row>
-        <b-row no-gutters>
+        <b-row no-gutters style="font-family: Fredoka light">
           <b-col cols="10">
             <v-select v-model="form.dishMain1" :options="getMainDishForSelect" style="font-size:80%;" required></v-select>
           </b-col>
@@ -266,7 +275,7 @@
             <b-input v-model="form.main1Qt" style="font-size:80%" type="number" min="1" :max="this.form.menuMaxReservations" required></b-input>
           </b-col>
         </b-row>
-        <b-row no-gutters style="margin-top:3%">
+        <b-row no-gutters style="margin-top:3%;font-family: Fredoka light">
           <b-col cols="10">
             <v-select v-model="form.dishMain2" :options="getMainDishForSelect" style="font-size:80%;" required></v-select>
           </b-col>
@@ -276,11 +285,11 @@
         </b-row>
         <br>
 
-        <b-row>
+        <b-row style="font-family: Fredoka regular">
           <b-col cols="10">Sobremesa</b-col>
            <b-col cols="2">Qtd.</b-col>
         </b-row>
-        <b-row no-gutters>
+        <b-row no-gutters style="font-family: Fredoka light">
           <b-col cols="10">
             <v-select v-model="form.dishDessert1" :options="getDessertDishForSelect" style="font-size:80%;"></v-select>
           </b-col>
@@ -288,7 +297,7 @@
             <b-input  v-model="form.dessert1Qt" style="font-size:80%" type="number" :max="this.form.menuMaxReservations" min="1"></b-input>
           </b-col>
         </b-row>
-        <b-row no-gutters style="margin-top:3%">
+        <b-row no-gutters style="margin-top:3%;font-family: Fredoka light">
           <b-col cols="10">
             <v-select v-model="form.dishDessert2" :options="getDessertDishForSelect" style="font-size:80%;"></v-select>
           </b-col>
@@ -326,27 +335,27 @@
        </b-row>
       </div>
       <div id="form3" v-if="this.form3">
-        <b-row>
-          <b-col>Data: {{this.form.date}}</b-col>
-          <b-col>Horário: {{isDinner()}}</b-col>
+        <b-row style="font-family: Fredoka regular">
+          <b-col ><strong>Data: </strong>{{this.form.date}}</b-col>
+          <b-col><strong>Horário: </strong>{{isDinner()}}</b-col>
         </b-row>
-        <b-row>
-          <b-col>Preço: {{(Math.round(this.form.menuPrice * 100) / 100).toFixed(2)}}€</b-col>
-          <b-col>Reservas: {{this.form.menuMaxReservations}}</b-col>
+        <b-row style="font-family: Fredoka regular">
+          <b-col><strong>Preço: </strong>{{(Math.round(this.form.menuPrice * 100) / 100).toFixed(2)}}€</b-col>
+          <b-col><strong>Reservas: </strong>{{this.form.menuMaxReservations}}</b-col>
         </b-row>
         <hr class="rounded" />
 
-        <b-row>
+        <b-row >
           <b-col>
             <h6>Entradas</h6>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row style="font-family:Fredoka regular;margin-left:1%">
           <b-col>
             {{this.form.dishStarter1.label}}
           </b-col>
         </b-row>
-        <b-row>
+        <b-row style="font-family:Fredoka regular;margin-left:1%">
           <b-col>
             {{this.form.dishStarter2.label}}
           </b-col>
@@ -355,13 +364,13 @@
         <b-row>
           <b-col><h6>Prato Principal</h6></b-col> 
           </b-row>
-        <b-row><b-col>{{this.form.dishMain1.label}}</b-col></b-row>
-        <b-row><b-col>{{this.form.dishMain2.label}}</b-col></b-row>
+        <b-row style="font-family:Fredoka regular;margin-left:1%"><b-col>{{this.form.dishMain1.label}}</b-col></b-row>
+        <b-row style="font-family:Fredoka regular;margin-left:1%"><b-col>{{this.form.dishMain2.label}}</b-col></b-row>
         <br>
 
         <b-row><b-col><h6>Sobremesa</h6></b-col></b-row>
-        <b-row><b-col>{{this.form.dishDessert1.label}}</b-col></b-row>
-        <b-row><b-col>{{this.form.dishDessert2.label}}</b-col></b-row>
+        <b-row style="font-family:Fredoka regular;margin-left:1%"><b-col>{{this.form.dishDessert1.label}}</b-col></b-row>
+        <b-row style="font-family:Fredoka regular;margin-left:1%"><b-col>{{this.form.dishDessert2.label}}</b-col></b-row>
 
        
       </div>
@@ -395,22 +404,22 @@
   <!--DISH MODAL(EDIT)-->
   <b-modal id="dishModal" @show="getActiveDish"  centered hide-footer>
     <b-form @submit.prevent="updateDish()">
-      <b-row>
+      <b-row style="font-family:Fredoka regular">
         <b-col>
           <label for="">ID</label>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row style="font-family:Fredoka light">
         <b-col>
           <b-form-input v-model="editDish.id" disabled></b-form-input>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row style="font-family:Fredoka regular;margin-top:1%">
         <b-col>
           <label for="">Nome do prato</label>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row style="font-family:Fredoka light">
         <b-col>
           <b-form-input v-model="editDish.name"></b-form-input>
         </b-col>
@@ -431,20 +440,20 @@
         </div>
          
       </b-row>
-      <b-row>
+      <b-row style="font-family:Fredoka regular">
         <b-col>
           <label for="">URL da imagem</label>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row style="font-family:Fredoka light">
         <b-col><b-form-input type="url" v-model="editDish.imageReference" placeholder="Insira o url da imagem" required ></b-form-input></b-col>
       </b-row>
-      <b-row>
+      <b-row style="font-family:Fredoka regular;margin-top:1%">
         <b-col>
           <label for="">Tipo de prato</label>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row style="font-family:Fredoka light">
         <b-col>
           <b-form-select id="dishType"  v-model="editDish.courseId" :options="options" required >
           </b-form-select>
@@ -479,10 +488,10 @@
   <b-modal id="menuModal" @show="getActiveMenu" hide-footer hide-header centered>
     <!--FULL MENU DATA-->
     <div v-if="!isLoggedAdmin()">
-      <b-row no-gutters>
+      <b-row no-gutters style="font-family:Fredoka Regular">
         <b-col cols="5" style="margin-top: 4px">
           <b-img id="menuDateImg" src="../assets/icons/calendar24.png"></b-img>
-          <span id="menuDate"> {{ editMenu.startDate }}</span>
+          <span id="menuDate" > {{ editMenu.startDate }}</span>
         </b-col>
         <b-col cols="4" style="margin-top: 3px">
           <b-img id="menuTimeImg" src="../assets/icons/clock24.png"></b-img>
@@ -498,7 +507,7 @@
         >
       </b-row>
     <hr>
-    <b-row no-gutters>
+    <b-row no-gutters style="font-family:Fredoka Regular">
       <b-col style="max-width:max-content">
         <b-img :src="this.editMenu.starter1.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
       </b-col>
@@ -507,7 +516,7 @@
       </b-col>
     </b-row>
     <br>
-    <b-row no-gutters>
+    <b-row no-gutters style="font-family:Fredoka Regular">
       <b-col style="max-width:max-content">
         <b-img :src="this.editMenu.starter2.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
       </b-col>
@@ -516,7 +525,7 @@
       </b-col>
     </b-row>
     <hr>
-    <b-row no-gutters>
+    <b-row no-gutters style="font-family:Fredoka Regular">
       <b-col style="max-width:max-content">
         <b-img :src="this.editMenu.main1.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
       </b-col>
@@ -525,7 +534,7 @@
       </b-col>
     </b-row>
     <br>
-    <b-row no-gutters>
+    <b-row no-gutters style="font-family:Fredoka Regular">
       <b-col style="max-width:max-content">
         <b-img :src="this.editMenu.main2.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
       </b-col>
@@ -534,7 +543,7 @@
       </b-col>
     </b-row>
     <hr>
-    <b-row no-gutters>
+    <b-row no-gutters style="font-family:Fredoka Regular">
       <b-col style="max-width:max-content">
         <b-img :src="this.editMenu.dessert1.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
       </b-col>
@@ -543,7 +552,7 @@
       </b-col>
     </b-row>
     <br>
-    <b-row no-gutters >
+    <b-row no-gutters style="font-family:Fredoka Regular">
       <b-col style="max-width:max-content">
         <b-img :src="this.editMenu.dessert2.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
       </b-col>
@@ -593,27 +602,52 @@
       </b-row>
       <br>
 
-    <h6>Entradas</h6>
+      <b-row>
+        <b-col>
+          <h6>Entradas</h6>
+        </b-col>
+        <b-col cols="2">
+          <h6>Qtd.</h6>
+        </b-col>
+      </b-row>
+    
       <b-row no-gutters>
       
         <b-col>
           <v-select v-model="editMenu.vSelectStarter1" :options="getStarterDishForSelect"></v-select>
         </b-col>
+         <b-col cols="2">
+            <b-input v-model="editMenu.starter1Qtd"  style="font-size:80%"  type="number" min="1" required></b-input>
+          </b-col>
       </b-row>
     <br>
     <b-row no-gutters>
       
       <b-col>
         <v-select v-model="editMenu.vSelectStarter2" :options="getStarterDishForSelect"></v-select>
+        
       </b-col>
+      <b-col cols="2">
+            <b-input  v-model="editMenu.starter2Qtd" style="font-size:80%"  type="number" min="1" required></b-input>
+          </b-col>
     </b-row>
     <hr>
-    <h6>Pratos Principais</h6>
+    <b-row>
+        <b-col>
+          <h6>Pratos Principais</h6>
+        </b-col>
+        <b-col cols="2">
+          <h6>Qtd.</h6>
+        </b-col>
+      </b-row>
     <b-row no-gutters>
      
       <b-col>
         <v-select v-model="editMenu.vSelectMain1" :options="getMainDishForSelect"></v-select>
       </b-col>
+      <b-col cols="2">
+            <b-input  v-model="editMenu.main1Qtd"  style="font-size:80%"  type="number" min="1" required></b-input>
+          </b-col>
     </b-row>
     <br>
     <b-row no-gutters>
@@ -621,14 +655,27 @@
      <b-col>
         <v-select v-model="editMenu.vSelectMain2" :options="getMainDishForSelect"></v-select>
       </b-col>
+      <b-col cols="2">
+            <b-input  v-model="editMenu.main2Qtd" style="font-size:80%"  type="number" min="1" required></b-input>
+          </b-col>
     </b-row>
     <hr>
-    <h6>Sobremesas</h6>
+    <b-row>
+        <b-col>
+          <h6>Sobremesa</h6>
+        </b-col>
+        <b-col cols="2">
+          <h6>Qtd.</h6>
+        </b-col>
+      </b-row>
     <b-row no-gutters>
       
       <b-col>
         <v-select v-model="editMenu.vSelectDessert1" :options="getDessertDishForSelect"></v-select>
       </b-col>
+      <b-col cols="2">
+            <b-input  v-model="editMenu.dessert1Qtd" style="font-size:80%"  type="number" min="1" required></b-input>
+          </b-col>
     </b-row>
     <br>
     <b-row no-gutters >
@@ -636,6 +683,9 @@
       <b-col>
         <v-select v-model="editMenu.vSelectDessert2" :options="getDessertDishForSelect"></v-select>
       </b-col>
+      <b-col cols="2">
+            <b-input  v-model="editMenu.dessert2Qtd" style="font-size:80%"  type="number" min="1" required></b-input>
+          </b-col>
     </b-row>
     <hr>
 
@@ -745,14 +795,20 @@ export default {
         main2: {},
         dessert1: {},
         dessert2: {},
-        vSelectStarter1:"",
-        vSelectStarter2:"",
-        vSelectMain1:"",
-        vSelectMain2:"",
-        vSelectDessert1:"",
-        vSelectDessert2:"",
+        vSelectStarter1: "",
+        starter1Qtd: 1,
+        vSelectStarter2: "",
+        starter2Qtd: 1,
+        vSelectMain1: "",
+        main1Qtd: 1,
+        vSelectMain2: "",
+        main2Qtd: 1,
+        vSelectDessert1: "",
+        dessert1Qtd: 1,
+        vSelectDessert2: "",
+        dessert2Qtd: 1,
       },
-      menuDate:now.toISOString().substring(0,10),
+      menuDate: now.toISOString().substring(0, 10),
     };
   },
   created: function () {
@@ -992,35 +1048,42 @@ export default {
       this.editMenu.dishes = menu.dishes;
       this.editMenu.starter1 = menu.dishes[0];
       this.editMenu.starter2 = menu.dishes[1];
-      this.editMenu.vSelectStarter1={
-        code:menu.dishes[0].id,
-        label:menu.dishes[0].name
-      }
-      this.editMenu.vSelectStarter2={
-        code:menu.dishes[1].id,
-        label:menu.dishes[1].name
-      }
+      this.editMenu.starter1Qtd = menu.dishes[0].menuDish.dishQuantity;
+      this.editMenu.starter2Qtd = menu.dishes[1].menuDish.dishQuantity;
+      this.editMenu.main1Qtd = menu.dishes[2].menuDish.dishQuantity;
+      this.editMenu.main2Qtd = menu.dishes[3].menuDish.dishQuantity;
+      this.editMenu.dessert1Qtd = menu.dishes[4].menuDish.dishQuantity;
+      this.editMenu.dessert2Qtd = menu.dishes[5].menuDish.dishQuantity;
+
+      this.editMenu.vSelectStarter1 = {
+        code: menu.dishes[0].id,
+        label: menu.dishes[0].name,
+      };
+      this.editMenu.vSelectStarter2 = {
+        code: menu.dishes[1].id,
+        label: menu.dishes[1].name,
+      };
 
       this.editMenu.main1 = menu.dishes[2];
       this.editMenu.main2 = menu.dishes[3];
-      this.editMenu.vSelectMain1={
-        code:menu.dishes[2].id,
-        label:menu.dishes[2].name
-      }
-      this.editMenu.vSelectMain2={
-        code:menu.dishes[3].id,
-        label:menu.dishes[3].name
-      }
+      this.editMenu.vSelectMain1 = {
+        code: menu.dishes[2].id,
+        label: menu.dishes[2].name,
+      };
+      this.editMenu.vSelectMain2 = {
+        code: menu.dishes[3].id,
+        label: menu.dishes[3].name,
+      };
       this.editMenu.dessert1 = menu.dishes[4];
       this.editMenu.dessert2 = menu.dishes[5];
-      this.editMenu.vSelectDessert1={
-        code:menu.dishes[4].id,
-        label:menu.dishes[4].name
-      }
-      this.editMenu.vSelectDessert2={
-        code:menu.dishes[5].id,
-        label:menu.dishes[5].name
-      }
+      this.editMenu.vSelectDessert1 = {
+        code: menu.dishes[4].id,
+        label: menu.dishes[4].name,
+      };
+      this.editMenu.vSelectDessert2 = {
+        code: menu.dishes[5].id,
+        label: menu.dishes[5].name,
+      };
     },
   },
   computed: {
@@ -1028,7 +1091,7 @@ export default {
       /*
       console.log(this.$store.getters.getAllMenus);
       return this.$store.getters.getAllMenus;*/
-      return this.$store.getters.getAllMenusFiltered(this.menuDate)
+      return this.$store.getters.getAllMenusFiltered(this.menuDate);
     },
     getAllDishes() {
       console.log(this.$store.getters.getAllDishes.rows);
