@@ -186,6 +186,12 @@
             >Registar</b-button
           >
         </b-row>
+        <br>
+
+        <div class="justify-content-md-center" style="display:flex; justify-content:center">
+          <span style="font-family:Fredoka light">Já tem conta?</span><span style="font-family:Fredoka light;color:#fca311">&nbsp;Clique aqui</span>
+
+        </div>
       </b-form>
     </b-modal>
 

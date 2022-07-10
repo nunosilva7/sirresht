@@ -123,6 +123,9 @@
         />
       </b-row>
     </b-container>
+    <div v-if="!getAllMenus.length" style="height:200px">
+
+    </div>
     </div>
 
     <!--CREATE DISH MODAL-->

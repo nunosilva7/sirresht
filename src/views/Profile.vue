@@ -108,6 +108,8 @@
                   label-help=""
                   block
                   hide-header
+                  no-flip
+                  weekday-header-format="narrow"
                   required
                 ></b-calendar>
               </b-col>
@@ -143,11 +145,12 @@
                 </b-form-select>
               </div>
             </b-row>
+         
           </div>
           <div
             id="form2"
             v-if="this.form2"
-            style="min-height: 200px; height: 24rem"
+            style="min-height: 200px; height: 24rem;overflow-y: auto"
           >
             <!--
             <ul v-for="participant in this.participants" :key="participant.id">
@@ -367,7 +370,7 @@
                     >
                       <b-row>
                         <div>
-                          <h6>Entrada (opcional)</h6>
+                          <h6>Entrada</h6>
                           <b-form-group v-slot="{ ariaDescribedby }">
                             <b-form-radio-group id="starter">
                               <b-row>
@@ -437,7 +440,7 @@
                               </b-row>
                             </b-form-radio-group>
                           </b-form-group>
-                          <h6>Sobremesa (opcional)</h6>
+                          <h6>Sobremesa</h6>
                           <b-form-group v-slot="{ ariaDescribedby }">
                             <b-form-radio-group id="dessert">
                               <b-row>
@@ -656,7 +659,7 @@
             </div>
           </b-row>
           <b-row class="justify-content-md-center" no-gutters>
-            <b-col>
+            <b-col v-if="!this.form1 && !this.form5">
               <b-button
                 style="
                   position: absolute;
@@ -676,20 +679,20 @@
             <b-col v-if="!this.form6">
               <b-button
                 style="
-                  position: absolute;
-                  left: 15%;
-                  width: 50%;
-                  min-width: max-content;
-                  background-color: #fca311;
-                  border: none;
-                  font-family: Fredoka medium;
-                  font-size: 15px;
+                  margin:auto;display:block;width:60%;margin-top:10%;background-color:#fca311;border:none;font-family:Fredoka medium
                 "
                 @click="showNextForm()"
                 v-if="!this.date"
                 disabled
                 >Seguinte</b-button
               >
+              <b-button
+                style="
+                  margin:auto;display:block;width:60%;margin-top:10%;background-color:#fca311;border:none;font-family:Fredoka medium
+                "
+                @click="showNextForm()"
+                v-if="this.date && this.form1"
+                >Seguinte</b-button>
 
               <b-button
                 style="
@@ -703,7 +706,7 @@
                   font-size: 15px;
                 "
                 @click="showNextForm()"
-                v-else-if="!this.form6 && !this.form5"
+                v-else-if="!this.form6 && !this.form5 && !this.form1"
                 >Seguinte</b-button
               >
             </b-col>
