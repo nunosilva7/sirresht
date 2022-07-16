@@ -67,6 +67,21 @@ export const ReservationService = {
             console.log("erro")
             throw Error(response.Error)
         }
+    },
+    async fetchAllReservations(user){
+        const response = await fetch(`${API_URL}/reservations`,{
+            method: "GET",
+            headers: authHeader(user),
+        });
+        if(response.ok){
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+        else{
+            console.log("erro")
+            throw Error(response.Error)
+        }
     }
 }
 

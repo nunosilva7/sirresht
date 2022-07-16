@@ -323,6 +323,12 @@ export default new Vuex.Store({
         context.commit("GET_DISH_BY_ID", data);
       }
     },
+    async getAllReservations(context){
+      let data = await ReservationService.fetchAllReservations(context.state.loggedUser);
+      //console.log("getAllReservations " + JSON.stringify(data));
+      context.commit("GET_ALL_RESERVATIONS", data)
+
+    },
     async createReservation(context, reservation) {
       if (context.state.loggedUser !== null) {
 
@@ -472,6 +478,9 @@ export default new Vuex.Store({
     },
     GET_ALL_DISHES(state, data) {
       state.dishes = data
+    },
+    GET_ALL_RESERVATIONS(state,data){
+      state.userReservations = data
     },
     GET_NEXT_RESERVATION(state, data) {
       state.nextReservation = data
