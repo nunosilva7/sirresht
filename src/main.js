@@ -3,7 +3,7 @@ import "./plugins/bootstrap-vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import {initializeApp} from "firebase/app"
+import firebase from "firebase"
 import vSelect from "vue-select"
 import 'vue-select/dist/vue-select.css';
 
@@ -24,8 +24,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-console.log(app)
+firebase.initializeApp(firebaseConfig);
+//console.log(app)
 
 
 

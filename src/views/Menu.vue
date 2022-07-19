@@ -131,6 +131,7 @@
     <!--CREATE DISH MODAL-->
     <b-modal id="createDish" centered hide-footer>
       <b-form @submit.prevent="createDish()">
+        <!--
       <div v-if="this.previewImage!=null ">
      
       <img  :src="this.previewImage" alt="Imagem do prato" @error="previewImageNull()"  class="uploading-image " width="200px" height="150px" style="margin:auto;border:1px solid" required />
@@ -144,6 +145,19 @@
     
    </div>
      <b-form-input style="font-family:Fredoka light" type="url" v-model="previewImage" placeholder="Insira o url da imagem" required ></b-form-input>
+     -->
+     <div>
+      <input type="file" @change="previewImages" accept="image/*" >                
+    </div>
+    <div>
+      <p>Progresso: {{uploadValue.toFixed()+"%"}}
+      <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
+    </div>
+    <div v-if="imageData!=null">                     
+        <img class="preview" width="200px" height="150px" :src="picture">
+        <br>
+         <button type="button" @click="onUpload">Upload</button>
+    </div> 
    <br>
    <b-row style="font-family:Fredoka regular">
     <b-col>
@@ -428,6 +442,7 @@
         </b-col>
       </b-row>
       <br>
+      <!--
       <b-row class="row justify-content-center">
         <div v-if="this.editDish.imageReference!=null " >
      
@@ -448,9 +463,25 @@
           <label for="">URL da imagem</label>
         </b-col>
       </b-row>
+    
       <b-row style="font-family:Fredoka light">
         <b-col><b-form-input type="url" v-model="editDish.imageReference" placeholder="Insira o url da imagem" required ></b-form-input></b-col>
       </b-row>
+      -->
+      <div>
+      <input type="file" @change="previewImages" accept="image/*" >                
+    </div>
+    <div>
+      <p>Progresso: {{uploadValue.toFixed()+"%"}}
+      <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
+    </div>
+    <div v-if="imageData!=null">                     
+        <img class="preview" width="200px" height="150px" :src="picture">
+        <br>
+         <button type="button" @click="onUpload">Upload</button>
+    </div> 
+     
+         
       <b-row style="font-family:Fredoka regular;margin-top:1%">
         <b-col>
           <label for="">Tipo de prato</label>
@@ -717,6 +748,7 @@
 <script>
 import MenusCard from "../components/MenusCard.vue";
 import DishesCard from "../components/DishCard.vue";
+import firebase from "firebase";
 //import { getStorage, ref } from "firebase/storage";
 //import * as firebase  from "firebase";
 
@@ -739,6 +771,9 @@ export default {
       ordem: null,
       estado: null,
       users: [],
+      imageData: null,
+      picture: null,
+      uploadValue: 0,
       previewImage: null,
       isImageValid: null,
       img1: null,
@@ -904,44 +939,15 @@ export default {
       image.src = url;
     },
 
-    /*
-    uploadImage(e) {
-      
-
-      const image = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = (e) => {
-        this.previewImage = e.target.result;
-      };
-
-      const storage = getStorage();
-      const img = ref(storage, this.previewImage)
-      console.log(img)
-      const post={
-        img: this.previewImage,
-        caption: "this.dishName"
-      }
-
-       firebase.database().ref('PhotoGallery').push(post)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    async createDish() {
       
       
-        
       
-    },*/
-
-    createDish() {
       let dish = {
         name: this.dishName,
         courseId: this.dishType,
         isALaCarte: false,
-        imageReference: this.previewImage,
+        imageReference: this.picture,
       };
 
       console.log(dish);
@@ -1021,7 +1027,7 @@ export default {
       let dish = {
         name: this.editDish.name,
         isALaCarte: this.editDish.isALaCarte,
-        imageReference: this.editDish.imageReference,
+        imageReference: this.picture,
         courseId: this.editDish.courseId,
       };
       if (confirm("Quer alterar os dados?")) {
@@ -1087,6 +1093,35 @@ export default {
         code: menu.dishes[5].id,
         label: menu.dishes[5].name,
       };
+    },
+    previewImages(event) {
+      this.uploadValue = 0;
+      this.picture = null;
+      this.imageData = event.target.files[0];
+    },
+
+    onUpload() {
+      this.picture = null;
+      const storageRef = firebase
+        .storage()
+        .ref(`${this.imageData.name}`)
+        .put(this.imageData);
+      storageRef.on(
+        `state_changed`,
+        (snapshot) => {
+          this.uploadValue =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error.message);
+        },
+        () => {
+          this.uploadValue = 100;
+          storageRef.snapshot.ref.getDownloadURL().then((url) => {
+            this.picture = url;
+          });
+        }
+      );
     },
   },
   computed: {
