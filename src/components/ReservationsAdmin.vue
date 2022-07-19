@@ -58,7 +58,7 @@
             <div
         id="expandNextReservation2"
         @click="getReservationById(reservation.id)"
-        v-b-modal.adminEditModal
+      
       >
         <b-img
           id="expandNextReservationImg2"
@@ -134,8 +134,9 @@ export default {
       const time = this.reservation.startDate.slice(11, 16);
       return time;
     },
-    getReservationById(id) {
-      this.$store.dispatch("getReservationById", id);
+    async getReservationById(id) {
+     await this.$store.dispatch("getReservationById", id);
+      this.$bvModal.show("adminEditModal");
       
     },
     getUserById(id) {
@@ -191,8 +192,8 @@ export default {
         return price
     },
     checkPayment(){
-        const amountReceived = this.reservation.amountReceived
-        const price = this.reservation.reservationPrice
+        const amountReceived = Number(this.reservation.amountReceived)
+        const price = Number(this.reservation.reservationPrice)
         let string = ""
         if(amountReceived == "0.00"){
             string = "Por pagar"

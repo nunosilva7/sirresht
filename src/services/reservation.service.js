@@ -82,6 +82,60 @@ export const ReservationService = {
             console.log("erro")
             throw Error(response.Error)
         }
+    },
+    async updateReservationStatus(user,reservation,reservationId){
+        const response = await fetch(`${API_URL}/reservations/${reservationId}`,{
+            method: "PUT",
+            headers: authHeader(user),
+            body: JSON.stringify(reservation)
+        });
+        if(response.ok){
+            let data = await response.json();
+            console.log(data)
+            return data
+
+        }
+        else{
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+    },
+    async incrementSupplements(user,reservation,reservationId){
+        const response = await fetch(`${API_URL}/reservations/${reservationId}/increment/`,{
+            method: "PUT",
+            headers: authHeader(user),
+            body: JSON.stringify(reservation)
+        });
+        if(response.ok){
+            let data = await response.json();
+            console.log(data)
+            return data
+
+        }
+        else{
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+    },
+    async paymentByParticipant (user,payment,reservationId,participantId){
+        const response = await fetch(`${API_URL}/reservations/${reservationId}/payment/${participantId}`,{
+            method: "PUT",
+            headers: authHeader(user),
+            body: JSON.stringify(payment)
+        });
+        if(response.ok){
+            let data = await response.json();
+            console.log(data)
+            return data
+
+        }
+        else{
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
     }
 }
 

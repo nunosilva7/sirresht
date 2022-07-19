@@ -174,7 +174,7 @@ export default new Vuex.Store({
         reservation => reservation.startDate.slice(0,10) <= maxDate || maxDate ==""
       )
       var userReservations3 = userReservations2.filter(
-        reservation => reservation.statusId ==reservationStatus || reservationStatus==""
+        reservation => reservation.status.id ==reservationStatus || reservationStatus==""
       )
       return userReservations3.sort((a,b) =>{
         if(a.id > b.id) return -1 * _sort;
@@ -446,6 +446,29 @@ export default new Vuex.Store({
     setActiveMenu(context,menu){
       context.commit("SET_ACTIVE_MENU", menu)
     },
+    async updateReservationStatus(context,reservation){
+      if(context.state.loggedUser !== null){
+        await ReservationService.updateReservationStatus(context.state.loggedUser,
+          reservation,
+          context.state.activeReservation.id)
+      }
+
+    },
+    async incrementSupplements(context,reservation){
+      if(context.state.loggedUser !== null){
+        await ReservationService.incrementSupplements(context.state.loggedUser,
+          reservation,
+          context.state.activeReservation.id)
+      }
+    },
+    async paymentByParticipant(context,payment){
+      if(context.state.loggedUser !== null){
+        await ReservationService.paymentByParticipant(context.state.loggedUser,
+          payment,
+          context.state.activeReservation.id,
+          payment.id)
+      }
+    }
 
   },
   mutations: {
