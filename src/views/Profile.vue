@@ -382,6 +382,7 @@
                     :key="menu.id"
                     :title="'Menu ' + menu.price + '€'"
                     @click="clearOptions()"
+                    
                   >
                     <b-form
                       @submit.prevent="pickDishes(participant_id, menu.id)"
@@ -1044,7 +1045,7 @@
                   :key="participant.id"
                   style="margin-right: 5%; margin-left: 5%; margin-top: 1%"
                 >
-                  <h6 style="text-align: center">{{ participant.id }}</h6>
+                  <h6 style="text-align: center">{{ participant.name }}</h6>
                   <b-avatar
                     id="participantsAvatar"
                     :src="participant.user.avatarReference"
@@ -1455,7 +1456,7 @@ export default {
         let time;
         if (this.selected == 1) {
           time = this.selectedTime;
-        } else {
+        } else  {
           time = this.selectedTime2;
         }
         console.log(this.date + " " + this.selectedTime);
@@ -1473,6 +1474,7 @@ export default {
         this.$data.formError = "Reserva criada com sucesso";
         this.$store.dispatch("createReservation", reservation);
         setInterval(this.$bvModal.hide("reservationModal"), 2000);
+         
       }
     },
     getActiveReservation() {

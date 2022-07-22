@@ -763,6 +763,7 @@ export default {
       };
       if (confirm("Quer alterar os dados?")) {
         await this.$store.dispatch("updateReservationStatus", reservation);
+         await this.$store.dispatch("getAllReservations");
       }
     },
     async incrementSupplements() {
@@ -801,8 +802,11 @@ export default {
       console.log(payment);
       await this.$store.dispatch("paymentByParticipant", payment);
 
-      //CONCLUIR SE ATINGIR O VALOR TOTAL     
-      if ( (Number(amountPaid) + Number(this.frm.amountReceived))  >= (Number(this.frm.price) + Number(this.frm.supplements))) {
+      //CONCLUIR SE ATINGIR O VALOR TOTAL
+      if (
+        Number(amountPaid) + Number(this.frm.amountReceived) >=
+        Number(this.frm.price) + Number(this.frm.supplements)
+      ) {
         let reservation = {
           reservationStatusId: 5,
           statusId: 5,
@@ -815,8 +819,8 @@ export default {
   computed: {
     getReservations() {
       //return this.$store.getters.getUserReservations;
-  
-        return this.$store.getters.getUserReservationsFiltered(
+
+      return this.$store.getters.getUserReservationsFiltered(
         this.minDate,
         this.maxDate,
         this.reservationStatusSelect,
