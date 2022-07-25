@@ -224,6 +224,29 @@ export default new Vuex.Store({
       getActiveMenu: state => state.activeMenu,
 
 
+      getActiveMenuMain: state  => {
+        const menuMain = state.activeMenu.dishes.filter(
+          menu => menu.course.id === 2
+        )
+        console.log(menuMain)
+        return menuMain
+      },
+      getActiveMenuStarter: state  => {
+        const menuStarter = state.activeMenu.dishes.filter(
+          menu => menu.course.id === 1
+        )
+        //console.log(menuMain)
+        return menuStarter
+      },
+      getActiveMenuDessert: state  => {
+        const menuDessert = state.activeMenu.dishes.filter(
+          menu => menu.course.id === 3
+        )
+        //console.log(menuMain)
+        return menuDessert
+      },
+
+
   },
 
 

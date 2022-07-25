@@ -555,7 +555,7 @@
         <b-img :src="this.editMenu.starter2.imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
       </b-col>
       <b-col style="margin:auto;display:block" class="col-md- align-self-center" cols="8">
-      {{this.editMenu.starter1.name}}
+      {{this.editMenu.starter2.name}}
       </b-col>
     </b-row>
     <hr>
@@ -1048,6 +1048,10 @@ export default {
 
     getActiveMenu() {
       let menu = this.$store.getters.getActiveMenu;
+      let main = this.$store.getters.getActiveMenuMain;
+      let starter = this.$store.getters.getActiveMenuStarter;
+      let dessert = this.$store.getters.getActiveMenuDessert;
+      
 
       this.editMenu.id = menu.id;
       this.editMenu.startDate = menu.startDate.slice(0, 10);
@@ -1055,6 +1059,54 @@ export default {
       this.editMenu.openReservations = menu.openReservations;
       this.editMenu.price = menu.price + "€";
       this.editMenu.dishes = menu.dishes;
+
+      this.editMenu.starter1 = starter[0];
+      this.editMenu.starter2 = starter[1];
+      this.editMenu.starter1Qtd = starter[0].menuDish.dishQuantity;
+      this.editMenu.starter2Qtd = starter[1].menuDish.dishQuantity;
+
+      this.editMenu.main1 =main[0];
+      this.editMenu.main2 = main[1];
+      this.editMenu.main1Qtd = main[0].menuDish.dishQuantity;
+      this.editMenu.main2Qtd = main[1].menuDish.dishQuantity;
+
+      this.editMenu.dessert1 = dessert[0];
+      this.editMenu.dessert2 = dessert[1];
+      this.editMenu.dessert1Qtd = dessert[0].menuDish.dishQuantity;
+      this.editMenu.dessert2Qtd =dessert[1].menuDish.dishQuantity;
+
+
+      this.editMenu.vSelectStarter1 = {
+        code: starter[0].id,
+        label: starter[0].name,
+      };
+      this.editMenu.vSelectStarter2 = {
+        code: starter[1].id,
+        label: starter[1].name,
+      };
+
+    
+      this.editMenu.vSelectMain1 = {
+        code: main[0].id,
+        label: main[0].name,
+      };
+      this.editMenu.vSelectMain2 = {
+        code: main[1].id,
+        label: main[1].name,
+      };
+    
+      this.editMenu.vSelectDessert1 = {
+        code: dessert[0].id,
+        label: dessert[0].name,
+      };
+      this.editMenu.vSelectDessert2 = {
+        code: dessert[1].id,
+        label: dessert[1].name,
+      };
+
+
+
+      /*
       this.editMenu.starter1 = menu.dishes[0];
       this.editMenu.starter2 = menu.dishes[1];
       this.editMenu.starter1Qtd = menu.dishes[0].menuDish.dishQuantity;
@@ -1063,6 +1115,7 @@ export default {
       this.editMenu.main2Qtd = menu.dishes[3].menuDish.dishQuantity;
       this.editMenu.dessert1Qtd = menu.dishes[4].menuDish.dishQuantity;
       this.editMenu.dessert2Qtd = menu.dishes[5].menuDish.dishQuantity;
+      
 
       this.editMenu.vSelectStarter1 = {
         code: menu.dishes[0].id,
@@ -1093,6 +1146,7 @@ export default {
         code: menu.dishes[5].id,
         label: menu.dishes[5].name,
       };
+      */
     },
     previewImages(event) {
       this.uploadValue = 0;
