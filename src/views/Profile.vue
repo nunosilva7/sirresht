@@ -845,7 +845,7 @@
           </b-form>
         </div>
       </b-modal>
-      <!-- 
+     
       <b-modal
         id="modal-multi-4"
         size="lg"
@@ -977,7 +977,7 @@
             </h4>
           </b-col>
         </b-row>
-        <b-row style="margin-bottom: 5%" class="text-center">
+        <b-row style="margin-bottom: 5%" class="text-center" >
           <b-col
             id="nextReservationStatus"
             ref="nextReservationStatus"
@@ -1040,25 +1040,28 @@
           <b-collapse id="collapse-1">
             <b-container fluid>
               <b-row style="margin-right: 5%; margin-left: 5%">
-                <div
+                <div 
                   v-for="participant in getActiveReservation().participants"
                   :key="participant.id"
-                  style="margin-right: 5%; margin-left: 5%; margin-top: 1%"
+                  style="margin-right: 5%; margin-left: 5%; margin-top: 1%;width:40%"
                 >
                   <h6 style="text-align: center">{{ participant.name }}</h6>
-                  <b-avatar
+                  <div style="width:max-content; margin: 0 auto;">
+                  <b-avatar style="margin:auto"
                     id="participantsAvatar"
                     :src="participant.user.avatarReference"
                   ></b-avatar>
+                  </div>
                 </div>
               </b-row>
             </b-container>
           </b-collapse>
         </div>
         <br />
-        <b-row no-gutters>
+        <b-row no-gutters v-if="getNextReservationStatus() ==='Aprovada' || getNextReservationStatus()==='Pendente'">
           <b-col class="text-right">
-            <b-button
+            <b-button 
+            @click="cancelReservation()"
               style="
                 margin: auto;
                 display: block;
@@ -1603,6 +1606,14 @@ export default {
         return "Pago";
       }
     },
+    async cancelReservation(){
+      let reservation = {
+          reservationStatusId: 4,
+          statusId: 4,
+        };
+
+        await this.$store.dispatch("updateReservationStatus", reservation);
+    }
   },
   computed: {
     ...mapGetters({
