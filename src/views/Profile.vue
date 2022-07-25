@@ -819,7 +819,7 @@
           </b-form>
         </div>
         <div id="addGuest" v-else>
-          convidado
+          Convidado
           <b-form @submit.prevent="" id="f">
             <b-row style="margin-bottom: 5%">
               <b-col>
@@ -951,7 +951,7 @@
                             </li>
                           </b-form-radio-group>
                         </ul>
-                        <b-button type="submit">adicionar</b-button>
+                        <b-button type="submit">Adicionar</b-button>
                       </b-form-group>
                     </div>
                   </b-row>
