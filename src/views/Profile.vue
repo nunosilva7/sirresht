@@ -760,6 +760,22 @@
                   font-size: 15px;
                 "
                 @click="showNextForm()"
+                v-else-if="this.form4"
+                :disabled="!areDishesPicked()"
+                >Seguinte</b-button>
+
+              <b-button
+                style="
+                  position: absolute;
+                  left: 15%;
+                  width: 50%;
+                  min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka medium;
+                  font-size: 15px;
+                "
+                @click="showNextForm()"
                 v-else-if="!this.form6 && !this.form5 && !this.form1"
                 >Seguinte</b-button
               >
@@ -980,7 +996,7 @@
           </b-card>
         </b-form>
       </b-modal>
-      -->
+      
 
       <!--Open nextReservationModal with all reservation information  -->
       <b-modal
@@ -1786,6 +1802,16 @@ export default {
         participant => participant.menuId == menuId
       )
       return participant.length
+    },
+    areDishesPicked(){
+      for(let i=0; i<this.participants.length;i++){
+        for(let j=0; j< this.participants[i].dishesIds.length;j++){
+          if(this.participants[i].dishesIds[j] == null){
+            return false
+          }
+        }
+      }
+      return true
     }
   },
   computed: {
