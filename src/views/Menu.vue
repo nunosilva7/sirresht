@@ -956,11 +956,11 @@ export default {
 
     createMenu() {
       if (this.form.selected == 1) {
-        this.startTime = "12:00";
+        this.startTime = "13:00";
         this.endTime = "14:00";
       }
       if (this.form.selected == 2) {
-        this.startTime = "20:00";
+        this.startTime = "21:00";
         this.endTime = "22:00";
       }
       let menuPrice = parseFloat(

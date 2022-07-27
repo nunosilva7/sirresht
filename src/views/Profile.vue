@@ -252,18 +252,18 @@
                 required
               >
                 <b-form-radio
-                  v-model="selected"
+                  v-model="selectedTable"
                   :aria-describedby="ariaDescribedby"
                   name="some-radios"
-                  value="A"
+                  value="1"
                   style="margin-left: 5%; font-family: Fredoka Regular"
                   >Privada</b-form-radio
                 >
                 <b-form-radio
-                  v-model="selected"
+                  v-model="selectedTable"
                   :aria-describedby="ariaDescribedby"
                   name="some-radios"
-                  value="B"
+                  value="2"
                   style="margin-left: 5%; font-family: Fredoka Regular"
                   >Partilhada</b-form-radio
                 >
@@ -271,10 +271,18 @@
             </div>
           </div>
           <div
-            id="form3"
-            v-if="this.form3"
-            style="min-height: 200px; height: 24rem; overflow-y: auto"
-          ></div>
+            id="formMessage"
+            v-if="this.formMessage"
+            style="min-height: 200px; height: 15rem; overflow-y: auto"
+          >
+            <h6>Observações</h6>
+            <b-form-textarea
+              id="textarea-rows"
+              placeholder="Observações"
+              rows="8"
+              v-model="message"
+            ></b-form-textarea>
+          </div>
           <div
             id="form4"
             v-if="this.form4"
@@ -381,8 +389,9 @@
                     v-for="menu in getMenusByDate"
                     :key="menu.id"
                     :title="'Menu ' + menu.price + '€'"
+                    :disabled="menu.openReservations - menuQuantityController(menu.id) <=0"
+                   
                     @click="clearOptions()"
-                    
                   >
                     <b-form
                       @submit.prevent="pickDishes(participant_id, menu.id)"
@@ -398,10 +407,12 @@
                                   :aria-describedby="ariaDescribedby"
                                   name="some-radios"
                                   value="0"
+                                  required
                                   style="
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
+                                  :disabled="menuStarter(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuStarter(menu.id)[0].id) <=0"
                                   >{{
                                     menuStarter(menu.id)[0].name
                                   }}</b-form-radio
@@ -413,10 +424,12 @@
                                   :aria-describedby="ariaDescribedby"
                                   name="some-radios"
                                   value="1"
+                                  required
                                   style="
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
+                                  :disabled="menuStarter(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuStarter(menu.id)[1].id) <=0"
                                   >{{
                                     menuStarter(menu.id)[1].name
                                   }}</b-form-radio
@@ -439,6 +452,7 @@
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
+                                  :disabled="menuMain(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuMain(menu.id)[0].id) <=0"
                                 >
                                   {{ menuMain(menu.id)[0].name }}</b-form-radio
                                 >
@@ -454,6 +468,7 @@
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
+                                  :disabled="menuMain(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuMain(menu.id)[1].id) <=0"
                                   >{{ menuMain(menu.id)[1].name }}</b-form-radio
                                 >
                               </b-row>
@@ -468,10 +483,12 @@
                                   :aria-describedby="ariaDescribedby"
                                   name="some-radios"
                                   value="0"
+                                  required
                                   style="
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
+                                  :disabled="menuDessert(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuDessert(menu.id)[0].id) <=0"
                                 >
                                   {{
                                     menuDessert(menu.id)[0].name
@@ -484,10 +501,12 @@
                                   :aria-describedby="ariaDescribedby"
                                   name="some-radios"
                                   value="1"
+                                  required
                                   style="
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
+                                  :disabled="menuDessert(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuDessert(menu.id)[1].id) <=0"
                                   >{{
                                     menuDessert(menu.id)[1].name
                                   }}</b-form-radio
@@ -508,7 +527,7 @@
                           border: none;
                         "
                         type="submit"
-                        >adicionar</b-button
+                        >Adicionar</b-button
                       >
                     </b-form>
                   </b-tab>
@@ -845,7 +864,7 @@
           </b-form>
         </div>
       </b-modal>
-     
+
       <b-modal
         id="modal-multi-4"
         size="lg"
@@ -977,7 +996,7 @@
             </h4>
           </b-col>
         </b-row>
-        <b-row style="margin-bottom: 5%" class="text-center" >
+        <b-row style="margin-bottom: 5%" class="text-center">
           <b-col
             id="nextReservationStatus"
             ref="nextReservationStatus"
@@ -1040,17 +1059,23 @@
           <b-collapse id="collapse-1">
             <b-container fluid>
               <b-row style="margin-right: 5%; margin-left: 5%">
-                <div 
+                <div
                   v-for="participant in getActiveReservation().participants"
                   :key="participant.id"
-                  style="margin-right: 5%; margin-left: 5%; margin-top: 1%;width:40%"
+                  style="
+                    margin-right: 5%;
+                    margin-left: 5%;
+                    margin-top: 1%;
+                    width: 40%;
+                  "
                 >
                   <h6 style="text-align: center">{{ participant.name }}</h6>
-                  <div style="width:max-content; margin: 0 auto;">
-                  <b-avatar style="margin:auto"
-                    id="participantsAvatar"
-                    :src="participant.user.avatarReference"
-                  ></b-avatar>
+                  <div style="width: max-content; margin: 0 auto">
+                    <b-avatar
+                      style="margin: auto"
+                      id="participantsAvatar"
+                      :src="participant.user.avatarReference"
+                    ></b-avatar>
                   </div>
                 </div>
               </b-row>
@@ -1058,10 +1083,16 @@
           </b-collapse>
         </div>
         <br />
-        <b-row no-gutters v-if="getNextReservationStatus() ==='Aprovada' || getNextReservationStatus()==='Pendente'">
+        <b-row
+          no-gutters
+          v-if="
+            getNextReservationStatus() === 'Aprovada' ||
+            getNextReservationStatus() === 'Pendente'
+          "
+        >
           <b-col class="text-right">
-            <b-button 
-            @click="cancelReservation()"
+            <b-button
+              @click="cancelReservation()"
               style="
                 margin: auto;
                 display: block;
@@ -1125,8 +1156,10 @@ export default {
       dessert: null,
       dishes: [],
       icon: "arrow-down",
+      message: "",
 
       selected: "1",
+      selectedTable: "1",
       options: [
         { text: "Almoço", value: "1" },
         { text: "Jantar", value: "2" },
@@ -1155,6 +1188,7 @@ export default {
       form3: false,
       form4: false,
       form5: false,
+      formMessage: false,
       form6: false,
       formError: "",
       loginData: {
@@ -1254,6 +1288,7 @@ export default {
       this.participants[objIndex].menuPrice =
         this.getMenuById(menu_id)[0].price;
       console.log(this.getMenuById(menu_id)[0].price);
+      this.participants[objIndex].menuId = menu_id;
       //this.$bvModal.hide("modal-multi-4");
       //this.$bvModal.show("reservationModal");
       this.form5 = false;
@@ -1262,9 +1297,10 @@ export default {
     getAllMenusData() {
       const menus = this.$store.getters.getAllMenus;
       var menusDate = [];
+      let menusAvailable = menus.filter((menu) => menu.openReservations > 0);
 
-      for (let i = 0; i < menus.length; i++) {
-        let date = menus[i].startDate.slice(0, 10);
+      for (let i = 0; i < menusAvailable.length; i++) {
+        let date = menusAvailable[i].startDate.slice(0, 10);
         menusDate.push(date);
       }
       return menusDate;
@@ -1296,24 +1332,35 @@ export default {
         this.form3 = false;
         this.form4 = false;
         this.form5 = false;
+        this.formMessage = false;
       } else if (this.form2) {
         this.form1 = false;
         this.form2 = false;
         this.form3 = false;
         this.form4 = true;
         this.form5 = false;
+        this.formMessage = false;
       } else if (this.form3) {
         this.form1 = false;
         this.form2 = false;
         this.form3 = false;
         this.form4 = true;
         this.form5 = false;
+        this.formMessage = false;
       } else if (this.form4) {
         this.form1 = false;
         this.form2 = false;
         this.form3 = false;
         this.form4 = false;
+        this.form6 = false;
+        this.formMessage = true;
+      } else if (this.formMessage) {
+        this.form1 = false;
+        this.form2 = false;
+        this.form3 = false;
+        this.form4 = false;
         this.form6 = true;
+        this.formMessage = false;
       }
     },
     showPreviousForm() {
@@ -1343,9 +1390,17 @@ export default {
         this.form1 = false;
         this.form2 = false;
         this.form3 = false;
-        this.form4 = true;
+        this.form4 = false;
         this.form5 = false;
         this.form6 = false;
+        this.formMessage = true;
+      } else if (this.formMessage) {
+        this.form1 = false;
+        this.form2 = false;
+        this.form3 = false;
+        this.form4 = true;
+        this.form6 = false;
+        this.formMessage = false;
       }
     },
     getModalTitle() {
@@ -1431,12 +1486,19 @@ export default {
           err = true;
           break;
         }
-        if (this.participants[i].discount_id == 1 || this.participants[i].discount_id == 2) {
-          reservationPrice = this.participants[i].menuPrice - this.participants[i].menuPrice * 0.2;
-          reservationPrice = (Math.round(reservationPrice * 100) / 100).toFixed(2);
+        if (
+          this.participants[i].discount_id == 1 ||
+          this.participants[i].discount_id == 2
+        ) {
+          reservationPrice =
+            this.participants[i].menuPrice -
+            this.participants[i].menuPrice * 0.2;
+          reservationPrice = (Math.round(reservationPrice * 100) / 100).toFixed(
+            2
+          );
         }
         if (this.participants[i].discount_id == 3) {
-          reservationPrice= this.participants[i].menuPrice;
+          reservationPrice = this.participants[i].menuPrice;
         }
         let obj = {
           userId: this.participants[i].id,
@@ -1459,26 +1521,73 @@ export default {
         let time;
         if (this.selected == 1) {
           time = this.selectedTime;
-        } else  {
+        } else if (this.selected == 2) {
           time = this.selectedTime2;
         }
+        let isCommunal = true;
+        if (this.selectedTable == 1) {
+          isCommunal = false;
+        }
+        let message;
+        if (this.message == "") {
+          message = "Não aplicável";
+        }
+
         console.log(this.date + " " + this.selectedTime);
         const reservation = {
           startDate: this.date + " " + time,
           endDate: this.date + " " + time,
           reservationPrice: this.totalPrice,
           supplementsPrice: "0.00",
-          message: "mensagem",
-          isTableCommunal: false,
+          message: message,
+          isTableCommunal: isCommunal,
           participants: arrayParticipant,
         };
         console.log(reservation);
-        this.clickReservation = true;
-        this.$data.formError = "Reserva criada com sucesso";
-        this.$store.dispatch("createReservation", reservation);
-        setInterval(this.$bvModal.hide("reservationModal"), 2000);
-         
+
+        //let openReservation = this.participants.length;
+
+        this.$bvModal
+          .msgBoxConfirm("Confirma os dados da reserva?", {
+            title: "Confirmação da Reserva",
+            size: "sm",
+            buttonSize: "sm",
+            okVariant: "danger",
+            okTitle: "Confirmo",
+            cancelTitle: "Cancelar",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true,
+          })
+          .then((value) => {
+            if (value) {
+              this.clickReservation = true;
+              this.$data.formError = "Reserva criada com sucesso";
+              this.$store.dispatch("createReservation", reservation);
+              this.updateMenuAndDishOpenReservations();
+
+              setInterval(this.$bvModal.hide("reservationModal"), 2000);
+              
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
+    },
+    clearData() {
+      this.date = "";
+      this.time = "";
+      this.totalPrice = "";
+      this.message = "";
+      this.form6 = false;
+      this.form1 = true;
+      this.formError = "";
+      let participant = this.getLoggedUserInformation;
+      participant.dishesIds = [null, null, null];
+      participant.menuPrice = null;
+      this.participants = [];
+      this.participants.push(participant);
     },
     getActiveReservation() {
       return this.$store.getters.getNextReservation;
@@ -1606,13 +1715,77 @@ export default {
         return "Pago";
       }
     },
-    async cancelReservation(){
+    async cancelReservation() {
       let reservation = {
-          reservationStatusId: 4,
-          statusId: 4,
+        reservationStatusId: 4,
+        statusId: 4,
+      };
+
+      await this.$store.dispatch("updateReservationStatus", reservation);
+    },
+    async updateMenuAndDishOpenReservations() {
+      let menuCount = Object.values(
+        this.participants.reduce((a, { menuId }) => {
+          let key = menuId;
+          a[key] = a[key] || { menuId, count: 0 };
+          a[key].count++;
+          return a;
+        }, {})
+      );
+      for (let i = 0; i < menuCount.length; i++) {
+        /*
+        let payload = {
+          reservations: menuCount[i].count,
+          menuId: menuCount[i].menuId,
+        };
+        */
+        let payload = {
+          reservations: menuCount[i].count,
+          menuId: menuCount[i].menuId,
         };
 
-        await this.$store.dispatch("updateReservationStatus", reservation);
+        await this.$store.dispatch("decrementMenuOpenReservations", payload);
+       
+      }
+
+      for (let i = 0; i < this.participants.length; i++) {
+        for (let j = 0; j < this.participants[i].dishesIds.length; j++) {
+          let dish = this.participants[i].dishesIds[j];
+          let dishQuantity = 1;
+          let payload = {
+            dishQuantity: dishQuantity,
+            menuId: this.participants[i].menuId,
+            dishId: dish,
+          };
+
+          await this.$store.dispatch("decrementMenuDishQuantity", payload);
+        }
+      }
+       this.clearData()
+    },
+
+    dishQuantityController(menuId,dishId){
+      let participant = this.participants.filter(
+        participant => participant.menuId == menuId
+      )
+      let dishCount=0;
+
+      for(let i=0; i<participant.length;i++){
+        for(let j=0; j< participant[i].dishesIds.length;j++){
+          if(participant[i].dishesIds[j] == dishId){
+            dishCount++;
+          }
+        }
+      }
+
+      return dishCount
+    },
+
+    menuQuantityController(menuId){
+      let participant = this.participants.filter(
+        participant => participant.menuId == menuId
+      )
+      return participant.length
     }
   },
   computed: {
@@ -1634,7 +1807,8 @@ export default {
     getMenusByDate() {
       const menus = this.$store.getters.getAllMenus;
       var menuByDate = menus.filter(
-        (menu) => menu.startDate.slice(0, 10) === this.date
+        (menu) =>
+          menu.startDate.slice(0, 10) === this.date && menu.openReservations > 0
       );
       return menuByDate;
     },

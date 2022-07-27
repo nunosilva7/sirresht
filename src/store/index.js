@@ -491,6 +491,37 @@ export default new Vuex.Store({
           context.state.activeReservation.id,
           payment.id)
       }
+    },
+    async updateMenu(context,menu){
+      if(context.state.loggedUser !== null){
+        await MenuService.updateMenu(
+          context.state.loggedUser,
+          menu,
+          context.state.activeMenu.id
+        )
+      }
+    },
+    async decrementMenuOpenReservations(context,payload){
+      if(context.state.loggedUser !== null){
+       
+        await MenuService.decrementMenuOpenReservations(
+          context.state.loggedUser,
+          payload,
+          payload.menuId
+         
+        )
+      }
+    },
+    async decrementMenuDishQuantity(context,payload){
+      console.log("ahashdasdasdas")
+      if(context.state.loggedUser !== null){
+        await MenuService.decrementMenuDishQuantity(
+          context.state.loggedUser,
+          payload,
+          payload.menuId,
+          payload.dishId,
+        )
+      }
     }
 
   },

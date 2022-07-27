@@ -63,7 +63,59 @@ export const MenuService = {
             console.log(response)
             throw Error(response)
         }
-    }
+    },
+
+    async updateMenu(user,menu,menuId){
+
+        const response = await fetch(`${API_URL}/menus/${menuId}`, {
+            method: "PUT",
+            headers: authHeader(user),
+            body: JSON.stringify(menu)
+        });
+        if (response.ok) {
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+        else {
+            console.log("erro")
+            throw Error(response.Error)
+        }
+    },
+    async decrementMenuOpenReservations(user,reservations,menuId){
+
+        const response = await fetch(`${API_URL}/menus/${menuId}/reservations`, {
+            method: "PUT",
+            headers: authHeader(user),
+            body: JSON.stringify(reservations)
+        });
+        if (response.ok) {
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+        else {
+            console.log("erro")
+            throw Error(response.Error)
+        }
+    },
+    async decrementMenuDishQuantity(user,dishQuantity,menuId,dishId){
+
+        const response = await fetch(`${API_URL}/menus/menuDish/${menuId}/dish/${dishId}`, {
+            method: "PUT",
+            headers: authHeader(user),
+            body: JSON.stringify(dishQuantity)
+        });
+        if (response.ok) {
+            let data = await response.json();
+            console.log(data)
+            return data
+        }
+        else {
+            console.log("erro")
+            throw Error(response.Error)
+        }
+    },
 
 }
 

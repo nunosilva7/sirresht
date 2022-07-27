@@ -153,9 +153,10 @@ input[type="radio"]:checked+label:after{
     
     
  }
+ /*
  .nav-tabs li a  {
-    color: black !important;
-}
+    color: #fca311 !important;
+}*/
 
 
 @media screen and (min-width:250px) and (max-width:300px){
