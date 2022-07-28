@@ -64,8 +64,23 @@
               weekday-header-format="narrow"
             ></b-form-datepicker>
           </b-col>
-          <b-col>
+          <b-col id="reservationsDateBigScreens" >
             <b-form-datepicker
+              :disabled="!isDate1Picked()"
+              id="example-datepicker2"
+              placeholder="YYYY-MM-DD"
+              class="mb-2"
+              :min="minDate"
+              v-model="maxDate"
+              hide-header
+              no-flip
+              weekday-header-format="narrow"
+            ></b-form-datepicker>
+          </b-col>
+        </b-row>
+        <b-row id="reservationsDateSmallScreens" style="display:none">
+          <b-col >
+             <b-form-datepicker
               :disabled="!isDate1Picked()"
               id="example-datepicker2"
               placeholder="YYYY-MM-DD"
@@ -83,7 +98,7 @@
       <hr class="rounded" />
       <b-container fluid>
         <h1 v-if="!getReservations.length">Não Foram Encontrados Reservas!</h1>
-        <b-row style="margin-right: 5%; margin-left: 5%">
+        <b-row id ="reservationsGroup" style="margin-right: 5%; margin-left: 5%">
           <ReservationsCard
             v-for="myReservation in getReservations"
             :key="myReservation.id"
