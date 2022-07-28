@@ -389,8 +389,10 @@
                     v-for="menu in getMenusByDate"
                     :key="menu.id"
                     :title="'Menu ' + menu.price + '€'"
-                    :disabled="menu.openReservations - menuQuantityController(menu.id) <=0"
-                   
+                    :disabled="
+                      menu.openReservations - menuQuantityController(menu.id) <=
+                      0
+                    "
                     @click="clearOptions()"
                   >
                     <b-form
@@ -412,7 +414,15 @@
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
-                                  :disabled="menuStarter(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuStarter(menu.id)[0].id) <=0"
+                                  :disabled="
+                                    menuStarter(menu.id)[0].menuDish
+                                      .dishQuantity -
+                                      dishQuantityController(
+                                        menu.id,
+                                        menuStarter(menu.id)[0].id
+                                      ) <=
+                                    0
+                                  "
                                   >{{
                                     menuStarter(menu.id)[0].name
                                   }}</b-form-radio
@@ -429,7 +439,15 @@
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
-                                  :disabled="menuStarter(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuStarter(menu.id)[1].id) <=0"
+                                  :disabled="
+                                    menuStarter(menu.id)[0].menuDish
+                                      .dishQuantity -
+                                      dishQuantityController(
+                                        menu.id,
+                                        menuStarter(menu.id)[1].id
+                                      ) <=
+                                    0
+                                  "
                                   >{{
                                     menuStarter(menu.id)[1].name
                                   }}</b-form-radio
@@ -452,7 +470,14 @@
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
-                                  :disabled="menuMain(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuMain(menu.id)[0].id) <=0"
+                                  :disabled="
+                                    menuMain(menu.id)[0].menuDish.dishQuantity -
+                                      dishQuantityController(
+                                        menu.id,
+                                        menuMain(menu.id)[0].id
+                                      ) <=
+                                    0
+                                  "
                                 >
                                   {{ menuMain(menu.id)[0].name }}</b-form-radio
                                 >
@@ -468,7 +493,14 @@
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
-                                  :disabled="menuMain(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuMain(menu.id)[1].id) <=0"
+                                  :disabled="
+                                    menuMain(menu.id)[0].menuDish.dishQuantity -
+                                      dishQuantityController(
+                                        menu.id,
+                                        menuMain(menu.id)[1].id
+                                      ) <=
+                                    0
+                                  "
                                   >{{ menuMain(menu.id)[1].name }}</b-form-radio
                                 >
                               </b-row>
@@ -488,7 +520,15 @@
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
-                                  :disabled="menuDessert(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuDessert(menu.id)[0].id) <=0"
+                                  :disabled="
+                                    menuDessert(menu.id)[0].menuDish
+                                      .dishQuantity -
+                                      dishQuantityController(
+                                        menu.id,
+                                        menuDessert(menu.id)[0].id
+                                      ) <=
+                                    0
+                                  "
                                 >
                                   {{
                                     menuDessert(menu.id)[0].name
@@ -506,7 +546,15 @@
                                     font-family: Fredoka regular;
                                     font-size: 14px;
                                   "
-                                  :disabled="menuDessert(menu.id)[0].menuDish.dishQuantity - dishQuantityController(menu.id, menuDessert(menu.id)[1].id) <=0"
+                                  :disabled="
+                                    menuDessert(menu.id)[0].menuDish
+                                      .dishQuantity -
+                                      dishQuantityController(
+                                        menu.id,
+                                        menuDessert(menu.id)[1].id
+                                      ) <=
+                                    0
+                                  "
                                   >{{
                                     menuDessert(menu.id)[1].name
                                   }}</b-form-radio
@@ -762,7 +810,8 @@
                 @click="showNextForm()"
                 v-else-if="this.form4"
                 :disabled="!areDishesPicked()"
-                >Seguinte</b-button>
+                >Seguinte</b-button
+              >
 
               <b-button
                 style="
@@ -808,7 +857,6 @@
 
       <b-modal
         id="modal-multi-3"
-        size="sm"
         ok-only
         centered
         hide-footer
@@ -821,6 +869,7 @@
               v-model="typeUser"
               :aria-describedby="ariaDescribedby"
               name="radio-sub-component"
+              style="font-family: Fredoka Regular"
             >
               <b-form-radio value="0">Utilizador</b-form-radio>
               <b-form-radio value="1">Convidado</b-form-radio>
@@ -832,10 +881,15 @@
           <b-form @submit.prevent="" id="f">
             <b-row style="margin-bottom: 5%">
               <b-col>
-                <b-form-input v-model="email" placeholder="Escreve o email">
+                <b-form-input v-model="email" required placeholder="Escreve o email">
                 </b-form-input>
               </b-col>
             </b-row>
+
+            <b-alert v-model="showDismissibleAlert" dismissible>
+              {{ this.addParticipantAlert }}
+            </b-alert>
+
             <b-row>
               <b-col>
                 <b-button
@@ -845,6 +899,7 @@
                     min-width: max-content;
                     background-color: #fca311;
                     border: none;
+                    font-family: Fredoka Regular;
                   "
                   @click="checkParticipant()"
                   >Adicionar</b-button
@@ -854,14 +909,33 @@
           </b-form>
         </div>
         <div id="addGuest" v-else>
-          Convidado
           <b-form @submit.prevent="" id="f">
+            <b-row>
+              <b-col>
+                <b-form-input
+                  required
+                  placeholder="Insira o primeiro nome"
+                ></b-form-input>
+              </b-col>
+              <b-col>
+                 <b-form-input
+                  required
+                  placeholder="Insira o apelido"
+                ></b-form-input>
+              </b-col>
+            </b-row>
+            <br />
             <b-row style="margin-bottom: 5%">
               <b-col>
-                <b-form-input v-model="email" placeholder="Escreve o email">
+                <b-form-input v-model="email"  required placeholder="Insira o email">
                 </b-form-input>
               </b-col>
             </b-row>
+
+              <b-alert v-model="showDismissibleAlert2" dismissible>
+              {{ this.addGuestAlert }}
+            </b-alert>
+
             <b-row>
               <b-col>
                 <b-button
@@ -871,8 +945,9 @@
                     min-width: max-content;
                     background-color: #fca311;
                     border: none;
+                    font-family: Fredoka Regular;
                   "
-                  @click="checkParticipant()"
+                  @click="addGuest()"
                   >Adicionar</b-button
                 >
               </b-col>
@@ -996,7 +1071,6 @@
           </b-card>
         </b-form>
       </b-modal>
-      
 
       <!--Open nextReservationModal with all reservation information  -->
       <b-modal
@@ -1219,6 +1293,16 @@ export default {
       statusStyleColor: {
         color: "black",
       },
+      showDismissibleAlert: false,
+      addParticipantAlert: "",
+      showDismissibleAlert2: false,
+      addGuestAlert: "",
+
+      guest:{
+        firstName:"",
+        lastName:"",
+        
+      }
     };
   },
   created: function () {
@@ -1455,14 +1539,62 @@ export default {
 
             this.participants.push(participant);
             console.log("participante adicionado");
+            this.addParticipantAlert = "Participante adicionado";
+            this.email = "";
+            this.showDismissibleAlert = true;
           } else {
             console.log("PARTICIPANTE JÁ ADICIONADO!");
+            this.addParticipantAlert = "Participante já adicionado";
+            this.showDismissibleAlert = true;
           }
         } else {
           console.log("nao foi encontrado nenhum user com esse email");
+          this.addParticipantAlert =
+            "Não foi encontrado nenhum utilizador com esse email";
+          this.showDismissibleAlert = true;
         }
       } else {
         console.log("o user já está inserido");
+        this.addParticipantAlert = "O utilizador já está inserido";
+        this.showDismissibleAlert = true;
+      }
+    },
+
+    async addGuest() {
+      await this.$store.dispatch("getParticipant", this.email);
+      const participant = this.$store.getters.getParticipantByEmail;
+      console.log(participant);
+      
+      if (participant == null) {
+        var findEmail = undefined;
+
+        if (this.participants) {
+          findEmail = this.participants.find(
+            (participant) => participant.email === this.email
+          );
+        }
+
+        if (findEmail === undefined) {
+          
+          await this.$store.dispatch("getParticipant", "convidado@convidado.pt")
+          participant = this.$store.getters.getParticipantByEmail;
+          participant.dishesIds = [null, null, null];
+
+          this.participants.push(participant);
+          console.log("participante adicionado");
+          this.addGuestAlert = "Participante adicionado";
+          this.email = "";
+          this.showDismissibleAlert2 = true;
+        } else {
+          console.log("PARTICIPANTE JÁ ADICIONADO!");
+          this.addGuestAlert = "Participante já adicionado";
+          this.showDismissibleAlert2 = true;
+        }
+      } else {
+        console.log("Já existe um utilizador registado com esse email");
+        this.addGuestAlert =
+          "Já existe um utilizador registado com esse email";
+        this.showDismissibleAlert2 = true;
       }
     },
 
@@ -1583,7 +1715,6 @@ export default {
               this.updateMenuAndDishOpenReservations();
 
               setInterval(this.$bvModal.hide("reservationModal"), 2000);
-              
             }
           })
           .catch((err) => {
@@ -1761,7 +1892,6 @@ export default {
         };
 
         await this.$store.dispatch("decrementMenuOpenReservations", payload);
-       
       }
 
       for (let i = 0; i < this.participants.length; i++) {
@@ -1777,42 +1907,42 @@ export default {
           await this.$store.dispatch("decrementMenuDishQuantity", payload);
         }
       }
-       this.clearData()
+      this.clearData();
     },
 
-    dishQuantityController(menuId,dishId){
+    dishQuantityController(menuId, dishId) {
       let participant = this.participants.filter(
-        participant => participant.menuId == menuId
-      )
-      let dishCount=0;
+        (participant) => participant.menuId == menuId
+      );
+      let dishCount = 0;
 
-      for(let i=0; i<participant.length;i++){
-        for(let j=0; j< participant[i].dishesIds.length;j++){
-          if(participant[i].dishesIds[j] == dishId){
+      for (let i = 0; i < participant.length; i++) {
+        for (let j = 0; j < participant[i].dishesIds.length; j++) {
+          if (participant[i].dishesIds[j] == dishId) {
             dishCount++;
           }
         }
       }
 
-      return dishCount
+      return dishCount;
     },
 
-    menuQuantityController(menuId){
+    menuQuantityController(menuId) {
       let participant = this.participants.filter(
-        participant => participant.menuId == menuId
-      )
-      return participant.length
+        (participant) => participant.menuId == menuId
+      );
+      return participant.length;
     },
-    areDishesPicked(){
-      for(let i=0; i<this.participants.length;i++){
-        for(let j=0; j< this.participants[i].dishesIds.length;j++){
-          if(this.participants[i].dishesIds[j] == null){
-            return false
+    areDishesPicked() {
+      for (let i = 0; i < this.participants.length; i++) {
+        for (let j = 0; j < this.participants[i].dishesIds.length; j++) {
+          if (this.participants[i].dishesIds[j] == null) {
+            return false;
           }
         }
       }
-      return true
-    }
+      return true;
+    },
   },
   computed: {
     ...mapGetters({
