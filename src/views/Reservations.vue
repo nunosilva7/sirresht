@@ -64,7 +64,7 @@
               weekday-header-format="narrow"
             ></b-form-datepicker>
           </b-col>
-          <b-col id="reservationsDateBigScreens" >
+          <b-col id="reservationsDateBigScreens">
             <b-form-datepicker
               :disabled="!isDate1Picked()"
               id="example-datepicker2"
@@ -78,9 +78,9 @@
             ></b-form-datepicker>
           </b-col>
         </b-row>
-        <b-row id="reservationsDateSmallScreens" style="display:none">
-          <b-col >
-             <b-form-datepicker
+        <b-row id="reservationsDateSmallScreens" style="display: none">
+          <b-col>
+            <b-form-datepicker
               :disabled="!isDate1Picked()"
               id="example-datepicker2"
               placeholder="YYYY-MM-DD"
@@ -98,7 +98,7 @@
       <hr class="rounded" />
       <b-container fluid>
         <h1 v-if="!getReservations.length">Não Foram Encontrados Reservas!</h1>
-        <b-row id ="reservationsGroup" style="margin-right: 5%; margin-left: 5%">
+        <b-row id="reservationsGroup" style="margin-right: 5%; margin-left: 5%">
           <ReservationsCard
             v-for="myReservation in getReservations"
             :key="myReservation.id"
@@ -175,7 +175,7 @@
               weekday-header-format="narrow"
             ></b-form-datepicker>
           </b-col>
-          <b-col>
+          <b-col id="reservationsDateBigScreens">
             <b-form-datepicker
               :disabled="!isDate1Picked()"
               id="example-datepicker2"
@@ -189,11 +189,29 @@
             ></b-form-datepicker>
           </b-col>
         </b-row>
+        <b-row id="reservationsDateSmallScreens" style="display: none">
+          <b-col>
+            <b-form-datepicker
+              :disabled="!isDate1Picked()"
+              id="example-datepicker2"
+              placeholder="YYYY-MM-DD"
+              class="mb-2"
+              :min="minDate"
+              v-model="maxDate"
+              hide-header
+              no-flip
+              weekday-header-format="narrow"
+            ></b-form-datepicker>
+          </b-col>
+        </b-row>
       </b-container>
       <hr class="rounded" />
       <b-container fluid>
         <h1 v-if="!getReservations.length">Não Foram Encontrados Reservas!</h1>
-        <b-row style="margin-right: 5%; margin-left: 5%">
+        <b-row
+          id="groupAdminReservations"
+          style="margin-right: 5%; margin-left: 5%"
+        >
           <ReservationsAdmin
             v-for="myReservation in getReservations"
             :key="myReservation.id"
@@ -201,7 +219,6 @@
           />
         </b-row>
       </b-container>
-      ADMIN
 
       <b-modal
         id="adminEditModal"
@@ -215,11 +232,11 @@
           <div id="form1" v-if="this.form1">
             <b-row>
               <b-col>
-                <h6>Reserva {{ this.frm.id }}</h6>
+                <h4>Reserva {{ this.frm.id }}</h4>
               </b-col>
             </b-row>
 
-            <b-row>
+            <b-row style="font-family: Fredoka Regular">
               <b-col>
                 <b-form-select
                   id="select3"
@@ -230,10 +247,25 @@
                 </b-form-select>
               </b-col>
               <b-col>
-                <b-button @click="updateReservationStatus()">Alterar</b-button>
+                <b-button
+                  style="
+                    min-width: max-content;
+                    background-color: #fca311;
+                    border: none;
+                    font-family: Fredoka Regular;
+                  "
+                  @click="updateReservationStatus()"
+                  >Alterar</b-button
+                >
               </b-col>
+             
             </b-row>
-            <b-row>
+            <br>
+             <b-alert v-model="showStatusAlert" dismissible>
+                {{ statusAlertMsg }}
+              </b-alert>
+            <br />
+            <b-row style="font-family: Fredoka Regular">
               <b-col>
                 <b-form-input v-model="frm.date" readonly></b-form-input>
               </b-col>
@@ -241,7 +273,8 @@
                 <b-form-input v-model="frm.price" readonly></b-form-input>
               </b-col>
             </b-row>
-            <b-row>
+            <br />
+            <b-row style="font-family: Fredoka Regular">
               <b-col>
                 <b-form-input v-model="frm.time" readonly></b-form-input>
               </b-col>
@@ -249,15 +282,14 @@
                 <b-form-input v-model="frm.isPayed" readonly></b-form-input>
               </b-col>
             </b-row>
+            <br />
 
-            <b-row>
-              <b-col>
-                <p>Mesa X</p>
-                <p>{{ isTableCommunal() }}</p>
-              </b-col>
+            <b-row style="font-family: Fredoka Regular">
+              <b-col class="text-center"> Mesa {{ isTableCommunal() }} </b-col>
             </b-row>
+            <br />
 
-            <b-row>
+            <b-row style="font-family: Fredoka Regular">
               <b-col cols="6">
                 <b-form-input
                   type="number"
@@ -271,21 +303,27 @@
               </b-col>
               <b-col
                 ><b-button
+                  style="
+                    min-width: max-content;
+                    background-color: #fca311;
+                    border: none;
+                    font-family: Fredoka Regular;
+                  "
                   @click="incrementSupplements()"
                   :disabled="this.frm.paid"
                   >Adicionar</b-button
                 ></b-col
               >
             </b-row>
-            <br />
-            <b-row>
-              <b-button @click="nextForm()" :disabled="this.frm.paid"
-                >Pagamento</b-button
-              >
-            </b-row>
+            <br>
+             <b-alert v-model="showSupplementsAlert" dismissible>
+                {{ supplementsAlertMsg }}
+              </b-alert>
+
+            <hr />
 
             <b-row>
-              <div style="margin-top: 5%; width: 100%">
+              <div style="margin-top: 2%; width: 100%">
                 <b-row
                   no-gutters
                   v-b-toggle="'collapse-1'"
@@ -339,7 +377,7 @@
                       </b-row>
                     </div>
                     <hr class="rounded" />
-                    <div v-for="dish in this.getMainDishes()" :key="dish">
+                    <div v-for="dish in this.getMainDishes()" :key="dish[0]">
                       <b-row>
                         <b-col cols="8">
                           {{ dish[0] }}
@@ -348,7 +386,7 @@
                       </b-row>
                     </div>
                     <hr class="rounded" />
-                    <div v-for="dish in this.getDessertDishes()" :key="dish">
+                    <div v-for="dish in this.getDessertDishes()" :key="dish[0]">
                       <b-row>
                         <b-col cols="8">
                           {{ dish[0] }}
@@ -360,27 +398,56 @@
                 </b-collapse>
               </div>
             </b-row>
+            <br />
+            <br />
+            <b-row>
+              <b-button
+                style="
+                  margin: auto;
+                  display: block;
+                  min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka Regular;
+                "
+                @click="nextForm()"
+                :disabled="this.frm.paid"
+                >Pagamento</b-button
+              >
+            </b-row>
+            
           </div>
           <!--Reservation Payment-->
           <div id="form2" v-if="this.form2">
             <b-row>
-              <b-button @click="previousForm()">Voltar</b-button>
+              <b-button
+                style="
+                  margin-left: 2%;
+                  min-width: max-content;
+                  background-color: #fca311;
+                  border: none;
+                  font-family: Fredoka Regular;
+                "
+                @click="previousForm()"
+                >Voltar</b-button
+              >
+            </b-row>
+            <br />
+            <b-row style="font-family: Fredoka Regular">
+              <b-col class="text-center">Suplementos </b-col>
+              <b-col class="text-center">Valor Total</b-col>
+              <b-col class="text-center">Montante Pago</b-col>
             </b-row>
             <b-row>
-              <b-col>Suplementos </b-col>
-              <b-col>Valor Total</b-col>
-              <b-col>Montante Pago</b-col>
-            </b-row>
-            <b-row>
-              <b-col v-if="this.frm.supplements != null">{{
-                this.frm.supplements
-              }}</b-col>
-              <b-col
+              <b-col class="text-center" v-if="this.frm.supplements != null"
+                >{{ this.frm.supplements }}€</b-col
+              >
+              <b-col class="text-center"
                 >{{
                   Number(this.frm.price) + Number(this.frm.supplements)
                 }}€</b-col
               >
-              <b-col>{{ this.frm.amountReceived }}€</b-col>
+              <b-col class="text-center">{{ this.frm.amountReceived }}€</b-col>
             </b-row>
 
             <br />
@@ -389,8 +456,8 @@
               <b-col></b-col>
               <b-col></b-col>
             </b-row>
-            <br />
 
+            <hr />
             <div
               v-for="participant in this.frm.participants"
               :key="participant.id"
@@ -402,25 +469,35 @@
                     </b-avatar>
                   </b-avatar-group>
                 </b-col>
-                <b-col>{{ participant.name }}</b-col>
+
+                <b-col style="font-family: Fredoka Regular">{{
+                  participant.name
+                }}</b-col>
               </b-row>
-              <b-row>
-                <b-col>Valor da Reserva</b-col>
+
+              <b-row style="font-family: Fredoka Regular; margin-top: 2%">
+                <b-col class="text-center">Valor da Reserva</b-col>
                 <b-col>Suplementos</b-col>
                 <b-col></b-col>
               </b-row>
               <b-row>
-                <b-col>
-                  <p>{{ participant.reservationPrice }}</p>
+                <b-col class="text-center">
+                  <p>{{ participant.reservationPrice }}€</p>
                 </b-col>
-                <b-col>
-                  <b-form-input
+                <b-col class="text-center">
+                  <b-form-input type="number"
                     @input="updateValue(participant.id)"
                     v-model="participant.supplements"
                   ></b-form-input>
                 </b-col>
                 <b-col>
                   <b-button
+                    style="
+                      min-width: max-content;
+                      background-color: #fca311;
+                      border: none;
+                      font-family: Fredoka Regular;
+                    "
                     @click="
                       payment(
                         participant.id,
@@ -432,6 +509,10 @@
                   >
                 </b-col>
               </b-row>
+              <b-alert style="margin-top:2%" v-model="showPaymentAlert" dismissible>
+                {{ paymentAlertMsg }}
+              </b-alert>
+              <hr />
             </div>
           </div>
         </b-form>
@@ -509,6 +590,12 @@ export default {
       form1: true,
       form2: false,
       supplements: "",
+      showStatusAlert: false,
+      statusAlertMsg: "",
+      showSupplementsAlert: false,
+      supplementsAlertMsg: "",
+      showPaymentAlert: false,
+      paymentAlertMsg: "",
     };
   },
 
@@ -776,10 +863,37 @@ export default {
         reservationStatusId: this.frm.status,
         statusId: this.frm.status,
       };
+      /*
       if (confirm("Quer alterar os dados?")) {
         await this.$store.dispatch("updateReservationStatus", reservation);
-         await this.$store.dispatch("getAllReservations");
-      }
+        await this.$store.dispatch("getAllReservations");
+      }*/
+
+      this.$bvModal
+        .msgBoxConfirm("Quer alterar o estado da reserva?", {
+          title: "Alteração do estado",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "Confirmo",
+          cancelTitle: "Cancelar",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value) {
+            this.$store.dispatch("updateReservationStatus", reservation);
+            this.$store.dispatch("getAllReservations");
+            this.statusAlertMsg = "Estado alterado!";
+            this.showStatusAlert = true;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.statusAlertMsg = "Não foi possivel alterar o estado";
+          this.showStatusAlert = true;
+        });
     },
     async incrementSupplements() {
       let supplements = parseFloat(
@@ -790,6 +904,10 @@ export default {
       };
       console.log(supplements);
       await this.$store.dispatch("incrementSupplements", reservation);
+      this.supplementsAlertMsg="Suplemento adicionado!"
+      this.showSupplementsAlert =true
+      let total = Number(this.frm.supplements) + Number(this.frm.addSupplements)
+      this.frm.supplements = total
     },
     getIndexOf(id) {
       let index = this.frm.participants.findIndex(
@@ -816,6 +934,13 @@ export default {
 
       console.log(payment);
       await this.$store.dispatch("paymentByParticipant", payment);
+
+      this.paymentAlertMsg="Pagamento efetuado!"
+      this.showPaymentAlert = true
+
+      let total = Number(this.frm.amountReceived) + Number(amountPaid)
+      console.log(total)
+      this.frm.amountReceived = total
 
       //CONCLUIR SE ATINGIR O VALOR TOTAL
       if (

@@ -39,7 +39,7 @@
             <p><b>Montante pago:</b> {{getAmountReceived()}}€</p>
         </b-col>
         <b-col>
-            <p><b>Mesa X</b></p>
+            <p><b>Mesa {{isTableCommunal()}}</b></p>
         </b-col>
       </b-row>
       <b-row>
@@ -47,7 +47,7 @@
             <p><b>Preço Suplementos:</b> {{getSupplements()}}€</p>
         </b-col>
         <b-col>
-            <p>{{isTableCommunal()}}</p>
+            
         </b-col>
       </b-row>
       <b-row >
