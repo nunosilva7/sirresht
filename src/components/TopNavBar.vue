@@ -72,18 +72,34 @@
           >
         </b-navbar-nav>
       </template>
-      <template v-else>
-        <b-navbar-nav class="ml-auto">
-          <b-row>
-            <b-col style="padding-right:1px">
-             <b-avatar v-if="this.getLoggedUser!=null" :src=this.getLoggedUser()></b-avatar>
+      <template v-else >
+        <b-navbar-nav class="ml-auto" >
+          <b-row @click="perfilEdit = !perfilEdit" style="cursor:pointer">
+            <b-col style="padding-right:10px">
+             <b-avatar  v-if="this.getLoggedUser!=null" :src=this.getLoggedUser()></b-avatar>
                <b-avatar v-else></b-avatar>
         </b-col>
-          <b-col style="padding-left:6px">  <b-nav-item href="#" @click="logout()">Sair</b-nav-item></b-col></b-row>
-         
+      </b-row>
+        
         </b-navbar-nav>
       </template>
     </b-navbar>
+     <div v-if="perfilEdit" 
+     style="cursor:pointer;width:max-content;
+     position: absolute;right:0;z-index: 1;
+     background-color:white;
+       border: 2px solid grey;
+  border-radius: 5px;
+     "
+     
+     >
+          <p style="padding-left:5px" v-b-modal.editPassword>Alterar password</p>
+          <hr>
+          <p style="padding-left:5px;padding-right:5px" v-b-modal.editAvatar>Alterar imagem de perfil</p>
+          <hr>
+          <p class="text-center" @click="logout()"  
+          style="padding-left:5px">Sair</p>
+         </div>
 
     <b-modal
       id="registerModal"
@@ -268,12 +284,65 @@
         </b-row>
       </b-form>
     </b-modal>
+    
+    <b-modal id="editPassword">
+
+      <b-row>
+          <b-col cols="12">
+            <b-form-input
+              id="registerPassword"
+              v-model="registerData.password"
+              type="password"
+              placeholder="Password"
+              required
+            ></b-form-input>
+          </b-col>
+          <br />
+          <br />
+          <br />
+        </b-row>
+
+        <b-row>
+          <b-col cols="12">
+            <b-form-input
+              id="registerPasswordV"
+              v-model="registerData.passwordVerify"
+              type="password"
+              placeholder="Repita password"
+              required
+            ></b-form-input>
+          </b-col>
+          <br />
+          <br />
+          <br />
+        </b-row>
+
+    </b-modal>
+
+    <b-modal id="editAvatar">
+      <div >
+      <p>Upload an image to Firebase:</p>
+      <input type="file" @change="previewImage" accept="image/*" >                
+    </div>
+    <div>
+      <p>Progresso: {{uploadValue.toFixed()+"%"}}
+      <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
+    </div>
+    <div v-if="imageData!=null">                     
+        <img class="preview" :src="picture">
+        <br>
+      <button @click="onUpload">Upload</button>
+    </div>   
+
+    </b-modal>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import firebase from 'firebase';
 export default {
   name: "TopNavBar",
+  
   
 
   watch: {
@@ -303,6 +372,11 @@ export default {
       },
       formError: "",
       errorMsg: "",
+      perfilEdit:false,
+
+       imageData: null,  
+      picture: null,
+      uploadValue: 0
     };
   },
   methods: {
@@ -333,6 +407,7 @@ export default {
     },
     logout() {
       this.$store.dispatch("logout", this.$data);
+      this.perfilEdit =false;
 
       if (this.$route.name != "Home") {
         this.$router.push({ name: "Home" });
@@ -379,6 +454,25 @@ export default {
            return this.$store.getters.getLoggedUserInformation.avatarReference;
       }
   
+    },
+     previewImage(event) {
+      this.uploadValue=0;
+      this.picture=null;
+      this.imageData = event.target.files[0];
+    },
+ 
+    onUpload(){
+      this.picture=null;
+      const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
+      storageRef.on(`state_changed`,snapshot=>{
+        this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+      }, error=>{console.log(error.message)},
+      ()=>{this.uploadValue=100;
+        storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+          this.picture =url;
+        });
+      }      
+      );
     }
   },
   computed: {

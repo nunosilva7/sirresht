@@ -131,21 +131,7 @@
     <!--CREATE DISH MODAL-->
     <b-modal id="createDish" centered hide-footer>
       <b-form @submit.prevent="createDish()">
-        <!--
-      <div v-if="this.previewImage!=null ">
-     
-      <img  :src="this.previewImage" alt="Imagem do prato" @error="previewImageNull()"  class="uploading-image " width="200px" height="150px" style="margin:auto;border:1px solid" required />
-      <br>
-    
-   </div>
-   <div v-else>
-     
-      <img  src="../assets/img/placeholderimage.png" alt="Imagem do prato"   width="200px" height="150px" style="margin:auto;display:block;border:1px solid" required />
-      <br>
-    
-   </div>
-     <b-form-input style="font-family:Fredoka light" type="url" v-model="previewImage" placeholder="Insira o url da imagem" required ></b-form-input>
-     -->
+      
      <div>
       <input type="file" @change="previewImages" accept="image/*" >                
     </div>
@@ -154,9 +140,11 @@
       <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
     </div>
     <div v-if="imageData!=null">                     
-        <img class="preview" width="200px" height="150px" :src="picture">
+        <img style="margin:auto;display:block" class="preview" width="200px" height="150px" :src="picture">
         <br>
-         <button type="button" @click="onUpload">Upload</button>
+         <b-button 
+         style="margin:auto;display:block;width:60%;margin-top:2%;background-color:#fca311;border:none;font-family:Fredoka medium"
+         type="button" @click="onUpload">Carregar imagem</b-button>
     </div> 
    <br>
    <b-row style="font-family:Fredoka regular">
@@ -186,7 +174,9 @@
    <label style="font-family:Fredoka regular" for="dishName" >Nome do Prato</label>
    <b-form-input  style="font-family:Fredoka light" id="dishName" type="text" v-model="dishName" required placeholder="Nome do prato"></b-form-input>
 
-   <b-button style="margin:auto;display:block;width:60%;margin-top:10%;background-color:#fca311;border:none;font-family:Fredoka medium" type="Submit" >Criar prato</b-button>
+   <b-button style="margin:auto;display:block;width:60%;margin-top:10%;background-color:#fca311;border:none;font-family:Fredoka medium" type="Submit" 
+    :disabled="picture==null"
+    >Criar prato</b-button>
    </b-form>
   </b-modal>
 
@@ -442,32 +432,7 @@
         </b-col>
       </b-row>
       <br>
-      <!--
-      <b-row class="row justify-content-center">
-        <div v-if="this.editDish.imageReference!=null " >
-     
-          <img  :src="this.editDish.imageReference" alt="Imagem do prato" @error="dishImageNull()"  class="uploading-image" width="200px" height="150px" style="margin:auto;border:1px solid" required />
-          <br>
-    
-        </div>
-        <div v-else>
-     
-          <img  src="../assets/img/placeholderimage.png" alt="Imagem do prato"   width="200px" height="150px" style="margin:auto;display:block;border:1px solid" required />
-          <br>
-    
-        </div>
-         
-      </b-row>
-      <b-row style="font-family:Fredoka regular">
-        <b-col>
-          <label for="">URL da imagem</label>
-        </b-col>
-      </b-row>
-    
-      <b-row style="font-family:Fredoka light">
-        <b-col><b-form-input type="url" v-model="editDish.imageReference" placeholder="Insira o url da imagem" required ></b-form-input></b-col>
-      </b-row>
-      -->
+      
       <div>
       <input type="file" @change="previewImages" accept="image/*" >                
     </div>
@@ -476,9 +441,11 @@
       <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
     </div>
     <div v-if="imageData!=null">                     
-        <img class="preview" width="200px" height="150px" :src="picture">
+        <img style="margin:auto;display:block" class="preview" width="200px" height="150px" :src="picture">
         <br>
-         <button type="button" @click="onUpload">Upload</button>
+         <b-button type="button" @click="onUpload"
+         style="margin:auto;display:block;width:60%;margin-top:2%;background-color:#fca311;border:none;font-family:Fredoka medium"
+         >Carregar imagem</b-button>
     </div> 
      
          
@@ -511,7 +478,9 @@
                   background-color: #fca311;
                   border: none;
                   font-family: Fredoka medium;
-                  font-size: 15px;" type="submit">Guardar</b-button>
+                  font-size: 15px;" type="submit" 
+                  :disabled="picture ==null || imageData ==null"
+                  >Guardar</b-button>
 
         </b-col>
       </b-row>
@@ -940,9 +909,6 @@ export default {
     },
 
     async createDish() {
-      
-      
-      
       let dish = {
         name: this.dishName,
         courseId: this.dishType,
@@ -951,7 +917,27 @@ export default {
       };
 
       console.log(dish);
-      this.$store.dispatch("createDish", dish);
+
+      this.$bvModal
+        .msgBoxConfirm("Quer Criar o prato?", {
+          title: "Criação de prato",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "Confirmo",
+          cancelTitle: "Cancelar",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value) {
+            this.$store.dispatch("createDish", dish);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     createMenu() {
@@ -1011,7 +997,26 @@ export default {
         ],
       };
       console.log(menu);
-      this.$store.dispatch("createMenu", menu);
+      this.$bvModal
+        .msgBoxConfirm("Quer criar o menu?", {
+          title: "Criação de menu",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "Confirmo",
+          cancelTitle: "Cancelar",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value) {
+            this.$store.dispatch("createMenu", menu);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     getActiveDish() {
@@ -1030,20 +1035,57 @@ export default {
         imageReference: this.picture,
         courseId: this.editDish.courseId,
       };
-      if (confirm("Quer alterar os dados?")) {
-        await this.$store.dispatch("updateDish", dish);
-        await this.$store.dispatch("getAllDishes");
-        setTimeout(() => {
-          this.$bvModal.hide("dishModal");
-        }, 1000);
-      }
+
+      this.$bvModal
+        .msgBoxConfirm("Quer editar o prato?", {
+          title: "Edição de prato",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "Confirmo",
+          cancelTitle: "Cancelar",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value) {
+            this.$store.dispatch("updateDish", dish);
+            this.$store.dispatch("getAllDishes");
+            setTimeout(() => {
+              this.$bvModal.hide("dishModal");
+            }, 1000);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deletePrato(id) {
-      await this.$store.dispatch("deleteDish", id);
-      await this.$store.dispatch("getAllDishes");
-      setTimeout(() => {
-        this.$bvModal.hide("dishModal");
-      }, 1000);
+      this.$bvModal
+        .msgBoxConfirm("Quer apagar o prato?", {
+          title: "Apagar prato",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "Confirmo",
+          cancelTitle: "Cancelar",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value) {
+            this.$store.dispatch("deleteDish", id);
+            this.$store.dispatch("getAllDishes");
+            setTimeout(() => {
+              this.$bvModal.hide("dishModal");
+            }, 1000);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     getActiveMenu() {
@@ -1051,7 +1093,6 @@ export default {
       let main = this.$store.getters.getActiveMenuMain;
       let starter = this.$store.getters.getActiveMenuStarter;
       let dessert = this.$store.getters.getActiveMenuDessert;
-      
 
       this.editMenu.id = menu.id;
       this.editMenu.startDate = menu.startDate.slice(0, 10);
@@ -1065,7 +1106,7 @@ export default {
       this.editMenu.starter1Qtd = starter[0].menuDish.dishQuantity;
       this.editMenu.starter2Qtd = starter[1].menuDish.dishQuantity;
 
-      this.editMenu.main1 =main[0];
+      this.editMenu.main1 = main[0];
       this.editMenu.main2 = main[1];
       this.editMenu.main1Qtd = main[0].menuDish.dishQuantity;
       this.editMenu.main2Qtd = main[1].menuDish.dishQuantity;
@@ -1073,8 +1114,7 @@ export default {
       this.editMenu.dessert1 = dessert[0];
       this.editMenu.dessert2 = dessert[1];
       this.editMenu.dessert1Qtd = dessert[0].menuDish.dishQuantity;
-      this.editMenu.dessert2Qtd =dessert[1].menuDish.dishQuantity;
-
+      this.editMenu.dessert2Qtd = dessert[1].menuDish.dishQuantity;
 
       this.editMenu.vSelectStarter1 = {
         code: starter[0].id,
@@ -1085,7 +1125,6 @@ export default {
         label: starter[1].name,
       };
 
-    
       this.editMenu.vSelectMain1 = {
         code: main[0].id,
         label: main[0].name,
@@ -1094,7 +1133,7 @@ export default {
         code: main[1].id,
         label: main[1].name,
       };
-    
+
       this.editMenu.vSelectDessert1 = {
         code: dessert[0].id,
         label: dessert[0].name,
@@ -1103,8 +1142,6 @@ export default {
         code: dessert[1].id,
         label: dessert[1].name,
       };
-
-
 
       /*
       this.editMenu.starter1 = menu.dishes[0];
@@ -1180,7 +1217,7 @@ export default {
   },
   computed: {
     getAllMenus() {
-      /*
+      /*  
       console.log(this.$store.getters.getAllMenus);
       return this.$store.getters.getAllMenus;*/
       return this.$store.getters.getAllMenusFiltered(this.menuDate);
