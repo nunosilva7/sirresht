@@ -871,8 +871,8 @@ input[type="radio"]:checked+label:after{
         margin-right:0% !important;
     }
     #divMenusCard{
-        margin-right: 0% !important;
-        margin-bottom:5% !important;
+        margin:auto !important;
+        margin-bottom:8% !important;
     }
     #nextMenuContainer{
         margin-top:5% !important;
