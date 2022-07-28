@@ -1562,7 +1562,7 @@ export default {
 
     async addGuest() {
       await this.$store.dispatch("getParticipant", this.email);
-      const participant = this.$store.getters.getParticipantByEmail;
+      var participant = this.$store.getters.getParticipantByEmail;
       console.log(participant);
       
       if (participant == null) {
@@ -1575,7 +1575,7 @@ export default {
         }
 
         if (findEmail === undefined) {
-          
+
           await this.$store.dispatch("getParticipant", "convidado@convidado.pt")
           participant = this.$store.getters.getParticipantByEmail;
           participant.dishesIds = [null, null, null];
