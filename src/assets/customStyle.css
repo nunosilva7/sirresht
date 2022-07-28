@@ -775,6 +775,19 @@ input[type="radio"]:checked+label:after{
         margin-right: 0% !important;
         margin-left:0% !important;
     }
+
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+   
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
     
 }
 
@@ -906,6 +919,18 @@ input[type="radio"]:checked+label:after{
     #reservationsGroup{
         margin-left:8% !important;
     }
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+  
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
  
     
     
@@ -944,6 +969,18 @@ input[type="radio"]:checked+label:after{
         margin-left:auto !important;
         margin-right:auto !important;
     }
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+  
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 
 
     
@@ -980,6 +1017,20 @@ input[type="radio"]:checked+label:after{
         margin-left:auto !important;
         margin-right:auto !important;
     }
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+  
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+  
+    
    
     
 }
@@ -1007,6 +1058,18 @@ input[type="radio"]:checked+label:after{
         margin-bottom: 3% !important;
         margin-left:auto !important;
         margin-right:auto !important;
+    }
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+  
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
    
    
@@ -1037,6 +1100,18 @@ input[type="radio"]:checked+label:after{
         margin-bottom: 3% !important;
         margin-left:auto !important;
         margin-right:auto !important;
+    }
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+  
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
     
 }
@@ -1072,6 +1147,20 @@ input[type="radio"]:checked+label:after{
         margin-left:auto !important;
         margin-right:auto !important;
     }
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+  
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+  
+   
     
     
 
@@ -1109,6 +1198,18 @@ input[type="radio"]:checked+label:after{
         margin-left:auto !important;
         margin-right:auto !important;
     }
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+  
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
     
 
     
@@ -1144,6 +1245,18 @@ input[type="radio"]:checked+label:after{
         margin-bottom: 3% !important;
         margin-left:auto !important;
         margin-right:auto !important;
+    }
+    #menuDishRow{
+        margin-left: 0% !important;
+    }
+  
+    #divDishesCard{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    #divDishesCard article{
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
     
     
