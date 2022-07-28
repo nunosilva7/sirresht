@@ -933,10 +933,23 @@ input[type="radio"]:checked+label:after{
     #nextReservationContainer{
         margin-left:11% !important;
     }
+    #divReservationCard{
+        width: 90% !important;
+        margin-bottom: 3% !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        
+    }
+    #reservationsGroup{
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+
+
+    
     
 }
-@media screen and (min-width:750px) and (max-width:1100px){
-
+@media screen and (min-width:750px) and (max-width:960px){
     
    
     #menuCardRow{
@@ -956,6 +969,47 @@ input[type="radio"]:checked+label:after{
        
         margin-left:25% !important;
     }
+    #divReservationCard{
+        width: 90% !important;
+        margin-bottom: 3% !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        
+    }
+    #reservationsGroup{
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+   
+    
+}
+@media screen and (min-width:750px) and (max-width:1100px){
+    
+   
+    #menuCardRow{
+       
+        margin-left:2%!important;
+        margin-right:2% !important;
+    }
+    #divMenusCard{
+      margin:auto !important;
+      margin-bottom:5% !important;
+    }
+    #nextMenuContainer{
+        margin-top:5% !important;
+        margin-left:25% !important;
+    }
+    #nextReservationContainer{
+       
+        margin-left:25% !important;
+    }
+    #divReservationCard{
+        margin-bottom: 3% !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+   
+   
     
 }
 @media screen and (min-width:1100px) and (max-width:1200px){
@@ -978,6 +1032,11 @@ input[type="radio"]:checked+label:after{
     }
     #nextReservationContainer{
         margin-left:30% !important;
+    }
+    #divReservationCard{
+        margin-bottom: 3% !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
     }
     
 }
@@ -1007,6 +1066,11 @@ input[type="radio"]:checked+label:after{
     #divMenusCard{
         margin-right: 5% !important;
         margin-bottom:5% !important;
+    }
+    #divReservationCard{
+        margin-bottom: 3% !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
     }
     
     
@@ -1040,6 +1104,11 @@ input[type="radio"]:checked+label:after{
         margin-right: 8% !important;
         margin-bottom:5% !important;
     }
+    #divReservationCard{
+        margin-bottom: 3% !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
     
 
     
@@ -1070,6 +1139,11 @@ input[type="radio"]:checked+label:after{
     #divMenusCard{
         margin-right: 10% !important;
         margin-bottom:5% !important;
+    }
+    #divReservationCard{
+        margin-bottom: 3% !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
     }
     
     
