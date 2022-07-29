@@ -108,10 +108,176 @@
       </b-container>
 
       <!--Open nextReservationModal with all reservation information-->
-      <b-modal id="reservationModal" @show="getActiveReservation">
-        <div>{{ getActiveReservation() }}</div>
+      <b-modal id="reservationModal" 
+        v-if="Number.isInteger(getActiveReservation().id)"
+        centered
+        hide-footer>
+         <b-row class="text-center" style="font-family: Fredoka Medium">
+          <b-col>
+            <h4 style="font-family: Fredoka Medium">
+              Reserva {{ getActiveReservation().id }}
+            </h4>
+          </b-col>
+        </b-row>
+        <b-row style="margin-bottom: 5%" class="text-center" >
+          <b-col
+            id="nextReservationStatus"
+            ref="nextReservationStatus"
+            :style="statusStyleColor"
+          >
+            {{getNextReservationStatus()}}
+          </b-col>
+        </b-row>
+        <b-row
+          style="font-family: Fredoka Regular; margin: auto; margin-bottom: 2%"
+        >
+          <b-col>Data: {{getNextReservationDate()}} </b-col>
+          <b-col
+            >Preço total: {{ getActiveReservation().reservationPrice }}€
+          </b-col>
+        </b-row>
+        <b-row
+          style="font-family: Fredoka Regular; margin: auto; margin-bottom: 2%"
+        >
+          <b-col>Hora: {{getNextReservationTime()}} </b-col>
+          <b-col style="min-width: max-content"
+            >Pagamento: {{isReservationPaid()}}</b-col
+          >
+        </b-row>
+        <b-row
+          v-if="getActiveReservation().suplementsPrice != null"
+          style="font-family: Fredoka Regular; margin: auto; margin-bottom: 2%"
+        >
+          <b-col
+            >Suplementos: {{ getActiveReservation().suplementsPrice }}</b-col
+          >
+        </b-row>
+        <b-row
+          v-else
+          style="font-family: Fredoka Regular; margin: auto; margin-bottom: 2%"
+        >
+          <b-col>Suplementos: 0.00€</b-col>
+        </b-row>
+        <div style="margin-top: 5%">
+          <b-row
+            no-gutters
+            v-b-toggle="'collapse-1'"
+            @click="changeIcon()"
+            style="max-width: max-content; margin: auto"
+            v-if="this.icon"
+          >
+            <b-col style="max-width: max-content">
+              <h6 style="min-width: max-content">
+                Participantes
+              </h6>
+            </b-col>
+            <b-col>
+              <b-icon
+                style="margin-bottom: 20%; margin-left: 20%"
+                :icon="this.icon"
+              ></b-icon>
+            </b-col>
+          </b-row>
+
+          <b-collapse id="collapse-1">
+            <b-container fluid>
+              <b-row style="margin-right: 5%; margin-left: 5%" >
+                <div
+                  v-for="participant in getActiveReservation().participants"
+                  :key="participant.id"
+                  style="
+                    margin-right: 5%;
+                    margin-left: 5%;
+                    margin-top: 1%;
+                    width: 40%;
+                  "
+                   @click="getActiveReservationParticipant(participant.id)"
+                  v-b-modal.nextReservationParticipantDishModal
+                >
+                  <h6 style="text-align: center">{{ participant.name }}</h6>
+                  <div style="width: max-content; margin: 0 auto">
+                    <b-avatar
+                      style="margin: auto"
+                      id="participantsAvatar"
+                      :src="participant.user.avatarReference"
+                    ></b-avatar>
+                  </div>
+                </div>
+              </b-row>
+            </b-container>
+          </b-collapse>
+        </div>
+        <br />
+        <b-row
+          no-gutters
+          
+        >
+          <b-col class="text-right">
+            <b-button
+             v-if="
+            getNextReservationStatus() === 'Aprovada' ||
+            getNextReservationStatus() === 'Pendente'
+          "
+             @click="cancelReservation()"
+              style="
+                margin: auto;
+                display: block;
+                width: 60%;
+                margin-top: 10%;
+                min-width: max-content;
+                background-color: #fc004c;
+                border: none;
+                font-family: Fredoka medium;
+                font-size: 15px;
+              "
+              >Cancelar Reserva</b-button
+            >
+          </b-col>
+        </b-row>
+      </b-modal>
+
+
+      <b-modal
+        v-if="participantDishModal!=null"
+        id="nextReservationParticipantDishModal"
+        centered
+        hide-footer
+        size="sm"
+        :title="participantDishModal[0].name + ' - ' + participantDishModal[0].reservationPrice + '€'"
+        >
+       <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        <b-col style="max-width:max-content">
+        <b-img :src="participantDishModal[0].dishes[0].imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+      <b-col >
+        {{participantDishModal[0].dishes[0].name}}
+        </b-col>
+       </b-row>
+       <hr>
+       <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        <b-col style="max-width:max-content">
+        <b-img :src="participantDishModal[0].dishes[1].imageReference" width="80%" height="50%" style="border-radius:20%; "></b-img>
+      </b-col>
+        <b-col>
+        {{participantDishModal[0].dishes[1].name}}
+        </b-col>
+       </b-row>
+         <hr>
+       <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        <b-col style="max-width:max-content">
+        <b-img :src="participantDishModal[0].dishes[2].imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+        <b-col>
+        {{participantDishModal[0].dishes[2].name}}
+        </b-col>
+       </b-row>
+         <hr>
+        
+
       </b-modal>
     </div>
+
+
     <div v-if="isLoggedAdmin()">
       <b-container style="margin-left: 2%">
         <b-row>
@@ -343,29 +509,7 @@
                 </b-row>
 
                 <b-collapse id="collapse-1">
-                  <!--
-                <b-container fluid>
-                  <b-row style="margin-right: 5%; margin-left: 5%">
-                    <div
-                      v-for="participant in getActiveReservation().participants"
-                      :key="participant.id"
-                      style="margin-right: 5%; margin-left: 5%; margin-top: 1%"
-                    >
-                      <h6 style="text-align: center">
-                        {{ participant.reservationPrice }}€
-                      </h6>
-
-                      <b-container
-                        fluid
-                        v-for="dish in participant.dishes"
-                        :key="dish.id"
-                      >
-                        <p style="font-size: 12px">{{ dish.name }}</p>
-                      </b-container>
-                    </div>
-                  </b-row>
-                </b-container>
-                -->
+                  
 
                   <b-container>
                     <div v-for="dish in this.getStarterDishes()" :key="dish[0]">
@@ -596,6 +740,7 @@ export default {
       supplementsAlertMsg: "",
       showPaymentAlert: false,
       paymentAlertMsg: "",
+      participantDishModal:null
     };
   },
 
@@ -729,6 +874,69 @@ export default {
       console.log(status);
       return statusString;
     },
+     getNextReservationStatus() {
+      let status = this.getActiveReservation().status.id;
+
+      //let statusColor = this.$refs.nextReservationStatus
+
+      let statusString = "";
+      switch (status) {
+        case 1:
+          statusString = "Pendente";
+          this.statusStyleColor.color = "red";
+          // console.log(statusColor)
+
+          break;
+
+        case 2:
+          statusString = "Aprovada";
+          this.statusStyleColor.color = "green";
+          break;
+        case 3:
+          statusString = "Rejeitada";
+          this.statusStyleColor.color = "red";
+          break;
+        case 4:
+          statusString = "Cancelada";
+          this.statusStyleColor.color = "red";
+          break;
+        case 5:
+          statusString = "Concluído";
+          this.statusStyleColor.color = "green";
+          break;
+        case 6:
+          statusString = "Não comparência";
+          this.statusStyleColor.color = "red";
+          break;
+        default:
+          statusString = "Erro";
+      }
+      console.log(status);
+      return statusString;
+    },
+    isReservationPaid() {
+      let price = Number(this.getActiveReservation().reservationPrice);
+      let amountReceived = Number(this.getActiveReservation().amountReceived);
+      console.log("price " + price);
+      console.log("paid " + amountReceived);
+
+      if (amountReceived < price) {
+        console.log("nao pago");
+        return "Por pagar";
+      }
+      if (amountReceived == price) {
+        console.log("pago");
+        return "Pago";
+      }
+    },
+     getActiveReservationParticipant(id){
+      let reservation = this.getActiveReservation();
+
+      let participant = reservation.participants.filter(
+        participant => participant.id == id
+      )
+      this.participantDishModal = participant
+    },
     checkPayment() {
       let amountReceived = this.getActiveReservation().amountReceived;
       let price = this.getActiveReservation().reservationPrice;
@@ -757,6 +965,14 @@ export default {
     getNextReservationTime() {
       const time = this.getActiveReservation().startDate.slice(11, 16);
       return time;
+    },
+     async cancelReservation() {
+      let reservation = {
+        reservationStatusId: 4,
+        statusId: 4,
+      };
+
+      await this.$store.dispatch("updateReservationStatus", reservation);
     },
     isTableCommunal() {
       let isTableCommunal = this.getActiveReservation().isTableCommunal;
