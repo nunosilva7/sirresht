@@ -795,7 +795,7 @@ input[type="radio"]:checked+label:after{
         display: block !important;
     }
     #divReservationCard{
-        width: 100% !important;
+        width: 90% !important;
         
     }
     #reservationsGroup{
@@ -983,6 +983,48 @@ input[type="radio"]:checked+label:after{
 }
 @media screen and (min-width:550px) and (max-width:750px){
 
+    #nextReservationCard {
+        width: 90% !important;
+        margin-left: 5%;
+        margin-right: 5%;
+
+    }
+    
+    #nextMenuCard{
+        width:90% !important;
+      
+    }
+    #reservationBtn{
+        margin-left:2% !important;
+    }
+    #nextMenuContainer{
+        width:90% !important;
+        margin-top:5% !important;
+        margin-left:5% !important;
+        margin-right:5 !important;
+        
+    }
+    #nextReservationContainer{
+        width:90% !important;
+        margin-left:5% !important;
+        margin-right:5 !important;
+    }
+    #nextMenuContainer{
+        width:90% !important;
+        
+    }
+    #expandNextReservationImg {
+        width: 34px;
+        height: 34px;
+
+    }
+
+    #expandNextReservationImg:hover {
+        width: 40px;
+        height: 40px;
+
+    }
+
     
     #MenusCard{
         width:100% !important;
@@ -999,16 +1041,14 @@ input[type="radio"]:checked+label:after{
     }
     #nextMenuContainer{
         margin-top:5% !important;
-        margin-left:11% !important;
+       
     }
-    #nextReservationContainer{
-        margin-left:11% !important;
-    }
+    
     #divReservationCard{
-        width: 90% !important;
+        width: 100% !important;
         margin-bottom: 3% !important;
-        margin-left:auto !important;
-        margin-right:auto !important;
+        max-width: 569px;
+       
         
     }
     #reservationsGroup{
@@ -1064,8 +1104,7 @@ input[type="radio"]:checked+label:after{
     #divReservationCard{
         width: 90% !important;
         margin-bottom: 3% !important;
-        margin-left:auto !important;
-        margin-right:auto !important;
+        
         
     }
     #reservationsGroup{
