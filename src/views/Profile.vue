@@ -876,6 +876,7 @@
             </b-form-radio-group>
           </b-form-group>
         </div>
+        <hr>
 
         <div id="addUser" v-if="this.typeUser == 0">
           <b-form @submit.prevent="" id="f">
@@ -909,25 +910,44 @@
           </b-form>
         </div>
         <div id="addGuest" v-else>
-          <b-form @submit.prevent="" id="f">
+          <b-form @submit.prevent="addGuest()" id="f">
+            <h6>É criança com menos de 12 anos?</h6>
+            <b-form-group v-slot="{ ariaDescribedby }">
+                  <b-form-radio-group
+                    id="radio-slots"
+                    v-model="guestSelected"
+                    :options="guestIsChild"
+                    :aria-describedby="ariaDescribedby"
+                    name="radio-options-slots"
+                    style="font-family: Fredoka regular"
+                  >
+                  </b-form-radio-group>
+                </b-form-group>
+
+            <br>
+
             <b-row>
               <b-col>
                 <b-form-input
                   required
                   placeholder="Insira o primeiro nome"
+                  v-model="guest.firstName"
+                  type="text"
                 ></b-form-input>
               </b-col>
               <b-col>
                  <b-form-input
                   required
                   placeholder="Insira o apelido"
+                   v-model="guest.lastName"
+                   type="text"
                 ></b-form-input>
               </b-col>
             </b-row>
             <br />
             <b-row style="margin-bottom: 5%">
               <b-col>
-                <b-form-input v-model="email"  required placeholder="Insira o email">
+                <b-form-input v-model="email"  required placeholder="Insira o email" type="email">
                 </b-form-input>
               </b-col>
             </b-row>
@@ -947,7 +967,7 @@
                     border: none;
                     font-family: Fredoka Regular;
                   "
-                  @click="addGuest()"
+                  type="submit"
                   >Adicionar</b-button
                 >
               </b-col>
@@ -1148,7 +1168,7 @@
 
           <b-collapse id="collapse-1">
             <b-container fluid>
-              <b-row style="margin-right: 5%; margin-left: 5%">
+              <b-row style="margin-right: 5%; margin-left: 5%" >
                 <div
                   v-for="participant in getActiveReservation().participants"
                   :key="participant.id"
@@ -1158,6 +1178,8 @@
                     margin-top: 1%;
                     width: 40%;
                   "
+                  @click="getActiveReservationParticipant(participant.id)"
+                  v-b-modal.nextReservationParticipantDishModal
                 >
                   <h6 style="text-align: center">{{ participant.name }}</h6>
                   <div style="width: max-content; margin: 0 auto">
@@ -1198,6 +1220,30 @@
             >
           </b-col>
         </b-row>
+      </b-modal>
+
+      <b-modal
+        v-if="participantDishModal!=null"
+        id="nextReservationParticipantDishModal"
+        centered
+        hide-footer
+        size="sm"
+        :title="participantDishModal[0].name + ' - ' + participantDishModal[0].reservationPrice + '€'"
+        >
+       <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        {{participantDishModal[0].dishes[0].name}}
+       </b-row>
+       <hr>
+       <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        {{participantDishModal[0].dishes[1].name}}
+       </b-row>
+         <hr>
+       <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        {{participantDishModal[0].dishes[2].name}}
+       </b-row>
+         <hr>
+        
+
       </b-modal>
     </div>
 
@@ -1302,7 +1348,14 @@ export default {
         firstName:"",
         lastName:"",
         
-      }
+        
+      },
+       guestIsChild: [
+        { text: "Sim", value: "1" },
+        { text: "Não", value: "3" },
+      ],
+      guestSelected:"3",
+      participantDishModal:null
     };
   },
   created: function () {
@@ -1576,9 +1629,13 @@ export default {
 
         if (findEmail === undefined) {
 
-          await this.$store.dispatch("getParticipant", "convidado@convidado.pt")
+          await this.$store.dispatch("getParticipant", "convidado@sirresht.pt")
           participant = this.$store.getters.getParticipantByEmail;
           participant.dishesIds = [null, null, null];
+          participant.discount_id = this.guestSelected
+          participant.firstName = this.guest.firstName
+          participant.lastName =  this.guest.lastName
+          participant.email = this.email
 
           this.participants.push(participant);
           console.log("participante adicionado");
@@ -1738,6 +1795,14 @@ export default {
     },
     getActiveReservation() {
       return this.$store.getters.getNextReservation;
+    },
+    getActiveReservationParticipant(id){
+      let reservation = this.getActiveReservation();
+
+      let participant = reservation.participants.filter(
+        participant => participant.id == id
+      )
+      this.participantDishModal = participant
     },
     calculateReservationPrice() {
       /*
