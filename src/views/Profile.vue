@@ -1231,15 +1231,30 @@
         :title="participantDishModal[0].name + ' - ' + participantDishModal[0].reservationPrice + '€'"
         >
        <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        <b-col style="max-width:max-content">
+        <b-img :src="participantDishModal[0].dishes[0].imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+      <b-col >
         {{participantDishModal[0].dishes[0].name}}
+        </b-col>
        </b-row>
        <hr>
        <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        <b-col style="max-width:max-content">
+        <b-img :src="participantDishModal[0].dishes[1].imageReference" width="80%" height="50%" style="border-radius:20%; "></b-img>
+      </b-col>
+        <b-col>
         {{participantDishModal[0].dishes[1].name}}
+        </b-col>
        </b-row>
          <hr>
        <b-row style="padding-left:5px;padding-right:5px;font-family:Fredoka Regular">
+        <b-col style="max-width:max-content">
+        <b-img :src="participantDishModal[0].dishes[2].imageReference" width="80%" height="50%" style="border-radius:20%"></b-img>
+      </b-col>
+        <b-col>
         {{participantDishModal[0].dishes[2].name}}
+        </b-col>
        </b-row>
          <hr>
         
