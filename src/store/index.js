@@ -513,7 +513,7 @@ export default new Vuex.Store({
       }
     },
     async decrementMenuDishQuantity(context,payload){
-      console.log("ahashdasdasdas")
+      
       if(context.state.loggedUser !== null){
         await MenuService.decrementMenuDishQuantity(
           context.state.loggedUser,
@@ -522,7 +522,26 @@ export default new Vuex.Store({
           payload.dishId,
         )
       }
-    }
+    },
+
+    async updateAvatar(context,avatar){
+      if(context.state.loggedUser !==null){
+        await UserService.updateAvatar(
+          context.state.loggedUser,
+          context.state.loggedUser.userId,
+          avatar
+        )
+        
+      }
+    },
+    async changePassword(context,userCredentials){
+      if(context.state.loggedUser !==null){
+        await AuthService.changePassword(
+          context.state.loggedUser,
+          userCredentials
+        )
+      }
+    },
 
   },
   mutations: {
@@ -539,7 +558,7 @@ export default new Vuex.Store({
       state.loggedUserInformation = data;
     },
     GET_USER_BY_ID(state, data) {
-      state.userById.push(data);
+      state.userById=data;
     },
     GET_NEXT_MENU(state, data) {
       state.nextMenu = data

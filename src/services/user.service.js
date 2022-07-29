@@ -70,6 +70,26 @@ export const UserService = {
     }else{
       return null
     }
+  },
+  async updateAvatar(user,userId,avatarReference){
+    if (user !== null) {
+      const response = await fetch(`${API_URL}/users/${userId}/avatar`, {
+        method: "PATCH",
+        headers: authHeader(user),
+        body: JSON.stringify(avatarReference)
+      });
+      if(response.ok){
+        let data= await response.json();
+        console.log(data);
+        return data
+      }
+      else{
+        return null
+      }
+      
+    }else{
+      return null
+    }
   }
 }
   

@@ -54,6 +54,24 @@ export function authHeader(user) {
       if (!response.ok) {
         throw Error(data.message);
       }
+    },
+
+    async changePassword(user,userCredentials) {
+      const response = await fetch(`${API_URL}/auth/updatePassword`, {
+        method: "POST",
+        headers: authHeader(user),
+        body: JSON.stringify(userCredentials)
+    });
+    if (response.ok) {
+        let data = await response.json();
+        console.log(data)
+        return data
+    }
+    else {
+        console.log("erro")
+        throw Error(response.Error)
+    }
+    
     }
   };
   export default AuthService;

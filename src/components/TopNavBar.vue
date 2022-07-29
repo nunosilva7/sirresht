@@ -41,25 +41,26 @@
             :class="{ active: $route.name === 'Menus' }"
             >Menus</b-nav-item
           >
-          <template v-if=isLoggedUser>
-          <b-nav-item v-if="!isLoggedAdmin()"
-            :to="{ name: 'Profile' }"
-            :class="{ active: $route.name === 'Profile' }"
-            >Perfil</b-nav-item
-          >
-           <b-nav-item v-else
-            :to="{ name: 'Admin' }"
-            :class="{ active: $route.name === 'Admin' }"
-            >Admin</b-nav-item
-          >
+          <template v-if="isLoggedUser">
+            <b-nav-item
+              v-if="!isLoggedAdmin()"
+              :to="{ name: 'Profile' }"
+              :class="{ active: $route.name === 'Profile' }"
+              >Perfil</b-nav-item
+            >
+            <b-nav-item
+              v-else
+              :to="{ name: 'Admin' }"
+              :class="{ active: $route.name === 'Admin' }"
+              >Admin</b-nav-item
+            >
           </template>
-          
+
           <b-nav-item
             :to="{ name: 'Reservations' }"
             :class="{ active: $route.name === 'Reservations' }"
             >Reservas</b-nav-item
           >
-          
         </b-navbar-nav>
       </b-collapse>
       <template v-if="isLoggedUser === false">
@@ -72,34 +73,43 @@
           >
         </b-navbar-nav>
       </template>
-      <template v-else >
-        <b-navbar-nav class="ml-auto" >
-          <b-row @click="perfilEdit = !perfilEdit" style="cursor:pointer">
-            <b-col style="padding-right:10px">
-             <b-avatar  v-if="this.getLoggedUser!=null" :src=this.getLoggedUser()></b-avatar>
-               <b-avatar v-else></b-avatar>
-        </b-col>
-      </b-row>
-        
+      <template v-else>
+        <b-navbar-nav class="ml-auto">
+          <b-row @click="perfilEdit = !perfilEdit" style="cursor: pointer">
+            <b-col style="padding-right: 10px">
+              <b-avatar
+                v-if="this.avatar != null"
+                :src="this.avatar"
+              ></b-avatar>
+              <b-avatar v-else></b-avatar>
+            </b-col>
+          </b-row>
         </b-navbar-nav>
       </template>
     </b-navbar>
-     <div v-if="perfilEdit" 
-     style="cursor:pointer;width:max-content;
-     position: absolute;right:0;z-index: 1;
-     background-color:white;
-       border: 2px solid grey;
-  border-radius: 5px;
-     "
-     
-     >
-          <p style="padding-left:5px" v-b-modal.editPassword>Alterar password</p>
-          <hr>
-          <p style="padding-left:5px;padding-right:5px" v-b-modal.editAvatar>Alterar imagem de perfil</p>
-          <hr>
-          <p class="text-center" @click="logout()"  
-          style="padding-left:5px">Sair</p>
-         </div>
+    <div
+      v-if="perfilEdit"
+      style="
+        cursor: pointer;
+        width: max-content;
+        position: absolute;
+        right: 0;
+        z-index: 1;
+        background-color: white;
+        border: 2px solid grey;
+        border-radius: 5px;
+      "
+    >
+      <p style="padding-left: 5px" v-b-modal.editPassword>Alterar password</p>
+      <hr />
+      <p style="padding-left: 5px; padding-right: 5px" v-b-modal.editAvatar>
+        Alterar imagem de perfil
+      </p>
+      <hr />
+      <p class="text-center" @click="logout()" style="padding-left: 5px">
+        Sair
+      </p>
+    </div>
 
     <b-modal
       id="registerModal"
@@ -120,7 +130,7 @@
           </b-col>
           <br />
           <br />
-          
+
           <b-col cols="6">
             <b-form-input
               id="registerLastName"
@@ -190,23 +200,36 @@
               required
             ></b-form-input>
           </b-col>
-          <br />
-          <br />
-          <br />
+        
         </b-row>
+         <b-alert style="margin-top:2%" v-model="registerAlert" >
+            {{ registerAlertText }}
+          </b-alert>
 
-   
+      
+          <b-alert style="margin-top:2%" v-model="register2Alert" variant="danger">
+            {{ register2AlertText }}
+          </b-alert>
 
         <b-row class="justify-content-md-center">
-          <b-button style="margin:auto" id="registerBtn" type="submit" variant="danger" 
+          <b-button
+            style="margin: auto"
+            id="registerBtn"
+            type="submit"
+            variant="danger"
             >Registar</b-button
           >
         </b-row>
-        <br>
+        <br />
 
-        <div class="justify-content-md-center" style="display:flex; justify-content:center">
-          <span style="font-family:Fredoka light">Já tem conta?</span><span style="font-family:Fredoka light;color:#fca311">&nbsp;Clique aqui</span>
-
+        <div
+          class="justify-content-md-center"
+          style="display: flex; justify-content: center"
+        >
+          <span style="font-family: Fredoka light">Já tem conta?</span
+          ><span style="font-family: Fredoka light; color: #fca311"
+            >&nbsp;Clique aqui</span
+          >
         </div>
       </b-form>
     </b-modal>
@@ -247,11 +270,9 @@
           <br />
           <br />
         </b-row>
-        <b-row>
-          <div class="row px-5">
-            <label>{{ formError }}</label>
-          </div>
-        </b-row>
+        <b-alert v-model="loginAlert" dismissible>
+            {{ loginAlertText }}
+          </b-alert>
 
         <b-row class="justify-content-md-center">
           <b-button
@@ -270,24 +291,23 @@
               margin-right: 0px;
               margin-left: 22%;
               font-family: Fredoka light;
-              
             "
           >
             Não tem conta?
           </p>
           <span
             id="registerBtn-loginModal"
-            style="margin-right: 20%; margin-left: 1%, "
+            style="margin-right: 20%; margin-left: 1%"
             @click="openRegisterModal"
             >Registe aqui.</span
           >
         </b-row>
       </b-form>
     </b-modal>
-    
-    <b-modal id="editPassword">
 
-      <b-row>
+    <b-modal id="editPassword" centered hide-footer>
+      <b-form @submit.prevent="updatePassword()">
+        <b-row>
           <b-col cols="12">
             <b-form-input
               id="registerPassword"
@@ -314,42 +334,102 @@
           </b-col>
           <br />
           <br />
-          <br />
+         
         </b-row>
-
+         <b-alert v-model="updatePasswordAlert" dismissible>
+            {{ updatePasswordAlertText }}
+          </b-alert>
+        <b-row>
+          <b-button
+            style="
+              margin: auto;
+              display: block;
+              width: 60%;
+              margin-top: 10%;
+              background-color: #fca311;
+              border: none;
+              font-family: Fredoka medium;
+            "
+            type="submit"
+            :disabled="
+              registerData.password == '' || registerData.passwordVerify == ''
+            "
+            >Atualizar password</b-button
+          >
+        </b-row>
+      </b-form>
     </b-modal>
 
-    <b-modal id="editAvatar">
-      <div >
-      <p>Upload an image to Firebase:</p>
-      <input type="file" @change="previewImage" accept="image/*" >                
-    </div>
-    <div>
-      <p>Progresso: {{uploadValue.toFixed()+"%"}}
-      <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
-    </div>
-    <div v-if="imageData!=null">                     
-        <img class="preview" :src="picture">
-        <br>
-      <button @click="onUpload">Upload</button>
-    </div>   
+    <b-modal id="editAvatar" centered hide-footer>
+      <b-form @submit.prevent="updateAvatar()">
+        <div>
+          <input type="file" @change="previewImage" accept="image/*" />
+        </div>
+        <div>
+          <p>
+            Progresso: {{ uploadValue.toFixed() + "%" }}
+            <progress id="progress" :value="uploadValue" max="100"></progress>
+          </p>
+        </div>
+        <div v-if="imageData != null">
+          <img
+            style="margin: auto; display: block"
+            class="preview"
+            width="200px"
+            height="150px"
+            :src="picture"
+          />
+          <br />
+          <b-button
+            v-if="picture == null || imageData == null"
+            style="
+              margin: auto;
+              display: block;
+              width: 60%;
+              margin-top: 2%;
+              background-color: #fca311;
+              border: none;
+              font-family: Fredoka medium;
+            "
+            @click="onUpload"
+            >Carregar imagem</b-button
+          >
+        </div>
 
+         <b-alert v-model="updateAvatarAlert" dismissible>
+            {{ updateAvatarAlertText }}
+          </b-alert>
+
+        <b-button
+          style="
+            margin: auto;
+            display: block;
+            width: 60%;
+            margin-top: 10%;
+            background-color: #fca311;
+            border: none;
+            font-family: Fredoka medium;
+          "
+          type="submit"
+          :disabled="picture == null || imageData == null"
+          >Atualizar</b-button
+        >
+
+       
+      </b-form>
     </b-modal>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import firebase from 'firebase';
+import firebase from "firebase";
 export default {
   name: "TopNavBar",
-  
-  
 
   watch: {
     isLoggedUser: function (newVal, oldVal) {
       console.log("Prop mudou isLoggedUser: ", newVal, " | era: ", oldVal);
     },
-   
   },
   data() {
     return {
@@ -358,6 +438,7 @@ export default {
         { text: "Sim", value: 2 },
         { text: "Não", value: 3 },
       ],
+      avatar:"",
 
       loginData: {
         email: "",
@@ -372,12 +453,37 @@ export default {
       },
       formError: "",
       errorMsg: "",
-      perfilEdit:false,
+      perfilEdit: false,
 
-       imageData: null,  
+      imageData: null,
       picture: null,
-      uploadValue: 0
+      uploadValue: 0,
+      updatePasswordAlert: false,
+      updatePasswordAlertText: "",
+      updateAvatarAlert: false,
+      updateAvatarAlertText: "",
+
+      loginAlert: false,
+      loginAlertText: "",
+
+      registerAlert: true,
+      registerAlertText: "A password deve ter no minimo 8 caracteres, 1 Maiúscula, 1 Minúscula, 1 número, 1 simbolo",
+
+       register2Alert: false,
+      register2AlertText: "",
+      
     };
+  },
+  created: function () {
+    this.getLoggedUser()
+    
+  },
+  
+  updated: function () {
+    this.getLoggedUser()
+   
+
+    
   },
   methods: {
     async login() {
@@ -395,11 +501,11 @@ export default {
         console.log(loginData.credentials);
 
         await this.$store.dispatch("login", loginData);
+        
         this.$bvModal.hide("loginModal");
 
         /* Se o login falhar por alguma razão um trow vai ser lançado e o redirect
            da route para o home não vai ser executado */
-        
       } catch (error) {
         console.log(error);
         this.formError = error;
@@ -407,7 +513,7 @@ export default {
     },
     logout() {
       this.$store.dispatch("logout", this.$data);
-      this.perfilEdit =false;
+      this.perfilEdit = false;
 
       if (this.$route.name != "Home") {
         this.$router.push({ name: "Home" });
@@ -422,7 +528,11 @@ export default {
           this.$data.registerData.password !=
           this.$data.registerData.passwordVerify
         ) {
+
+          this.register2Alert = true;
+          this.register2AlertText ="As passwords não são iguais!"
           throw "As passwords tem que ser iguais.";
+
         }
 
         const user = {
@@ -430,55 +540,126 @@ export default {
           lastName: this.registerData.lastName,
           email: this.registerData.email,
           password: this.registerData.password,
-          discountId: this.selected
+          discountId: this.selected,
         };
         await this.$store.dispatch("register", user);
         this.$bvModal.hide("registerModal");
         this.$bvModal.show("loginModal");
       } catch (error) {
-        this.$data.formErros = error;
+       
+       this.register2Alert = true;
+          this.register2AlertText ="A password não cumpre requisitos"
       }
     },
+   async getLoggedUser() {
+      //console.log(this.$store.getters.getLoggedUserInformation);
+      let user = this.$store.getters.getLoggedUserInformation
+      if (user) {
+        await this.$store.dispatch("getUserById", user.id)
+        //return this.$store.getters.getLoggedUserInformation.avatarReference;
+        let updatedUser = this.$store.getters.getUserById
+        this.avatar = updatedUser.avatarReference
+      }
+    },
+
     
-     isLoggedAdmin(){
-      return this.$store.getters.isLoggedAdmin
+    async updatePassword() {
+      if(this.registerData.password != this.registerData.passwordVerify){
+        this.updatePasswordAlert = true;
+        this.updatePasswordAlertText ="As passwords não são iguais!"
+       
+      }
+      if(this.registerData.password == this.registerData.passwordVerify){
+        let user = this.$store.getters.getLoggedUserInformation;
+        let userEmail = user.email
+         
+          const userCredentials ={
+            email: userEmail,
+            password: this.registerData.password
+          }
+          console.log(userCredentials)
+
+          //await this.$store.dispatch("changePassword", userCredentials)
+         
+          try {
+            await this.$store.dispatch("changePassword",userCredentials)
+            this.updatePasswordAlert = true;
+            this.updatePasswordAlertText ="Password alterada com sucesso!"
+          } catch (error) {
+            this.updatePasswordAlert = true;
+            this.updatePasswordAlertText = "A password deve ter no minimo 8 caracteres, 1 Maiúscula, 1 Minúscula, 1 número, 1 simbolo"
+          }
+          
+
+      }
+    },
+
+    async updateAvatar(){
+      const avatar = {
+        avatarReference:this.picture
+      }
+      console.log(JSON.stringify(avatar))
+      
+       this.getLoggedUser()
+       try {
+            await this.$store.dispatch("updateAvatar", avatar)
+            this.updateAvatarAlert = true;
+            this.updateAvatarAlertText ="Avatar alterado com sucesso!"
+             this.getLoggedUser()
+          } catch (error) {
+            this.updateAvatarAlert = true;
+            this.updateAvatarAlertText = "Não foi possível fazer a alteração."
+            console.log(error)
+             this.getLoggedUser()
+           
+          }
+          
+    },
+
+    isLoggedAdmin() {
+      return this.$store.getters.isLoggedAdmin;
     },
 
     openRegisterModal() {
       this.$bvModal.hide("loginModal");
       this.$bvModal.show("registerModal");
     },
-    getLoggedUser(){
-      console.log(this.$store.getters.getLoggedUserInformation)
-      if(this.$store.getters.getLoggedUserInformation){
-           return this.$store.getters.getLoggedUserInformation.avatarReference;
-      }
-  
-    },
-     previewImage(event) {
-      this.uploadValue=0;
-      this.picture=null;
+    
+    previewImage(event) {
+      this.uploadValue = 0;
+      this.picture = null;
       this.imageData = event.target.files[0];
     },
- 
-    onUpload(){
-      this.picture=null;
-      const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
-      storageRef.on(`state_changed`,snapshot=>{
-        this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-      }, error=>{console.log(error.message)},
-      ()=>{this.uploadValue=100;
-        storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-          this.picture =url;
-        });
-      }      
+
+    onUpload() {
+      this.picture = null;
+      const storageRef = firebase
+        .storage()
+        .ref(`${this.imageData.name}`)
+        .put(this.imageData);
+      storageRef.on(
+        `state_changed`,
+        (snapshot) => {
+          this.uploadValue =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error.message);
+        },
+        () => {
+          this.uploadValue = 100;
+          storageRef.snapshot.ref.getDownloadURL().then((url) => {
+            this.picture = url;
+          });
+        }
       );
-    }
+    },
   },
   computed: {
     ...mapGetters({
       isLoggedUser: "isLoggedUser",
     }),
+    
   },
 };
 </script>
