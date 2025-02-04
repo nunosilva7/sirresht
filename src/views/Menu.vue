@@ -40,8 +40,8 @@
             </b-col>
             <b-col>
                 <b-form-select id="select4" >
-          <b-form-select-option value: null>Almoço</b-form-select-option>
-          <b-form-select-option value="jantar">Jantar</b-form-select-option>
+          <b-form-select-option value: null>almoço</b-form-select-option>
+          <b-form-select-option value="jantar">jantar</b-form-select-option>
         </b-form-select>
 
             </b-col>
